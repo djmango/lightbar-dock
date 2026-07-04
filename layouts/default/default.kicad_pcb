@@ -5939,6 +5939,17 @@
 			(uuid "1e1b3a21-5593-467d-be16-782dd6c02be7")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../parts/Jing_Extension_of_the_Electronic_Co_918_118A2021Y40006/USB-C-SMD_918-118A2021Y40006.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "Jing_Extension_of_the_Electronic_Co_918_118A2021Y40006:USB-C-SMD_918-118A2021Y40006"
 		(layer "F.Cu")
@@ -6214,6 +6225,17 @@
 			(uuid "1e1b3a21-5593-467d-be16-782dd6c02be7")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../parts/Jing_Extension_of_the_Electronic_Co_918_118A2021Y40006/USB-C-SMD_918-118A2021Y40006.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "SHOU_HAN_TYPE_C_16PIN_2MD_073:USB-C-SMD_TYPE-C-16PIN-2MD-073"
 		(layer "F.Cu")
@@ -6831,6 +6853,17 @@
 			(uuid "1e1b3a21-5593-467d-be16-782dd6c02be7")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../parts/Jing_Extension_of_the_Electronic_Co_918_118A2021Y40006/USB-C-SMD_918-118A2021Y40006.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "Hubei_KENTO_Elec_KT_0603G:LED0603-RD"
 		(layer "F.Cu")
@@ -15876,6 +15909,17 @@
 			(uuid "1e1b3a21-5593-467d-be16-782dd6c02be7")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../parts/Jing_Extension_of_the_Electronic_Co_918_118A2021Y40006/USB-C-SMD_918-118A2021Y40006.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "UNI_ROYAL_0402WGF1001TCE:R0402"
 		(layer "F.Cu")
@@ -16965,6 +17009,17 @@
 			(uuid "1e1b3a21-5593-467d-be16-782dd6c02be7")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../parts/Jing_Extension_of_the_Electronic_Co_918_118A2021Y40006/USB-C-SMD_918-118A2021Y40006.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "UNI_ROYAL_0402WGF2402TCE:R0402"
 		(layer "F.Cu")
@@ -24348,6 +24403,17 @@
 			(uuid "1e1b3a21-5593-467d-be16-782dd6c02be7")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../parts/Jing_Extension_of_the_Electronic_Co_918_118A2021Y40006/USB-C-SMD_918-118A2021Y40006.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "FOJAN_FRC0402F62R0TS:R0402"
 		(layer "F.Cu")
@@ -29986,6 +30052,17 @@
 			(uuid "1e1b3a21-5593-467d-be16-782dd6c02be7")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../parts/Jing_Extension_of_the_Electronic_Co_918_118A2021Y40006/USB-C-SMD_918-118A2021Y40006.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "Hubei_KENTO_Elec_KT_0603G:LED0603-RD"
 		(layer "F.Cu")
@@ -33117,6 +33194,17 @@
 			(uuid "1e1b3a21-5593-467d-be16-782dd6c02be7")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../parts/Jing_Extension_of_the_Electronic_Co_918_118A2021Y40006/USB-C-SMD_918-118A2021Y40006.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "Texas_Instruments_LM339DR:SOIC-14_L8.7-W3.9-P1.27-LS6.0-BL"
 		(layer "F.Cu")

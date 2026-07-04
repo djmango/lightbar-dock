@@ -174,4 +174,15 @@
 		(uuid "168d752e-73b9-44d6-a380-bc8e50313e61")
 	)
 	(embedded_fonts no)
+	(model "${KIPRJMOD}/../../parts/Jing_Extension_of_the_Electronic_Co_918_118A2021Y40006/USB-C-SMD_918-118A2021Y40006.step"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
 )
