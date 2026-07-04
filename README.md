@@ -54,12 +54,27 @@ ato build                 # compile, pick parts, refresh layouts/default/default
 
 Then open `layouts/default/default.kicad_pcb` in KiCad and place/route.
 Re-running `ato build` preserves your layout and only syncs
-added/removed/changed components. Manufacturing export (Gerbers, BOM,
-pick-and-place for JLCPCB) is done via the extension's export wizard once
-layout is finished.
+added/removed/changed components.
 
 Build artifacts land in `build/builds/default/` (BOM csv/json, power tree,
 pinout report, variable report).
+
+**Warning — do not save the board from KiCad 10 before running
+`ato build`.** KiCad 10 rewrites the file in its new format (per-track
+`(net "name")` references, no net table, nested `tenting`/`covering`
+stackup tokens) which atopile 0.15.x cannot parse, and `ato build` will
+then regenerate stale placement. The routed board in git is the source
+of truth; if KiCad 10 re-saves it, restore with
+`git checkout -- layouts/default/default.kicad_pcb`.
+
+## Fabrication outputs
+
+`fab/` contains ready-to-upload JLCPCB files generated from the routed
+board with `kicad-cli` (gerbers + drill in `lightbar-dock-gerbers.zip`,
+`bom_jlcpcb.csv`, `cpl_jlcpcb.csv`). Order flow: upload the zip, pick
+2-layer / 1oz, enable PCB Assembly (top side), upload BOM + CPL, and
+review every footprint in their placement preview — especially the 8
+vertical USB-C plugs and the two rotated buck ICs.
 
 ## Assembly
 
