@@ -1,0 +1,291 @@
+"""
+Lightbar Dock - 1x8 USB-C charging array
+
+Power path:
+  USB-C PD input (CH224K requests 12V) --diode-OR-- 12V barrel jack
+  -> two TPS54560 bucks (12V -> 5V, 5A each, 4 ports per rail)
+  -> 8x vertical USB-C plugs, each with polyfuse + current-sense
+     charge indicator LED (LM339 comparator banks)
+"""
+
+#pragma experiment("BRIDGE_CONNECT")
+#pragma experiment("FOR_LOOP")
+#pragma experiment("MODULE_TEMPLATING")
+
+import ElectricPower
+import ElectricLogic
+import Resistor
+import Capacitor
+
+from "atopile/ti-tps54560x/ti-tps54560x.ato" import TI_TPS54560
+from "atopile/indicator-leds/parts/Hubei_KENTO_Elec_KT_0603R/Hubei_KENTO_Elec_KT_0603R.ato" import Hubei_KENTO_Elec_KT_0603R_driver
+from "atopile/indicator-leds/parts/Hubei_KENTO_Elec_KT_0603G/Hubei_KENTO_Elec_KT_0603G.ato" import Hubei_KENTO_Elec_KT_0603G_driver
+from "atopile/indicator-leds/parts/Hubei_KENTO_Elec_Blue_light_0603/Hubei_KENTO_Elec_Blue_light_0603.ato" import Hubei_KENTO_Elec_Blue_light_0603_driver
+
+from "parts/WCH_CH224K/WCH_CH224K.ato" import WCH_CH224K_package
+from "parts/SHOU_HAN_TYPE_C_16PIN_2MD_073/SHOU_HAN_TYPE_C_16PIN_2MD_073.ato" import SHOU_HAN_TYPE_C_16PIN_2MD_073_package
+from "parts/Jing_Extension_of_the_Electronic_Co_918_118A2021Y40006/Jing_Extension_of_the_Electronic_Co_918_118A2021Y40006.ato" import Jing_Extension_of_the_Electronic_Co_918_118A2021Y40006_package
+from "parts/TWGMC_SS54/TWGMC_SS54.ato" import TWGMC_SS54_package
+from "parts/BHFUSE_BSMD1812_150_33V/BHFUSE_BSMD1812_150_33V.ato" import BHFUSE_BSMD1812_150_33V_package
+from "parts/Texas_Instruments_LM339DR/Texas_Instruments_LM339DR.ato" import Texas_Instruments_LM339DR_package
+from "parts/XKB_Connectivity_DC_005_5A_2_0/XKB_Connectivity_DC_005_5A_2_0.ato" import XKB_Connectivity_DC_005_5A_2_0_package
+
+
+module PDInput:
+    """
+    USB-C PD sink input. CH224K requests 12V from the charger
+    (24k on CFG1 = 12V request). Blue LED lights when the requested
+    voltage was successfully negotiated (PG is active-low open-drain).
+    """
+    power_out = new ElectricPower  # negotiated VBUS (12V from a PD charger)
+
+    connector = new SHOU_HAN_TYPE_C_16PIN_2MD_073_package
+    trigger = new WCH_CH224K_package
+
+    cfg1_resistor = new Resistor
+    cfg1_resistor.resistance = 24kohm +/- 1%
+    cfg1_resistor.package = "R0402"
+
+    vbus_sense_resistor = new Resistor
+    vbus_sense_resistor.resistance = 1kohm +/- 1%
+    vbus_sense_resistor.package = "R0402"
+
+    vdd_cap = new Capacitor
+    vdd_cap.capacitance = 1uF +/- 20%
+    vdd_cap.max_voltage = 25V to 100V
+    vdd_cap.package = "C0603"
+
+    pd_ok_led = new Hubei_KENTO_Elec_Blue_light_0603_driver
+    pd_ok_resistor = new Resistor
+    pd_ok_resistor.resistance = 4.7kohm +/- 5%
+    pd_ok_resistor.package = "R0402"
+
+    # VBUS from connector to output rail
+    power_out.hv ~ connector.VBUS
+    power_out.lv ~ connector.GND
+    power_out.lv ~ connector.EH  # shield to GND
+
+    # CH224K hookup
+    trigger.VDD ~ connector.VBUS
+    trigger.GND ~ power_out.lv
+    connector.VBUS ~> vdd_cap ~> power_out.lv
+    connector.VBUS ~> vbus_sense_resistor ~> trigger.VBUS
+
+    trigger.CC1 ~ connector.CC1
+    trigger.CC2 ~ connector.CC2
+
+    # DP/DM for legacy fast-charge protocols (QC etc.)
+    trigger.DP ~ connector.Dp1
+    trigger.DM ~ connector.Dn1
+    connector.Dp1 ~ connector.Dp2
+    connector.Dn1 ~ connector.Dn2
+
+    # 24k CFG1 -> GND requests 12V; CFG2/CFG3 left unconnected
+    trigger.CFG1 ~> cfg1_resistor ~> power_out.lv
+
+    # PD-good indicator: PG pulls low when the request is granted
+    connector.VBUS ~> pd_ok_led ~> pd_ok_resistor ~> trigger.PG
+
+
+module ChargePort:
+    """
+    One dock position: vertical USB-C plug pointing up, with
+    a 1.5A-hold polyfuse, a 100mR current-sense resistor and a
+    green "charging" LED (driven by an external comparator that
+    pulls led_sink low while current flows).
+    """
+    power_in = new ElectricPower  # 5V rail
+    signal vbus_port              # VBUS after fuse + sense resistor
+    signal led_sink               # comparator open-collector output
+
+    plug = new Jing_Extension_of_the_Electronic_Co_918_118A2021Y40006_package
+
+    fuse = new BHFUSE_BSMD1812_150_33V_package
+
+    sense_resistor = new Resistor
+    sense_resistor.resistance = 100mohm +/- 1%
+    sense_resistor.package = "R1206"
+
+    # Rp advertisement: 22k to 5V = 1.5A capable source (one per CC pin)
+    cc_pullup_1 = new Resistor
+    cc_pullup_1.resistance = 22kohm +/- 1%
+    cc_pullup_1.package = "R0402"
+    cc_pullup_2 = new Resistor
+    cc_pullup_2.resistance = 22kohm +/- 1%
+    cc_pullup_2.package = "R0402"
+
+    port_cap = new Capacitor
+    port_cap.capacitance = 22uF +/- 20%
+    port_cap.max_voltage = 10V to 100V
+    port_cap.package = "C0805"
+
+    charge_led = new Hubei_KENTO_Elec_KT_0603G_driver
+    led_resistor = new Resistor
+    led_resistor.resistance = 1kohm +/- 5%
+    led_resistor.package = "R0402"
+
+    # power path: rail -> fuse -> sense -> port VBUS
+    power_in.hv ~ fuse.1
+    fuse.2 ~> sense_resistor ~> vbus_port
+
+    vbus_port ~ plug.V
+    power_in.lv ~ plug.G
+
+    # source advertisement on both CC positions
+    plug.CC1 ~> cc_pullup_1 ~> vbus_port
+    plug.CC2 ~> cc_pullup_2 ~> vbus_port
+
+    # D+/D- shorted = legacy BC1.2 "dedicated charger" signature
+    plug.Dpos ~ plug.Dneg
+
+    vbus_port ~> port_cap ~> power_in.lv
+
+    # charging LED: lit when the external comparator sinks led_sink
+    power_in.hv ~> charge_led ~> led_resistor ~> led_sink
+
+
+module ComparatorBank:
+    """
+    LM339 quad comparator watching four charge ports on one 5V rail.
+    Vref sits ~21mV below the rail; when a port draws current, the
+    voltage after its fuse + sense resistor drops below Vref and the
+    comparator pulls that port's LED on. Powered from 12V so the
+    ~5V common-mode inputs are within range.
+    """
+    power_12v = new ElectricPower
+    power_5v = new ElectricPower
+    signal vref
+
+    comparator = new Texas_Instruments_LM339DR_package
+
+    decoupling_cap = new Capacitor
+    decoupling_cap.capacitance = 100nF +/- 20%
+    decoupling_cap.max_voltage = 25V to 100V
+    decoupling_cap.package = "C0402"
+
+    # Vref divider: 5V * 15k / (15k + 62) ~= rail - 21mV
+    vref_top = new Resistor
+    vref_top.resistance = 62ohm +/- 1%
+    vref_top.package = "R0402"
+    vref_bottom = new Resistor
+    vref_bottom.resistance = 15kohm +/- 1%
+    vref_bottom.package = "R0402"
+
+    comparator.VCCpos ~ power_12v.hv
+    comparator.VCCneg ~ power_12v.lv
+    power_12v.hv ~> decoupling_cap ~> power_12v.lv
+
+    power_5v.hv ~> vref_top ~> vref
+    vref ~> vref_bottom ~> power_5v.lv
+
+    # shared reference on all inverting inputs
+    vref ~ comparator.IN1neg
+    vref ~ comparator.IN2neg
+    vref ~ comparator.IN3neg
+    vref ~ comparator.IN4neg
+
+
+module App:
+    # ------------------------------------------------------------------
+    # power input: USB-C PD (12V) diode-ORed with a 12V barrel jack
+    # ------------------------------------------------------------------
+    power_12v = new ElectricPower
+    power_5v_a = new ElectricPower
+    power_5v_b = new ElectricPower
+
+    assert power_12v.voltage within 10V to 13V
+    assert power_5v_a.voltage within 5V +/- 5%
+    assert power_5v_b.voltage within 5V +/- 5%
+
+    pd_input = new PDInput
+    barrel_jack = new XKB_Connectivity_DC_005_5A_2_0_package
+
+    # SMC package for thermal headroom (~1.3W each at 3A)
+    or_diode_pd = new TWGMC_SS54_package
+    or_diode_jack = new TWGMC_SS54_package
+
+    pd_input.power_out.hv ~ or_diode_pd.A
+    or_diode_pd.C ~ power_12v.hv
+
+    barrel_jack.1 ~ or_diode_jack.A  # center pin = +12V
+    or_diode_jack.C ~ power_12v.hv
+    barrel_jack.2 ~ power_12v.lv     # sleeve
+    # pin 3 (insertion-detect switch) intentionally left unconnected
+
+    pd_input.power_out.lv ~ power_12v.lv
+
+    power_led = new Hubei_KENTO_Elec_KT_0603R_driver
+    power_led_resistor = new Resistor
+    power_led_resistor.resistance = 10kohm +/- 5%
+    power_led_resistor.package = "R0402"
+    power_12v.hv ~> power_led ~> power_led_resistor ~> power_12v.lv
+
+    # ------------------------------------------------------------------
+    # two 12V -> 5V bucks, 4 ports each
+    # ------------------------------------------------------------------
+    buck_a = new TI_TPS54560
+    buck_b = new TI_TPS54560
+
+    power_12v ~ buck_a.power_in
+    buck_a.power_out ~ power_5v_a
+    power_12v ~ buck_b.power_in
+    buck_b.power_out ~ power_5v_b
+
+    # enable via UVLO divider (~6.2V turn-on, keeps EN below abs max)
+    en_top_a = new Resistor
+    en_top_a.resistance = 100kohm +/- 1%
+    en_top_a.package = "R0402"
+    en_bottom_a = new Resistor
+    en_bottom_a.resistance = 24kohm +/- 1%
+    en_bottom_a.package = "R0402"
+    power_12v.hv ~> en_top_a ~> buck_a.enable.line
+    buck_a.enable.line ~> en_bottom_a ~> power_12v.lv
+
+    en_top_b = new Resistor
+    en_top_b.resistance = 100kohm +/- 1%
+    en_top_b.package = "R0402"
+    en_bottom_b = new Resistor
+    en_bottom_b.resistance = 24kohm +/- 1%
+    en_bottom_b.package = "R0402"
+    power_12v.hv ~> en_top_b ~> buck_b.enable.line
+    buck_b.enable.line ~> en_bottom_b ~> power_12v.lv
+
+    # ------------------------------------------------------------------
+    # 8 charge ports + 2 comparator banks for the status LEDs
+    # ------------------------------------------------------------------
+    ports = new ChargePort[8]
+
+    ports[0].power_in ~ power_5v_a
+    ports[1].power_in ~ power_5v_a
+    ports[2].power_in ~ power_5v_a
+    ports[3].power_in ~ power_5v_a
+    ports[4].power_in ~ power_5v_b
+    ports[5].power_in ~ power_5v_b
+    ports[6].power_in ~ power_5v_b
+    ports[7].power_in ~ power_5v_b
+
+    bank_a = new ComparatorBank
+    bank_a.power_12v ~ power_12v
+    bank_a.power_5v ~ power_5v_a
+
+    bank_b = new ComparatorBank
+    bank_b.power_12v ~ power_12v
+    bank_b.power_5v ~ power_5v_b
+
+    ports[0].vbus_port ~ bank_a.comparator.IN1pos
+    ports[0].led_sink ~ bank_a.comparator.OUT1
+    ports[1].vbus_port ~ bank_a.comparator.IN2pos
+    ports[1].led_sink ~ bank_a.comparator.OUT2
+    ports[2].vbus_port ~ bank_a.comparator.IN3pos
+    ports[2].led_sink ~ bank_a.comparator.OUT3
+    ports[3].vbus_port ~ bank_a.comparator.IN4pos
+    ports[3].led_sink ~ bank_a.comparator.OUT4
+
+    ports[4].vbus_port ~ bank_b.comparator.IN1pos
+    ports[4].led_sink ~ bank_b.comparator.OUT1
+    ports[5].vbus_port ~ bank_b.comparator.IN2pos
+    ports[5].led_sink ~ bank_b.comparator.OUT2
+    ports[6].vbus_port ~ bank_b.comparator.IN3pos
+    ports[6].led_sink ~ bank_b.comparator.OUT3
+    ports[7].vbus_port ~ bank_b.comparator.IN4pos
+    ports[7].led_sink ~ bank_b.comparator.OUT4

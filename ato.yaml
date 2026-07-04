@@ -1,0 +1,34 @@
+requires-atopile: 0.15.7
+
+paths:
+  src: ./
+  layout: ./layouts
+
+builds:
+  default:
+    entry: main.ato:App
+    # workaround: a footprint without silkscreen crashes designator auto-placement
+    standardize_designators: false
+
+# This metadata is only required for publishing
+# Uncomment it and fill out the fields to publish your package
+# package:
+#   identifier: # fill me!/my_first_ato_project
+#   repository: # fill me!
+#   version: "0.1.0"  # recommended first version
+#   authors:
+#     - name: Pepper Powderly
+#       email: pepper@atopile.io
+#   summary: # fill me!
+#   license: MIT license
+#   homepage: # fill me!
+dependencies:
+- type: registry
+  identifier: atopile/usb-connectors
+  release: 0.4.1
+- type: registry
+  identifier: atopile/ti-tps54560x
+  release: 0.2.0
+- type: registry
+  identifier: atopile/indicator-leds
+  release: 0.2.3

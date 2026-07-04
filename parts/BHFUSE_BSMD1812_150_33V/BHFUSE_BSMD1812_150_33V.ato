@@ -1,0 +1,19 @@
+import has_datasheet
+import has_designator_prefix
+import has_part_picked
+import is_atomic_part
+import is_auto_generated
+
+component BHFUSE_BSMD1812_150_33V_package:
+    # This trait marks this file as auto-generated
+    # If you want to manually change it, remove the trait
+    trait is_auto_generated<system="ato_part", source="easyeda:C883154", date="2026-07-03T23:45:08.696783+00:00", checksum="10f304f2f3e9ea1baf4b3f2fcf28edfee3a7dc76037ef4a0cb36f12a81269861">
+
+    trait is_atomic_part<manufacturer="BHFUSE", partnumber="BSMD1812-150-33V", footprint="F1812.kicad_mod", symbol="BSMD1812-150-33V.kicad_sym", model="F1812_L4.5-W3.2-H1.0.step">
+    trait has_part_picked::by_supplier<supplier_id="lcsc", supplier_partno="C883154", manufacturer="BHFUSE", partno="BSMD1812-150-33V">
+    trait has_designator_prefix<prefix="F">
+    trait has_datasheet<datasheet="https://www.lcsc.com/datasheet/lcsc_datasheet_2305121424_BHFUSE-BSMD1812-150-33V_C883154.pdf">
+
+    # pins
+    pin 2
+    pin 1

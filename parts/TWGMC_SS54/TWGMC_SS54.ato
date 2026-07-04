@@ -1,0 +1,19 @@
+import has_datasheet
+import has_designator_prefix
+import has_part_picked
+import is_atomic_part
+import is_auto_generated
+
+component TWGMC_SS54_package:
+    # This trait marks this file as auto-generated
+    # If you want to manually change it, remove the trait
+    trait is_auto_generated<system="ato_part", source="easyeda:C5204950", date="2026-07-04T00:10:23.251322+00:00", checksum="92a5420a1f54e427d753c260d5c9050608bb8f6db9d117a7223b82dc8bb94c4c">
+
+    trait is_atomic_part<manufacturer="TWGMC", partnumber="SS54", footprint="SMC_L6.9-W5.9-LS7.9-RD.kicad_mod", symbol="SS54_C5204950.kicad_sym", model="SMC_L6.9-W5.9-LS7.9-RD.step">
+    trait has_part_picked::by_supplier<supplier_id="lcsc", supplier_partno="C5204950", manufacturer="TWGMC", partno="SS54">
+    trait has_designator_prefix<prefix="D">
+    trait has_datasheet<datasheet="https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2210311700_TWGMC-SS54_C5204950.pdf">
+
+    # pins
+    signal A ~ pin 2
+    signal C ~ pin 1

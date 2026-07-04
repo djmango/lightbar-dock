@@ -1,0 +1,35 @@
+import has_datasheet
+import has_designator_prefix
+import has_part_picked
+import is_atomic_part
+import is_auto_generated
+
+component Jing_Extension_of_the_Electronic_Co_918_118A2021Y40006_package:
+    # This trait marks this file as auto-generated
+    # If you want to manually change it, remove the trait
+    trait is_auto_generated<system="ato_part", source="easyeda:C399938", date="2026-07-04T00:45:09.582090+00:00", checksum="df4bd2f947a7f4de6df2dafade594e4273aa10782b3dd0f03dd164688d8aafe0">
+
+    trait is_atomic_part<manufacturer="Jing Extension of the Electronic Co.", partnumber="918-118A2021Y40006", footprint="USB-C-SMD_918-118A2021Y40006.kicad_mod", symbol="918-118A2021Y40006.kicad_sym">
+    trait has_part_picked::by_supplier<supplier_id="lcsc", supplier_partno="C399938", manufacturer="Jing Extension of the Electronic Co.", partno="918-118A2021Y40006">
+    trait has_designator_prefix<prefix="USB">
+    trait has_datasheet<datasheet="https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2103081234_Jing-Extension-of-the-Electronic-Co--918-118A2021Y40006_C399938.pdf">
+
+    # pins
+    signal CC1 ~ pin 3
+    signal CC2 ~ pin 11
+    signal Dneg ~ pin 5
+    Dneg ~ pin 13
+    signal Dpos ~ pin 4
+    Dpos ~ pin 12
+    signal G ~ pin 1
+    G ~ pin 8
+    G ~ pin 9
+    G ~ pin 16
+    G ~ pin 18
+    G ~ pin 17
+    signal SUB1 ~ pin 6
+    signal SUB2 ~ pin 14
+    signal V ~ pin 2
+    V ~ pin 7
+    V ~ pin 10
+    V ~ pin 15

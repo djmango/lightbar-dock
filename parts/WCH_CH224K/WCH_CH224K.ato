@@ -1,0 +1,28 @@
+import has_datasheet
+import has_designator_prefix
+import has_part_picked
+import is_atomic_part
+import is_auto_generated
+
+component WCH_CH224K_package:
+    # This trait marks this file as auto-generated
+    # If you want to manually change it, remove the trait
+    trait is_auto_generated<system="ato_part", source="easyeda:C970725", date="2026-07-03T23:28:46.882735+00:00", checksum="14c6cdbc52bb7e6ed6852b8dcf75408c082925497f0a42ecb9813c37df3adb7b">
+
+    trait is_atomic_part<manufacturer="WCH", partnumber="CH224K", footprint="ESSOP-10_L4.9-W3.9-P1.0-LS6.0-TL-EP.kicad_mod", symbol="CH224K.kicad_sym", model="ESSOP-10_L4.9-W3.9-P1.0-LS6.0-TL-EP.step">
+    trait has_part_picked::by_supplier<supplier_id="lcsc", supplier_partno="C970725", manufacturer="WCH", partno="CH224K">
+    trait has_designator_prefix<prefix="U">
+    trait has_datasheet<datasheet="https://www.lcsc.com/datasheet/lcsc_datasheet_2403131354_WCH-Jiangsu-Qin-Heng-CH224K_C970725.pdf">
+
+    # pins
+    signal CC1 ~ pin 7
+    signal CC2 ~ pin 6
+    signal CFG1 ~ pin 9
+    signal CFG2 ~ pin 2
+    signal CFG3 ~ pin 3
+    signal DM ~ pin 5
+    signal DP ~ pin 4
+    signal GND ~ pin 11
+    signal PG ~ pin 10
+    signal VBUS ~ pin 8
+    signal VDD ~ pin 1

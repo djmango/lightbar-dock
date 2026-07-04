@@ -1,0 +1,31 @@
+import has_datasheet
+import has_designator_prefix
+import has_part_picked
+import is_atomic_part
+import is_auto_generated
+
+component Texas_Instruments_LM339DR_package:
+    # This trait marks this file as auto-generated
+    # If you want to manually change it, remove the trait
+    trait is_auto_generated<system="ato_part", source="easyeda:C7948", date="2026-07-03T23:44:58.007314+00:00", checksum="093a7a1d1f7bce41b577c3a1f07a5020fe97f25e6e237531070f8e130c8a5767">
+
+    trait is_atomic_part<manufacturer="Texas Instruments", partnumber="LM339DR", footprint="SOIC-14_L8.7-W3.9-P1.27-LS6.0-BL.kicad_mod", symbol="LM339DR.kicad_sym", model="SOIC-14_L8.6-W3.9-H1.8-LS6.0-P1.27.step">
+    trait has_part_picked::by_supplier<supplier_id="lcsc", supplier_partno="C7948", manufacturer="Texas Instruments", partno="LM339DR">
+    trait has_designator_prefix<prefix="U">
+    trait has_datasheet<datasheet="https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Texas-Instruments-LM339DR_C7948.pdf">
+
+    # pins
+    signal IN1neg ~ pin 6
+    signal IN1pos ~ pin 7
+    signal IN2neg ~ pin 4
+    signal IN2pos ~ pin 5
+    signal IN3neg ~ pin 8
+    signal IN3pos ~ pin 9
+    signal IN4neg ~ pin 10
+    signal IN4pos ~ pin 11
+    signal OUT1 ~ pin 1
+    signal OUT2 ~ pin 2
+    signal OUT3 ~ pin 14
+    signal OUT4 ~ pin 13
+    signal VCCneg ~ pin 12
+    signal VCCpos ~ pin 3

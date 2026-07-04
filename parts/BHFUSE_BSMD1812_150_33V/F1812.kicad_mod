@@ -1,0 +1,162 @@
+(footprint "BHFUSE_BSMD1812_150_33V:F1812"
+	(version 20241229)
+	(generator "faebryk_convert")
+	(generator_version "v5")
+	(layer "F.Cu")
+	(tedit "5DC5F6A4")
+	(uuid "15b39aa7-f138-451c-8be5-9680204db0fa")
+	(property "Reference" "REF**"
+		(at 0 -4)
+		(layer "F.SilkS")
+		(uuid "9ea8c0e8-b617-4bae-9f3f-097eb7088b93")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "F1812"
+		(at 0 4)
+		(layer "F.Fab")
+		(uuid "d22efd4b-0d8b-4dda-a7c4-9d6d8bd8ae61")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(fp_circle
+		(center -2.28 1.62)
+		(end -2.25 1.62)
+		(stroke
+			(width 0.06)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(locked no)
+		(uuid "0fe6cb4b-9a02-4daf-a3cf-766192685e78")
+	)
+	(fp_line
+		(start -2.79 -1.8)
+		(end -2.79 1.76)
+		(stroke
+			(width 0.15)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(layers "F.SilkS")
+		(locked no)
+		(uuid "56edd9b4-52d1-4b48-9b77-c451363fd9d4")
+	)
+	(fp_line
+		(start 2.79 -1.78)
+		(end 2.79 1.78)
+		(stroke
+			(width 0.15)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(layers "F.SilkS")
+		(locked no)
+		(uuid "205c4b77-c0c7-4347-aaca-18b86edb23a8")
+	)
+	(fp_line
+		(start -1.27 2.03)
+		(end -2.54 2.03)
+		(stroke
+			(width 0.15)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(layers "F.SilkS")
+		(locked no)
+		(uuid "172d7f01-e65d-48f7-9460-58761440e20e")
+	)
+	(fp_line
+		(start 1.27 2.03)
+		(end 2.54 2.03)
+		(stroke
+			(width 0.15)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(layers "F.SilkS")
+		(locked no)
+		(uuid "9265ba89-4306-48ae-aeaf-e02e359e3366")
+	)
+	(fp_line
+		(start -2.54 -2.03)
+		(end -1.23 -2.03)
+		(stroke
+			(width 0.15)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(layers "F.SilkS")
+		(locked no)
+		(uuid "35ce5afd-a6bc-4d58-8679-6295f44b8b83")
+	)
+	(fp_line
+		(start 2.54 -2.03)
+		(end 1.27 -2.03)
+		(stroke
+			(width 0.15)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(layers "F.SilkS")
+		(locked no)
+		(uuid "c59865a9-c1a4-4bea-bd9b-d82d1640d776")
+	)
+	(fp_arc
+		(start 0 0.63)
+		(mid 0.265565 0.3072744)
+		(end -0.005366 -0.0109597)
+		(stroke
+			(width 0.15)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(locked no)
+		(uuid "12a3ee21-4d1d-4cbd-a8f9-1bfe6e60ae6a")
+	)
+	(fp_arc
+		(start 0 -0.63)
+		(mid -0.265565 -0.3072744)
+		(end 0.005366 0.0109597)
+		(stroke
+			(width 0.15)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(locked no)
+		(uuid "39d5362f-aea1-4c85-9d1e-d6068377ac49")
+	)
+	(pad "2" smd rect
+		(at 1.85 0 0)
+		(size 1.41 3.5)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "1e5ff9f9-704d-4b81-b3ff-411afda5b559")
+	)
+	(pad "1" smd rect
+		(at -1.85 0 0)
+		(size 1.41 3.5)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "edd68788-5936-4d9d-a9e7-cc4b6329a7a9")
+	)
+	(model "${KIPRJMOD}/../../parts/BHFUSE_BSMD1812_150_33V/F1812_L4.5-W3.2-H1.0.step"
+		(offset
+			(xyz 0 0 -0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+	(embedded_fonts no)
+)

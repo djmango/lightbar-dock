@@ -1,0 +1,31 @@
+import has_datasheet
+import has_designator_prefix
+import has_part_picked
+import is_atomic_part
+import is_auto_generated
+
+component SHOU_HAN_TYPE_C_16PIN_2MD_073_package:
+    # This trait marks this file as auto-generated
+    # If you want to manually change it, remove the trait
+    trait is_auto_generated<system="ato_part", source="easyeda:C2765186", date="2026-07-03T23:45:12.109061+00:00", checksum="fbc98768045c5f7ccffc3b8c91f95953ad0db5d5f7eb058f90d5dc7a34be0226">
+
+    trait is_atomic_part<manufacturer="SHOU HAN", partnumber="TYPE-C 16PIN 2MD(073)", footprint="USB-C-SMD_TYPE-C-16PIN-2MD-073.kicad_mod", symbol="TYPE-C16PIN2MD(073).kicad_sym", model="USB-C-SMD_TYPE-C-6PIN-2MD-073.step">
+    trait has_part_picked::by_supplier<supplier_id="lcsc", supplier_partno="C2765186", manufacturer="SHOU HAN", partno="TYPE-C 16PIN 2MD(073)">
+    trait has_designator_prefix<prefix="USB">
+    trait has_datasheet<datasheet="https://jlcpcb.com/api/file/downloadByFileSystemAccessId/8588920841703079936">
+
+    # pins
+    signal CC1 ~ pin A5
+    signal CC2 ~ pin B5
+    signal Dn1 ~ pin A7
+    signal Dn2 ~ pin B7
+    signal Dp1 ~ pin A6
+    signal Dp2 ~ pin B6
+    signal EH ~ pin 14
+    EH ~ pin 13
+    signal GND ~ pin A1B12
+    GND ~ pin B1A12
+    signal SBU1 ~ pin A8
+    signal SBU2 ~ pin B8
+    signal VBUS ~ pin A4B9
+    VBUS ~ pin B4A9

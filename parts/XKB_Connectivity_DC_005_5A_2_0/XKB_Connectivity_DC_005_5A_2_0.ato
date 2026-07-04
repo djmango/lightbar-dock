@@ -1,0 +1,20 @@
+import has_datasheet
+import has_designator_prefix
+import has_part_picked
+import is_atomic_part
+import is_auto_generated
+
+component XKB_Connectivity_DC_005_5A_2_0_package:
+    # This trait marks this file as auto-generated
+    # If you want to manually change it, remove the trait
+    trait is_auto_generated<system="ato_part", source="easyeda:C381116", date="2026-07-03T23:45:05.341890+00:00", checksum="d5f4cabe4877c8f6a1aed9ca2372175b80f422e7914bd6529a60111a99a6151c">
+
+    trait is_atomic_part<manufacturer="XKB Connectivity", partnumber="DC-005-5A-2.0", footprint="DC-IN-TH_DC-005-5A-2.0.kicad_mod", symbol="DC-005-5A-2.0.kicad_sym", model="DC-IN-TH_L14.4-W9.0-H11.0.step">
+    trait has_part_picked::by_supplier<supplier_id="lcsc", supplier_partno="C381116", manufacturer="XKB Connectivity", partno="DC-005-5A-2.0">
+    trait has_designator_prefix<prefix="DC">
+    trait has_datasheet<datasheet="https://www.lcsc.com/datasheet/lcsc_datasheet_2110151630_XKB-Connection-DC-005-5A-2-0_C381116.pdf">
+
+    # pins
+    pin 1
+    pin 2
+    pin 3
