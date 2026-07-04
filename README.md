@@ -104,6 +104,11 @@ it too. Zero hand assembly required.
   datasheet 3D model before ordering a full run, or spend ~$5 on samples
   from LCSC first — LCSC's listing metadata for Chinese-brand USB
   connectors is occasionally wrong. A 24P alternative is C2763096.
+- **3D model for C399938**: EasyEDA/LCSC has no 3D model for this plug, so
+  this repo includes one built from the datasheet drawing — see
+  `parts/Jing_Extension_of_the_Electronic_Co_918_118A2021Y40006/USB-C-SMD_918-118A2021Y40006.step`
+  (Jing Extension 918-118A2021Y40006, vertical USB-C 3.1 male plug, SMD).
+  Free to reuse; the cadquery generator script is alongside it.
 - The USB-C plug is not a structural mount. The 3D-printed top shell must
   cradle the bars so the connector only carries electrical load. Plug
   mated height is ~8.65mm.
