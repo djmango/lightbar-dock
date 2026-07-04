@@ -76,6 +76,21 @@ board with `kicad-cli` (gerbers + drill in `lightbar-dock-gerbers.zip`,
 review every footprint in their placement preview — especially the 8
 vertical USB-C plugs and the two rotated buck ICs.
 
+### Rev 1.0 as-built (ordered 2026-07-04)
+
+`bom_jlcpcb.csv` reflects the parts actually ordered. Three lines were
+substituted at order time due to JLC stock (electrically equivalent or
+better; atopile's original picks in parentheses):
+
+| Refs | Part ordered | LCSC | Notes |
+|---|---|---|---|
+| L1, L2 | Sunlord SWPA8040S4R7NT 4.7µH | C36417 | (was 5.6µH C96972) higher rated/sat current; ripple ~1.0A p-p, fine |
+| R7, R11 | RALEC RTT023401FTH 3.4kΩ 1% | C102987 | (was C4940) same value, sets buck fsw |
+| R52 | YAGEO RC0402FR-0710KL 10kΩ 1% | C60490 | (was C25744) power LED series R |
+
+USB2-9 plugs (C399938) were bought into the JLC parts library via
+parts pre-order (40 pcs).
+
 ## Assembly
 
 The entire board is JLC-assemblable — every part including the vertical
