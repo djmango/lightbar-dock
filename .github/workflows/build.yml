@@ -1,26 +1,58 @@
+name: CI
+
+# This project intentionally does NOT run `ato build` in CI: the routed
+# board in layouts/default/default.kicad_pcb is the source of truth and is
+# saved in KiCad 10 format, which atopile 0.15.x cannot parse (and whose
+# PCB-sync step would destroy the routing anyway — see README "Workflow").
+# Instead we validate the board directly with kicad-cli.
 
 on: [push, pull_request]
 
 jobs:
-  build:
+  pcb-checks:
     runs-on: ubuntu-latest
-
+    container: kicad/kicad:10.0
     steps:
       - uses: actions/checkout@v4
 
-      - uses: atopile/setup-atopile@main
+      - name: Run DRC
+        run: |
+          kicad-cli pcb drc --format json --severity-error --severity-warning \
+            -o drc.json layouts/default/default.kicad_pcb
 
-      - run: ato sync
-      - run: ato build --frozen
-        id: build
-        continue-on-error: true
+      - name: Check DRC results
+        run: |
+          python3 - <<'EOF'
+          import json, sys
 
-      - name: Upload Combined Artifacts
+          d = json.load(open("drc.json"))
+          unconnected = d.get("unconnected_items", [])
+          violations = d.get("violations", [])
+          errors = [v for v in violations if v.get("severity") == "error"]
+
+          print(f"{len(unconnected)} unconnected items")
+          print(f"{len(errors)} DRC errors / {len(violations)} total violations")
+          for v in violations:
+              print(f"  [{v['severity']}] {v['type']}: {v['description']}")
+
+          # Baseline: 4 waivable errors internal to the USB-C PD receptacle
+          # footprint (locating-peg annular_width x2, hole_clearance x2)
+          # plus 2 padstack warnings. Anything beyond that is a regression.
+          if unconnected:
+              sys.exit("FAIL: board has unconnected items")
+          if len(errors) > 4:
+              sys.exit(f"FAIL: {len(errors)} DRC errors (waivable baseline is 4)")
+          print("PASS")
+          EOF
+
+      - name: Export gerbers + drill (smoke test)
+        run: |
+          mkdir -p out
+          kicad-cli pcb export gerbers -o out/ layouts/default/default.kicad_pcb
+          kicad-cli pcb export drill -o out/ layouts/default/default.kicad_pcb
+
+      - name: Upload gerbers
         uses: actions/upload-artifact@v4
         with:
-          name: build
-          path: build
-
-      - name: Check build status
-        if: steps.build.outcome == 'failure'
-        run: exit 1
+          name: gerbers
+          path: out
