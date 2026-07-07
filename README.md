@@ -11,26 +11,14 @@ Designed in [atopile](https://atopile.io) — the whole board is code in
 
 ## Architecture
 
-```mermaid
-flowchart LR
-    PD["USB-C PD input"] --> CH["CH224K<br/>(requests 12V)"]
-    BJ["12V barrel jack<br/>(5.5 x 2.1 mm)"] --> D2["Schottky<br/>diode-OR"]
-    CH --> D1["Schottky<br/>diode-OR"]
-    D1 --> RAIL["12V rail"]
-    D2 --> RAIL
-    RAIL --> BA["TPS54560 buck A<br/>5V / 5A"]
-    RAIL --> BB["TPS54560 buck B<br/>5V / 5A"]
-    BA --> P14["Ports 1-4"]
-    BB --> P58["Ports 5-8"]
-```
+![Power architecture](docs/images/diagram-power.svg)
 
 Each of the 8 port channels:
 
-```mermaid
-flowchart LR
-    V5["5V rail"] --> F["Polyfuse<br/>1.5A hold"] --> RS["100mΩ<br/>sense resistor"] --> USB["Vertical<br/>USB-C plug"]
-    RS -.-> CMP["LM339<br/>comparator"] --> LED["Green LED<br/>(charging)"]
-```
+![Port channel](docs/images/diagram-port.svg)
+
+(Diagram sources are in `docs/*.mmd`; regenerate with
+`npx @mermaid-js/mermaid-cli -i docs/diagram-power.mmd -o docs/images/diagram-power.svg -t neutral -b white`.)
 
 Each port: 1.5A-hold polyfuse → 100mΩ current-sense resistor → vertical
 USB-C plug (Jing Extension 918-118A2021Y40006, C399938), with 22k CC

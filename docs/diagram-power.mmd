@@ -1,0 +1,10 @@
+flowchart LR
+    PD["USB-C PD input"] --> CH["CH224K<br/>(requests 12V)"]
+    BJ["12V barrel jack<br/>(5.5 x 2.1 mm)"] --> D2["Schottky<br/>diode-OR"]
+    CH --> D1["Schottky<br/>diode-OR"]
+    D1 --> RAIL["12V rail"]
+    D2 --> RAIL
+    RAIL --> BA["TPS54560 buck A<br/>5V / 5A"]
+    RAIL --> BB["TPS54560 buck B<br/>5V / 5A"]
+    BA --> P14["Ports 1-4"]
+    BB --> P58["Ports 5-8"]

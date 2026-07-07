@@ -1,0 +1,3 @@
+flowchart LR
+    V5["5V rail"] --> F["Polyfuse<br/>1.5A hold"] --> RS["100m&Omega;<br/>sense resistor"] --> USB["Vertical<br/>USB-C plug"]
+    RS -.-> CMP["LM339<br/>comparator"] --> LED["Green LED<br/>(charging)"]
