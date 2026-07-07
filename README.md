@@ -4,17 +4,32 @@ A 1x8 USB-C charging dock for stick-anywhere rechargeable light bars. Bars
 plug vertically onto upward-facing USB-C plugs; a green LED per port shows
 live charging status (actual current flow, not just power present).
 
+![Assembled board render](docs/images/render-hero.png)
+
 Designed in [atopile](https://atopile.io) — the whole board is code in
 `main.ato`.
 
 ## Architecture
 
+```mermaid
+flowchart LR
+    PD["USB-C PD input"] --> CH["CH224K<br/>(requests 12V)"]
+    BJ["12V barrel jack<br/>(5.5 x 2.1 mm)"] --> D2["Schottky<br/>diode-OR"]
+    CH --> D1["Schottky<br/>diode-OR"]
+    D1 --> RAIL["12V rail"]
+    D2 --> RAIL
+    RAIL --> BA["TPS54560 buck A<br/>5V / 5A"]
+    RAIL --> BB["TPS54560 buck B<br/>5V / 5A"]
+    BA --> P14["Ports 1-4"]
+    BB --> P58["Ports 5-8"]
 ```
-USB-C PD input ──CH224K (requests 12V)──┐
-                                        ├─ diode-OR ── 12V rail
-12V barrel jack (5.5x2.1mm) ────────────┘
-                                            ├── TPS54560 buck #A (5V, 5A) ── ports 1-4
-                                            └── TPS54560 buck #B (5V, 5A) ── ports 5-8
+
+Each of the 8 port channels:
+
+```mermaid
+flowchart LR
+    V5["5V rail"] --> F["Polyfuse<br/>1.5A hold"] --> RS["100mΩ<br/>sense resistor"] --> USB["Vertical<br/>USB-C plug"]
+    RS -.-> CMP["LM339<br/>comparator"] --> LED["Green LED<br/>(charging)"]
 ```
 
 Each port: 1.5A-hold polyfuse → 100mΩ current-sense resistor → vertical
@@ -26,6 +41,23 @@ shared "rail minus 21mV" reference; while a bar draws more than roughly
 
 Indicators: red = 12V power present, blue = PD negotiation succeeded
 (CH224K PG), 8x green = port charging.
+
+## Board
+
+Top-down view — power input and bucks on the left, 8 port channels on a
+22.5 mm pitch, status LEDs along the front edge:
+
+![Top-down board render](docs/images/render-top.png)
+
+Power input end: barrel jack, USB-C PD receptacle, CH224K, both TPS54560
+bucks with their 8x8 mm inductors:
+
+![Power input end](docs/images/render-power-end.png)
+
+Port channels: vertical USB-C plug, polyfuse, sense resistor, and the
+LM339 comparator that drives the per-port charging LED:
+
+![Port channels](docs/images/render-ports.png)
 
 ## Power budget
 
