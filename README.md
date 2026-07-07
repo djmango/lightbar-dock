@@ -6,7 +6,7 @@ live charging status (actual current flow, not just power present).
 
 ![Assembled board render](docs/images/render-hero.png)
 
-Designed in [atopile](https://atopile.io) — the whole board is code in
+Designed in [atopile](https://atopile.io), the whole board is code in
 `main.ato`.
 
 ## Architecture
@@ -32,7 +32,7 @@ Indicators: red = 12V power present, blue = PD negotiation succeeded
 
 ## Board
 
-Top-down view — power input and bucks on the left, 8 port channels on a
+Top-down view, power input and bucks on the left, 8 port channels on a
 22.5 mm pitch, status LEDs along the front edge:
 
 ![Top-down board render](docs/images/render-top.png)
@@ -52,11 +52,11 @@ LM339 comparator that drives the per-port charging LED:
 - Per port: 5V up to ~1A continuous (polyfuse 1.5A hold / 3A trip)
 - Barrel jack input: use a 12V / 5A brick for the full 8 x 1A load
 - USB-C PD input: a 12V-capable PD brick tops out at 3A (36W), so all-8
-  simultaneous charging derates to ~0.75A per port — fine in practice
+  simultaneous charging derates to ~0.75A per port, fine in practice
   since charge current tapers
 - **PD brick must support 12V.** CH224K is configured (24k on CFG1) to
   request 12V; if the brick doesn't offer it, VBUS stays at 5V and the
-  bucks stay off (UVLO turn-on is ~6.2V) — nothing charges, nothing breaks.
+  bucks stay off (UVLO turn-on is ~6.2V), nothing charges, nothing breaks.
 
 ## Toolchain
 
@@ -79,7 +79,7 @@ added/removed/changed components.
 Build artifacts land in `build/builds/default/` (BOM csv/json, power tree,
 pinout report, variable report).
 
-**Warning — do not save the board from KiCad 10 before running
+**Warning, do not save the board from KiCad 10 before running
 `ato build`.** KiCad 10 rewrites the file in its new format (per-track
 `(net "name")` references, no net table, nested `tenting`/`covering`
 stackup tokens) which atopile 0.15.x cannot parse, and `ato build` will
@@ -93,7 +93,7 @@ of truth; if KiCad 10 re-saves it, restore with
 board with `kicad-cli` (gerbers + drill in `lightbar-dock-gerbers.zip`,
 `bom_jlcpcb.csv`, `cpl_jlcpcb.csv`). Order flow: upload the zip, pick
 2-layer / 1oz, enable PCB Assembly (top side), upload BOM + CPL, and
-review every footprint in their placement preview — especially the 8
+review every footprint in their placement preview, especially the 8
 vertical USB-C plugs and the two rotated buck ICs.
 
 ### Rev 1.0 as-built (ordered 2026-07-04)
@@ -113,7 +113,7 @@ parts pre-order (40 pcs).
 
 ## Assembly
 
-The entire board is JLC-assemblable — every part including the vertical
+The entire board is JLC-assemblable, every part including the vertical
 plugs is in JLC's PCBA library. The barrel jack is the only through-hole
 part; select Standard assembly (or Economic + THT option) so JLC solders
 it too. Zero hand assembly required.
@@ -122,10 +122,10 @@ it too. Zero hand assembly required.
 
 - **Vertical plug (C399938)**: verify gender/orientation against the
   datasheet 3D model before ordering a full run, or spend ~$5 on samples
-  from LCSC first — LCSC's listing metadata for Chinese-brand USB
+  from LCSC first, LCSC's listing metadata for Chinese-brand USB
   connectors is occasionally wrong. A 24P alternative is C2763096.
 - **3D model for C399938**: EasyEDA/LCSC has no 3D model for this plug, so
-  this repo includes one built from the datasheet drawing — see
+  this repo includes one built from the datasheet drawing, see
   `parts/Jing_Extension_of_the_Electronic_Co_918_118A2021Y40006/USB-C-SMD_918-118A2021Y40006.step`
   (Jing Extension 918-118A2021Y40006, vertical USB-C 3.1 male plug, SMD).
   Free to reuse; the cadquery generator script is alongside it.
@@ -167,7 +167,7 @@ The board is fully routed and passes connectivity (0 unconnected items):
   clearance x2). Waive them; they ship on every board using this part.
 - Design rules relaxed to JLCPCB 2-layer capabilities: 0.127 mm default
   clearance, min via 0.45/0.25 mm (six 0.45 mm vias exist in the dense
-  corridor under the PD receptacle — JLC charges nothing extra for
+  corridor under the PD receptacle, JLC charges nothing extra for
   0.25 mm drill on 2-layer).
 - Power: 12V rail 1.2 mm; 5V rails 1.2-1.5 mm on F.Cu with a 2.0 mm
   B.Cu feeder along the bottom edge for buck B's four ports; per-port
