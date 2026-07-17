@@ -13,6 +13,7 @@ not delete tracks, but moving parts after routing leaves dangling tracks).
 """
 
 import re
+import uuid
 from pathlib import Path
 
 PCB = Path(__file__).parent / "layouts/default/default.kicad_pcb"
@@ -23,7 +24,7 @@ PCB = Path(__file__).parent / "layouts/default/default.kicad_pcb"
 PORT_PITCH = 22.5
 N_PORTS = 8
 POWER_W = 60.0      # left section for input + bucks (inductor is 13x8mm!)
-BOARD_H = 42.0      # bar body is ~31mm front-to-back; board is a bit deeper
+BOARD_H = 47.0      # includes 5mm front margin for unobstructed status LEDs
 ORIGIN_X, ORIGIN_Y = 50.0, 50.0   # sheet position of board top-left
 BOARD_W = POWER_W + N_PORTS * PORT_PITCH
 
@@ -32,13 +33,38 @@ def port_x(i: int) -> float:
 
 X0, Y0 = ORIGIN_X, ORIGIN_Y
 
+# (text, x, y, layer, size, thickness, rotation)
+# Front labels are concise and assembly-facing. The back carries the full
+# electrical legend so it remains readable after the light bars are inserted.
+SILKSCREEN_TEXT = [
+    ("PD IN 12V / 36W MAX", 68.0, 51.8, "F.SilkS", 0.8, 0.13, 0),
+    ("12V DC / 5A / CENTER +", 70.0, 95.2, "F.SilkS", 0.8, 0.13, 0),
+    ("SKG // LIGHTBAR DOCK", 137.0, 95.2, "F.SilkS", 1.2, 0.20, 0),
+    ("5V OUT / 1A CONT EACH", 232.0, 95.2, "F.SilkS", 0.8, 0.13, 0),
+    ("LIGHTBAR DOCK // 8-PORT USB-C CHARGER", 170.0, 53.5, "B.SilkS", 1.8, 0.28, 0),
+    ("INPUT: USB-C PD 12V 36W MAX OR 12V DC 5A CENTER +", 170.0, 71.0, "B.SilkS", 1.0, 0.16, 0),
+    ("OUTPUT: 5V 1A CONT / PORT (1.5A FUSED)", 170.0, 78.0, "B.SilkS", 1.0, 0.16, 0),
+    ("LEDS: RED=PWR  BLUE=PD  GREEN=CHARGING", 170.0, 83.0, "B.SilkS", 1.0, 0.16, 0),
+    ("SKG // REV B // 2026", 170.0, 89.0, "B.SilkS", 1.5, 0.24, 0),
+]
+
+
+def silk_uuid(index: int) -> str:
+    return str(uuid.uuid5(uuid.NAMESPACE_URL, f"lightbar-dock/silkscreen/{index}"))
+
+
+def edge_uuid(index: int) -> str:
+    return str(uuid.uuid5(uuid.NAMESPACE_URL, f"lightbar-dock/edge/{index}"))
+
 # address -> (x, y, rot)
 # Sized against real bounding boxes: inductor 13.2x8.3, SMC diode 6.2x10.1
 # (rot 90), SOIC-8 5.9x6.1, SMB diode 3.9x6.9 (rot 90), 0805 cap 2.0x4.1
 # (rot 90), barrel jack 14.6x10.2, PD receptacle 7.8x10.6 (rot 90).
 PLACEMENTS: dict[str, tuple[float, float, float]] = {
     # ---- input stage, left edge
-    "pd_input.connector":           (X0 + 5.0,  Y0 + 12.0, 90),   # mating face near board edge
+    # The imported 3D model faces opposite the physical C2765186 receptacle.
+    # 270° puts the real mating opening on the left edge beside the barrel jack.
+    "pd_input.connector":           (X0 + 5.0,  Y0 + 12.0, 270),
     "pd_input.trigger":             (X0 + 14.0, Y0 + 12.0, 0),
     "pd_input.vbus_sense_resistor": (X0 + 14.0, Y0 + 6.0,  0),
     "pd_input.vdd_cap":             (X0 + 19.5, Y0 + 6.0,  0),
@@ -106,7 +132,7 @@ for i in range(N_PORTS):
         f"ports[{i}].port_cap":        (x + 7.5,  Y0 + 16.0, 90),
         f"ports[{i}].cc_pullup_1":     (x - 7.5,  Y0 + 13.0, 90),
         f"ports[{i}].cc_pullup_2":     (x - 7.5,  Y0 + 19.0, 90),
-        f"ports[{i}].charge_led.package": (x - 2.5, Y0 + 34.0, 0),
+        f"ports[{i}].charge_led.package": (x - 2.5, Y0 + 41.0, 0),
         f"ports[{i}].led_resistor":    (x + 3.0,  Y0 + 34.0, 0),
     })
 
@@ -146,10 +172,24 @@ def main() -> None:
     placed, missing = 0, []
     spans = split_top_level(inner)
     out, cursor = [], 0
+    generated_silk_uuids = {silk_uuid(i) for i in range(len(SILKSCREEN_TEXT))}
+    generated_edge_uuids = {edge_uuid(i) for i in range(4)}
     for s, e in spans:
         item = inner[s:e]
-        if item.startswith("(gr_line") and "placer-edge" in item:
-            # drop outline from a previous run of this script
+        item_uuid = re.search(r'\(uuid "([^"]+)"\)', item)
+        if (
+            item.startswith("(gr_line")
+            and (
+                '(layer "Edge.Cuts")' in item
+                or "placer-edge" in item
+                or (item_uuid and item_uuid.group(1) in generated_edge_uuids)
+            )
+        ) or (
+            item.startswith("(gr_text")
+            and item_uuid
+            and item_uuid.group(1) in generated_silk_uuids
+        ):
+            # Drop generated graphics from a previous run.
             out.append(inner[cursor:s].rstrip("\n\t"))
             cursor = e
             continue
@@ -210,9 +250,19 @@ def main() -> None:
         lines.append(
             f'\n\t(gr_line\n\t\t(start {sx:g} {sy:g})\n\t\t(end {ex:g} {ey:g})'
             f'\n\t\t(stroke\n\t\t\t(width 0.1)\n\t\t\t(type default)\n\t\t)'
-            f'\n\t\t(layer "Edge.Cuts")\n\t\t(uuid "placer-edge-{i}")\n\t)'
+            f'\n\t\t(layer "Edge.Cuts")\n\t\t(uuid "{edge_uuid(i)}")\n\t)'
         )
-    inner = inner.rstrip() + "".join(lines) + "\n"
+    silk = []
+    for i, (label, x, y, layer, size, thickness, rotation) in enumerate(SILKSCREEN_TEXT):
+        at = f"{x:g} {y:g}" + (f" {rotation:g}" if rotation else "")
+        justify = "\n\t\t\t(justify mirror)" if layer == "B.SilkS" else ""
+        silk.append(
+            f'\n\t(gr_text "{label}"\n\t\t(at {at})\n\t\t(layer "{layer}")'
+            f'\n\t\t(uuid "{silk_uuid(i)}")'
+            f'\n\t\t(effects\n\t\t\t(font\n\t\t\t\t(size {size:g} {size:g})'
+            f'\n\t\t\t\t(thickness {thickness:g})\n\t\t\t){justify}\n\t\t)\n\t)'
+        )
+    inner = inner.rstrip() + "".join(lines) + "".join(silk) + "\n"
 
     PCB.write_text(text[:header_len] + inner + ")\n")
     print(f"placed {placed} footprints on a {BOARD_W:g} x {BOARD_H:g} mm board "

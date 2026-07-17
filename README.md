@@ -37,6 +37,11 @@ Top-down view, power input and bucks on the left, 8 port channels on a
 
 ![Top-down board render](docs/images/render-top.png)
 
+The back silkscreen carries the complete electrical legend and SKG revision
+mark so the ratings remain readable while light bars are docked:
+
+![Back silkscreen legend](docs/images/render-back.png)
+
 Power input end: barrel jack, USB-C PD receptacle, CH224K, both TPS54560
 bucks with their 8x8 mm inductors:
 
@@ -124,6 +129,14 @@ it too. Zero hand assembly required.
   datasheet 3D model before ordering a full run, or spend ~$5 on samples
   from LCSC first, LCSC's listing metadata for Chinese-brand USB
   connectors is occasionally wrong. A 24P alternative is C2763096.
+- **C399938 positioning slots**: the manufacturer footprint uses
+  0.60 x 1.80 mm plated slots, but JLC reported that the production shell
+  tabs fit loosely enough for the plugs to shift during reflow. Before the
+  next PCB revision, measure the tabs on production parts (or ask JLC for
+  their measured maximum dimensions), then set the finished slot to the tab
+  maximum plus 0.10 mm across its width and 0.15-0.20 mm along its length,
+  subject to JLC's plated-slot tolerance. Do not shrink below the measured
+  tab size based only on the assembly photograph.
 - **3D model for C399938**: EasyEDA/LCSC has no 3D model for this plug, so
   this repo includes one built from the datasheet drawing, see
   `parts/Jing_Extension_of_the_Electronic_Co_918_118A2021Y40006/USB-C-SMD_918-118A2021Y40006.step`
@@ -136,10 +149,13 @@ it too. Zero hand assembly required.
 
 ## Layout notes
 
-- Board is 240 x 42 mm, 2-layer; 8 identical port channels on a 22.5 mm
+- Board is 240 x 47 mm, 2-layer; 8 identical port channels on a 22.5 mm
   pitch in a single row; comparators behind their 4 ports; bucks and input
   stage at the left end. Run `python3 place_board.py` after any
   `ato build` to re-apply placement (tune the constants at the top).
+- The USB-C PD receptacle and barrel jack both open through the left edge.
+  USB1 is physically oriented at 270 degrees; its imported STEP model needs
+  an additional 180-degree model rotation to depict the real mating face.
 - Pitch rationale: the Gritin bars are ~10.5 mm thick (17 mm at the bulge)
   and stack face-to-face, so 22.5 mm leaves ~5 mm for printed divider
   walls. The port sits on the bottom end face of the bar, long axis
