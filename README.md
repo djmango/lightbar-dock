@@ -154,8 +154,12 @@ it too. Zero hand assembly required.
   stage at the left end. Run `python3 place_board.py` after any
   `ato build` to re-apply placement (tune the constants at the top).
 - The USB-C PD receptacle and barrel jack both open through the left edge.
-  USB1 is physically oriented at 270 degrees; its imported STEP model needs
-  an additional 180-degree model rotation to depict the real mating face.
+  USB1 footprint is at 270° (pads inboard); its 3D model uses rotate Z=0 and
+  offset Z=0.9 so the shell opens left (native STEP −Y is the opening side).
+- Onshape enclosure exports are in `fab/`: `lightbar-dock.step` (populated
+  assembly) and `lightbar-dock-board-only.step` (bare PCB). Export solids only —
+  do not include silkscreen or soldermask. Import the assembly as a parts
+  library into a **new** Onshape document; old tabs do not update on re-import.
 - Pitch rationale: the Gritin bars are ~10.5 mm thick (17 mm at the bulge)
   and stack face-to-face, so 22.5 mm leaves ~5 mm for printed divider
   walls. The port sits on the bottom end face of the bar, long axis

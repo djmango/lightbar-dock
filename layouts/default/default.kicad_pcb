@@ -6240,7 +6240,7 @@
 	(footprint "SHOU_HAN_TYPE_C_16PIN_2MD_073:USB-C-SMD_TYPE-C-16PIN-2MD-073"
 		(layer "F.Cu")
 		(uuid "35c02cd6-e94c-4d9f-89a9-52444642524b")
-		(at 55 62 270)
+		(at 55 62 -90)
 		(property "Reference" "USB1"
 			(at 0 -6.38 270)
 			(layer "F.SilkS")
@@ -6575,7 +6575,7 @@
 				(xyz 1 1 1)
 			)
 			(rotate
-				(xyz 0 0 180)
+				(xyz 0 0 0)
 			)
 		)
 	)
@@ -37319,6 +37319,139 @@
 			(rotate
 				(xyz 0 0 0)
 			)
+		)
+	)
+	(gr_line
+		(start 50 50)
+		(end 290 50)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "Edge.Cuts")
+		(uuid "e8ff3ee9-27c9-5124-96da-50d7e2812df7")
+	)
+	(gr_line
+		(start 50 97)
+		(end 50 50)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "Edge.Cuts")
+		(uuid "c5c38cf9-0950-57fc-87e6-2be5e46006cc")
+	)
+	(gr_line
+		(start 290 50)
+		(end 290 97)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "Edge.Cuts")
+		(uuid "b7547db2-b353-5259-b07b-63d5240d9648")
+	)
+	(gr_line
+		(start 290 97)
+		(end 50 97)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "Edge.Cuts")
+		(uuid "18bc7c9d-2ada-5bab-9b76-789abb80962f")
+	)
+	(gr_text "INPUT: PD 12V/36W OR DC 12V/5A CENTER +"
+		(at 77 95.2 0)
+		(layer "F.SilkS")
+		(uuid "d1e17234-f3ba-54e8-8781-c047ed4a2177")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.13)
+			)
+		)
+	)
+	(gr_text "5V OUT / 1A CONT EACH"
+		(at 232 95.2 0)
+		(layer "F.SilkS")
+		(uuid "24b8319c-1893-5235-976e-a88a01205b75")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.13)
+			)
+		)
+	)
+	(gr_text "SKG // LIGHTBAR DOCK"
+		(at 137 95.2 0)
+		(layer "F.SilkS")
+		(uuid "252de4ad-2942-5052-ac43-64b830ddd01a")
+		(effects
+			(font
+				(size 1.2 1.2)
+				(thickness 0.2)
+			)
+		)
+	)
+	(gr_text "INPUT: USB-C PD 12V 36W MAX OR 12V DC 5A CENTER +"
+		(at 170 71 0)
+		(layer "B.SilkS")
+		(uuid "e3551dfe-f370-52a8-be03-330158fe47c3")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.16)
+			)
+			(justify mirror)
+		)
+	)
+	(gr_text "OUTPUT: 5V 1A CONT / PORT (1.5A FUSED)"
+		(at 170 78 0)
+		(layer "B.SilkS")
+		(uuid "ae7d433a-98f7-56f9-988c-6c975075f408")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.16)
+			)
+			(justify mirror)
+		)
+	)
+	(gr_text "LEDS: RED=PWR  BLUE=PD  GREEN=CHARGING"
+		(at 170 83 0)
+		(layer "B.SilkS")
+		(uuid "27486c78-d510-5519-a715-aa771bc54ba3")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.16)
+			)
+			(justify mirror)
+		)
+	)
+	(gr_text "SKG // REV B // 2026"
+		(at 170 89 0)
+		(layer "B.SilkS")
+		(uuid "83f44d67-f8f9-5dd5-baf9-831692604353")
+		(effects
+			(font
+				(size 1.5 1.5)
+				(thickness 0.24)
+			)
+			(justify mirror)
+		)
+	)
+	(gr_text "LIGHTBAR DOCK // 8-PORT USB-C CHARGER"
+		(at 170 53.5 0)
+		(layer "B.SilkS")
+		(uuid "ca73e196-f6a2-5064-9668-c252338ae727")
+		(effects
+			(font
+				(size 1.8 1.8)
+				(thickness 0.28)
+			)
+			(justify mirror)
 		)
 	)
 	(segment
@@ -92846,148 +92979,4 @@
 		)
 	)
 	(embedded_fonts no)
-	(gr_line
-		(start 50 50)
-		(end 290 50)
-		(stroke
-			(width 0.1)
-			(type default)
-		)
-		(layer "Edge.Cuts")
-		(uuid "e8ff3ee9-27c9-5124-96da-50d7e2812df7")
-	)
-	(gr_line
-		(start 290 50)
-		(end 290 97)
-		(stroke
-			(width 0.1)
-			(type default)
-		)
-		(layer "Edge.Cuts")
-		(uuid "b7547db2-b353-5259-b07b-63d5240d9648")
-	)
-	(gr_line
-		(start 290 97)
-		(end 50 97)
-		(stroke
-			(width 0.1)
-			(type default)
-		)
-		(layer "Edge.Cuts")
-		(uuid "18bc7c9d-2ada-5bab-9b76-789abb80962f")
-	)
-	(gr_line
-		(start 50 97)
-		(end 50 50)
-		(stroke
-			(width 0.1)
-			(type default)
-		)
-		(layer "Edge.Cuts")
-		(uuid "c5c38cf9-0950-57fc-87e6-2be5e46006cc")
-	)
-	(gr_text "PD IN 12V / 36W MAX"
-		(at 68 51.8)
-		(layer "F.SilkS")
-		(uuid "d1e17234-f3ba-54e8-8781-c047ed4a2177")
-		(effects
-			(font
-				(size 0.8 0.8)
-				(thickness 0.13)
-			)
-		)
-	)
-	(gr_text "12V DC / 5A / CENTER +"
-		(at 70 95.2)
-		(layer "F.SilkS")
-		(uuid "252de4ad-2942-5052-ac43-64b830ddd01a")
-		(effects
-			(font
-				(size 0.8 0.8)
-				(thickness 0.13)
-			)
-		)
-	)
-	(gr_text "SKG // LIGHTBAR DOCK"
-		(at 137 95.2)
-		(layer "F.SilkS")
-		(uuid "24b8319c-1893-5235-976e-a88a01205b75")
-		(effects
-			(font
-				(size 1.2 1.2)
-				(thickness 0.2)
-			)
-		)
-	)
-	(gr_text "5V OUT / 1A CONT EACH"
-		(at 232 95.2)
-		(layer "F.SilkS")
-		(uuid "ca73e196-f6a2-5064-9668-c252338ae727")
-		(effects
-			(font
-				(size 0.8 0.8)
-				(thickness 0.13)
-			)
-		)
-	)
-	(gr_text "LIGHTBAR DOCK // 8-PORT USB-C CHARGER"
-		(at 170 53.5)
-		(layer "B.SilkS")
-		(uuid "e3551dfe-f370-52a8-be03-330158fe47c3")
-		(effects
-			(font
-				(size 1.8 1.8)
-				(thickness 0.28)
-			)
-			(justify mirror)
-		)
-	)
-	(gr_text "INPUT: USB-C PD 12V 36W MAX OR 12V DC 5A CENTER +"
-		(at 170 71)
-		(layer "B.SilkS")
-		(uuid "ae7d433a-98f7-56f9-988c-6c975075f408")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.16)
-			)
-			(justify mirror)
-		)
-	)
-	(gr_text "OUTPUT: 5V 1A CONT / PORT (1.5A FUSED)"
-		(at 170 78)
-		(layer "B.SilkS")
-		(uuid "27486c78-d510-5519-a715-aa771bc54ba3")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.16)
-			)
-			(justify mirror)
-		)
-	)
-	(gr_text "LEDS: RED=PWR  BLUE=PD  GREEN=CHARGING"
-		(at 170 83)
-		(layer "B.SilkS")
-		(uuid "83f44d67-f8f9-5dd5-baf9-831692604353")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.16)
-			)
-			(justify mirror)
-		)
-	)
-	(gr_text "SKG // REV B // 2026"
-		(at 170 89)
-		(layer "B.SilkS")
-		(uuid "e140b130-9532-546b-98b6-6b15fc3bed00")
-		(effects
-			(font
-				(size 1.5 1.5)
-				(thickness 0.24)
-			)
-			(justify mirror)
-		)
-	)
 )

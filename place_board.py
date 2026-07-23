@@ -37,8 +37,7 @@ X0, Y0 = ORIGIN_X, ORIGIN_Y
 # Front labels are concise and assembly-facing. The back carries the full
 # electrical legend so it remains readable after the light bars are inserted.
 SILKSCREEN_TEXT = [
-    ("PD IN 12V / 36W MAX", 68.0, 51.8, "F.SilkS", 0.8, 0.13, 0),
-    ("12V DC / 5A / CENTER +", 70.0, 95.2, "F.SilkS", 0.8, 0.13, 0),
+    ("INPUT: PD 12V/36W OR DC 12V/5A CENTER +", 77.0, 95.2, "F.SilkS", 0.8, 0.13, 0),
     ("SKG // LIGHTBAR DOCK", 137.0, 95.2, "F.SilkS", 1.2, 0.20, 0),
     ("5V OUT / 1A CONT EACH", 232.0, 95.2, "F.SilkS", 0.8, 0.13, 0),
     ("LIGHTBAR DOCK // 8-PORT USB-C CHARGER", 170.0, 53.5, "B.SilkS", 1.8, 0.28, 0),
@@ -62,8 +61,8 @@ def edge_uuid(index: int) -> str:
 # (rot 90), barrel jack 14.6x10.2, PD receptacle 7.8x10.6 (rot 90).
 PLACEMENTS: dict[str, tuple[float, float, float]] = {
     # ---- input stage, left edge
-    # The imported 3D model faces opposite the physical C2765186 receptacle.
-    # 270° puts the real mating opening on the left edge beside the barrel jack.
+    # Footprint 270° puts SMT pads inboard and mating opening on the left edge.
+    # 3D model rotate Z=0 (not 180) — native STEP -Y is the shell/opening side.
     "pd_input.connector":           (X0 + 5.0,  Y0 + 12.0, 270),
     "pd_input.trigger":             (X0 + 14.0, Y0 + 12.0, 0),
     "pd_input.vbus_sense_resistor": (X0 + 14.0, Y0 + 6.0,  0),
@@ -172,7 +171,8 @@ def main() -> None:
     placed, missing = 0, []
     spans = split_top_level(inner)
     out, cursor = [], 0
-    generated_silk_uuids = {silk_uuid(i) for i in range(len(SILKSCREEN_TEXT))}
+    # Include retired indices so old generated labels are removed after edits.
+    generated_silk_uuids = {silk_uuid(i) for i in range(32)}
     generated_edge_uuids = {edge_uuid(i) for i in range(4)}
     for s, e in spans:
         item = inner[s:e]
