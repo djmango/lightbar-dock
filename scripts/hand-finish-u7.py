@@ -86,7 +86,11 @@ def refill_gnd(board):
 
 
 def main():
-    app = wx.App(False)
+    if os.environ.get("DISPLAY") or sys.platform == "darwin":
+        try:
+            wx.App(False)
+        except Exception:
+            pass
     board = pcbnew.LoadBoard(PCB)
     F, B = pcbnew.F_Cu, pcbnew.B_Cu
 

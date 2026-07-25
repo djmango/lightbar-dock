@@ -19,11 +19,6 @@ from typing import Dict, List, Optional, Set, Tuple
 
 import pcbnew
 
-try:
-    import wx  # optional; some KiCad builds want an app for GUI-tied APIs
-except ImportError:  # pragma: no cover
-    wx = None
-
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 PCB = os.environ.get(
     "FINISH_PCB", os.path.join(ROOT, "generated/kicad/v3-routed.kicad_pcb")
@@ -503,13 +498,22 @@ def route_one(board, a: Endpoint, b: Endpoint, xmin, ymin, xmax, ymax):
     return False, 0, 0, 0, "fail", False
 
 
+def _maybe_wx_app():
+    """macOS KiCad often wants a wx.App; Linux AppImage aborts if DISPLAY is missing."""
+    if not os.environ.get("DISPLAY") and sys.platform != "darwin":
+        return
+    try:
+        import wx
+    except ImportError:
+        return
+    try:
+        wx.App(False)
+    except Exception:
+        pass
+
+
 def main():
-    # Headless Linux (AppImage) can LoadBoard without wx; macOS KiCad often wants it.
-    if wx is not None:
-        try:
-            wx.App(False)
-        except Exception:
-            pass
+    _maybe_wx_app()
     log("loading", PCB)
     board = pcbnew.LoadBoard(PCB)
     pairs = parse_unconnected_from_drc(DRC_JSON)

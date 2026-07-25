@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+import os
 import sys
 
 import pcbnew
@@ -76,7 +77,11 @@ def seg_seg(ax, ay, bx, by, cx, cy, dx, dy):
 
 
 def main():
-    app = wx.App(False)
+    if os.environ.get("DISPLAY") or sys.platform == "darwin":
+        try:
+            wx.App(False)
+        except Exception:
+            pass
     board = pcbnew.LoadBoard(PCB)
     F, B = pcbnew.F_Cu, pcbnew.B_Cu
 

@@ -1,0 +1,66 @@
+From 1d9ff8bc599f13fba5c29899e6fb8fab37230606 Mon Sep 17 00:00:00 2001
+From: "Cursor Agent (homelab)" <cursor-agent@homelab.local>
+Date: Sat, 25 Jul 2026 04:15:00 +0000
+Subject: [PATCH] fix(autoroute): skip failed fanouts and cross-layer navmesh
+ pairs
+
+Dense boards can exhaust anteroute fanout bbox strategies and leave
+origin/destination on different layers. Return/skip instead of panicking
+so multilayer Specctra jobs can continue and still write a SES.
+---
+ src/autorouter/anterouter.rs |  7 ++++++-
+ src/router/navmesh.rs        | 13 +++++++++----
+ 2 files changed, 15 insertions(+), 5 deletions(-)
+
+diff --git a/src/autorouter/anterouter.rs b/src/autorouter/anterouter.rs
+index 213281c..1b4eb42 100644
+--- a/src/autorouter/anterouter.rs
++++ b/src/autorouter/anterouter.rs
+@@ -240,7 +240,12 @@ impl Anterouter {
+             return;
+         }
+ 
+-        panic!();
++        // Dense boards (e.g. lightbar-dock V3) can fail every fanout bbox strategy.
++        // Skip this pin rather than aborting the whole autoroute job.
++        eprintln!(
++            "topola: warning: anteroute fanout failed for ratline {:?}; skipping pin",
++            ratline
++        );
+     }
+ 
+     fn anteroute_fanout_on_bbox(
+diff --git a/src/router/navmesh.rs b/src/router/navmesh.rs
+index fca95c4..3b1d49a 100644
+--- a/src/router/navmesh.rs
++++ b/src/router/navmesh.rs
+@@ -115,6 +115,8 @@ pub struct NavnodeWeight {
+ pub enum NavmeshError {
+     #[error("failed to insert vertex in navmesh")]
+     Insertion(#[from] InsertionError),
++    #[error("navmesh origin and destination are on different copper layers")]
++    LayerMismatch,
+ }
+ 
+ /// The navmesh holds the entire Topola's search space represented as a graph.
+@@ -159,10 +161,13 @@ impl Navmesh {
+         destination: FixedDotIndex,
+         options: RouterOptions,
+     ) -> Result<Self, NavmeshError> {
+-        assert!(
+-            origin.primitive_ref(layout.drawing()).layer()
+-                == destination.primitive_ref(layout.drawing()).layer()
+-        );
++        if origin.primitive_ref(layout.drawing()).layer()
++            != destination.primitive_ref(layout.drawing()).layer()
++        {
++            // Multilayer fanout can leave origin/destination on different
++            // layers; planar navmesh cannot search that pair — skip it.
++            return Err(NavmeshError::LayerMismatch);
++        }
+ 
+         let mut graph: UnGraph<NavnodeWeight, (), usize> = UnGraph::default();
+         let mut origin_navnode = None;
+-- 
+2.39.5
+

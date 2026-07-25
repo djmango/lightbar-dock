@@ -22,7 +22,8 @@
     "typecheck": "tsc --noEmit",
     "test:firmware": "cc -std=c11 -Wall -Wextra -Werror -Ifirmware/status-controller/include firmware/status-controller/src/status_logic.c firmware/status-controller/test/status_logic_test.c -o /tmp/lightbar-status-test && /tmp/lightbar-status-test",
     "test": "npm run typecheck && npm run test:firmware",
-    "export:kicad": "tsci export circuit/index.circuit.tsx -f kicad_pcb -o ../generated/kicad/default.kicad_pcb && node scripts/fix-tscircuit-fp-lib.mjs",
+    "export:kicad": "node scripts/export-kicad.mjs",
+    "export:kicad:tsci": "tsci export circuit/index.circuit.tsx -f kicad_pcb -o generated/kicad/default.kicad_pcb --disable-parts-engine && node scripts/fix-tscircuit-fp-lib.mjs",
     "fix:kicad-fp-lib": "node scripts/fix-tscircuit-fp-lib.mjs",
     "export:gerbers": "tsci export circuit/index.circuit.tsx -f gerbers -o ../generated/lightbar-dock-gerbers.zip",
     "export:pcb-svg": "tsci export circuit/index.circuit.tsx -f pcb-svg -o ../docs/images/tscircuit-pcb.svg",
@@ -47,7 +48,9 @@
     "@tscircuit/core": "0.0.1450",
     "@tscircuit/eval": "0.0.1015",
     "circuit-json-to-connectivity-map": "0.0.25",
+    "circuit-json-to-kicad": "^0.0.170",
     "kicad-to-circuit-json": "0.0.113",
+    "polygon-clipping": "^0.15.7",
     "tscircuit": "0.0.2096"
   },
   "devDependencies": {

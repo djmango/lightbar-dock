@@ -19,6 +19,18 @@ if ! command -v bun >/dev/null 2>&1; then
 fi
 echo "    bun: $(command -v bun) ($(bun --version))"
 
+echo "==> applying local Topola patches (contrib/topola)"
+shopt -s nullglob
+for patch in "$ROOT"/contrib/topola/*.patch; do
+  # Idempotent: reverse-check, then apply if needed.
+  if git -C third_party/topola apply --reverse --check "$patch" >/dev/null 2>&1; then
+    echo "    already applied: $(basename "$patch")"
+  else
+    git -C third_party/topola apply "$patch"
+    echo "    applied: $(basename "$patch")"
+  fi
+done
+
 echo "==> building Topola CLI (release)"
 cargo build --release -p topola-cli --manifest-path third_party/topola/Cargo.toml
 echo "    binary: third_party/topola/target/release/topola"

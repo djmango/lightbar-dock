@@ -59,6 +59,7 @@ circuit/index.circuit.tsx     tscircuit source of truth
 | Upstream | https://codeberg.org/topola/topola |
 | Fork / clone URL | https://github.com/djmango/topola |
 | Feature branch | `feature/cli-multilayer-remaining` @ `5d10621` |
+| Local patches | `contrib/topola/*.patch` (skip fanout / layer-mismatch panics) |
 | Upstream PR | https://github.com/mikwielgus/topola/pull/1 (also Codeberg as applicable) |
 | tscircuit issue | https://github.com/tscircuit/tscircuit/issues/4078 |
 
@@ -143,8 +144,9 @@ Freerouting JARs are **not** in git (~118 MB). Place `freerouting-2.2.4.jar` u
 | Grid “no path” on U7 pads | Fine pitch + keepout too fat | Thin width 0.15, lower keepout, multilayer |
 | Grid shorts after validate=0 | Keepout weaker than DRC | Re-run with higher `FINISH_CLEAR_MM` / validate |
 | `GetTracks()` SWIG blowup after `Remove` | KiCad 10 quirk | Snapshot track list before mutating |
-| `tsci export` / `renderUntilSettled` hangs | Never settles on this board | `npm run build:circuit` → `scripts/build-circuit.mjs` (`render()` only) |
+| `tsci export` / `renderUntilSettled` hangs | Never settles on this board | `npm run build:circuit` / `npm run export:kicad` (circuit-json-to-kicad) |
 | Route scripts fail on Linux | Hardcoded macOS KiCad.app paths | `scripts/kicad-env.mjs` + AppImage extract to `~/tools/kicad/squashfs-root` |
+| Topola panics mid-route on dense board | Fanout / cross-layer asserts | Apply `contrib/topola/*.patch` via `npm run setup:toolchain` |
 
 ## Suggested next PR / work chunks
 

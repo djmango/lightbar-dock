@@ -6,6 +6,7 @@ Does NOT use ImportSpecctraSES (which rewrites the whole board).
 from __future__ import annotations
 
 import argparse
+import os
 import re
 import sys
 
@@ -103,7 +104,11 @@ def main():
     ap.add_argument("--out", default=None)
     args = ap.parse_args()
 
-    app = wx.App(False)
+    if os.environ.get("DISPLAY") or sys.platform == "darwin":
+        try:
+            wx.App(False)
+        except Exception:
+            pass
     board = pcbnew.LoadBoard(args.pcb)
     net = board.FindNet(args.net)
     if net is None:

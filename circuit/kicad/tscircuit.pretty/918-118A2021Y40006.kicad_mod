@@ -7,7 +7,7 @@
 		(at 0 -5.27 0)
 		(layer "F.SilkS")
 		(hide yes)
-		(uuid "4e0cb521-3302-4473-a5bb-1ce7885ca748")
+		(uuid "87d844b7-af52-437a-90b6-51bfe7d6bdb1")
 		(effects
 			(font
 				(size 1 1)
@@ -19,7 +19,7 @@
 		(at 0 3 90)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "c0147685-5240-41c5-b8c5-8a27b1e86349")
+		(uuid "a067fcdf-64ee-4cd4-a64d-93e737309dd2")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -31,7 +31,7 @@
 		(at 0 0 90)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "fd6fd0ca-d048-4138-b119-0a251c505433")
+		(uuid "0b4cf8b4-7191-40ba-aabc-26310f88bd41")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -43,7 +43,7 @@
 		(at 0 0 90)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "b28551fc-a13f-4293-bfe4-89ca7346c104")
+		(uuid "edb34178-ce68-4ec9-ab9e-6e1fddab5b90")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -72,7 +72,7 @@
 			(type default)
 		)
 		(layer "F.SilkS")
-		(uuid "0095fb6d-2a56-4204-8b90-7009db0c6b77")
+		(uuid "dbdc7eb5-14a7-436b-8f29-f14b9d12e491")
 	)
 	(fp_line
 		(start -3.923533 -0.937469)
@@ -82,7 +82,7 @@
 			(type default)
 		)
 		(layer "F.SilkS")
-		(uuid "bd748730-38cc-48ce-b70a-c3f2e94aa042")
+		(uuid "c870004a-a27e-4ba5-87ab-5017d6ad915f")
 	)
 	(fp_line
 		(start -3.921075 0.941451)
@@ -92,7 +92,7 @@
 			(type default)
 		)
 		(layer "F.SilkS")
-		(uuid "3022c2a7-2632-48d6-abd7-5008585c338a")
+		(uuid "e19a3b41-7cce-4f1c-90ca-a343c9ca7f61")
 	)
 	(fp_line
 		(start -3.2 1.6)
@@ -102,7 +102,7 @@
 			(type default)
 		)
 		(layer "F.SilkS")
-		(uuid "367cb55c-2a53-493a-8ad5-6f20becb31a5")
+		(uuid "44c63bd5-d7fe-4c8a-81af-7235ba58ec2b")
 	)
 	(fp_line
 		(start 3.2 -1.6)
@@ -112,7 +112,7 @@
 			(type default)
 		)
 		(layer "F.SilkS")
-		(uuid "c08ff30a-65d5-49c2-b286-d8d12bd7546f")
+		(uuid "e459e272-07ad-4f94-9b52-531b56ee2ade")
 	)
 	(fp_line
 		(start 3.921075 -0.941451)
@@ -122,7 +122,7 @@
 			(type default)
 		)
 		(layer "F.SilkS")
-		(uuid "288c0853-98d5-4a40-945a-a5800b419ed5")
+		(uuid "656973ba-fce9-481c-9307-f046bdf7ad23")
 	)
 	(fp_line
 		(start 3.923533 0.937469)
@@ -132,7 +132,7 @@
 			(type default)
 		)
 		(layer "F.SilkS")
-		(uuid "36b4d1b2-8d9a-47d7-a5a4-ac0d0ad3743a")
+		(uuid "6f9c1efe-f057-418d-98cb-f8555a661f31")
 	)
 	(fp_line
 		(start 4.188853 -0.00234)
@@ -142,7 +142,7 @@
 			(type default)
 		)
 		(layer "F.SilkS")
-		(uuid "fef4f03c-c343-40aa-8e73-02f2ebdd1451")
+		(uuid "1fd6ac84-1a3d-4c01-8973-67ade03d3696")
 	)
 	(pad "1" smd rect
 		(at 2.8 -1.27 90)

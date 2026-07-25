@@ -7,7 +7,7 @@
 		(at 0 -5.75 0)
 		(layer "F.SilkS")
 		(hide yes)
-		(uuid "50527011-0f8f-427e-8414-b9ca3df070cc")
+		(uuid "5533a06f-7876-403b-ad0c-85e72e1dee24")
 		(effects
 			(font
 				(size 1 1)
@@ -19,7 +19,7 @@
 		(at 0 3 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "4def5ac2-c0df-4fbf-a30b-b07e1c0ad8b7")
+		(uuid "999c85e9-4077-4c99-9b75-a933b273580b")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -31,7 +31,7 @@
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "d75a04cb-e09b-4eba-9883-1bbbf3ff4674")
+		(uuid "9cb7938f-4ea8-4f6a-be7c-5aa7865a2fe2")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -43,7 +43,7 @@
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "2fbbe82d-4047-444c-a2df-0d9aa99d32e2")
+		(uuid "a0b5521b-3d80-48de-9f81-b42016b9f9e1")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -72,7 +72,7 @@
 			(type default)
 		)
 		(layer "F.SilkS")
-		(uuid "45d55266-c362-4be2-ba62-a56941aa3135")
+		(uuid "beb4d118-b98c-42b9-990a-1c511fcb7524")
 	)
 	(fp_line
 		(start -10.6 2.75)
@@ -82,7 +82,7 @@
 			(type default)
 		)
 		(layer "F.SilkS")
-		(uuid "fb9921ab-7be1-4fc9-aa90-5592567dac4e")
+		(uuid "d6fd355c-de1d-4cc9-b621-43562646cca2")
 	)
 	(fp_line
 		(start -8.68 -6.25)
@@ -92,7 +92,7 @@
 			(type default)
 		)
 		(layer "F.SilkS")
-		(uuid "329bba4b-8180-4da1-b2b0-a8e05216391b")
+		(uuid "9baae4f2-5a10-47ec-b27b-044b5a6e645d")
 	)
 	(fp_line
 		(start 2.21 2.75)
@@ -102,7 +102,7 @@
 			(type default)
 		)
 		(layer "F.SilkS")
-		(uuid "b07ccd6c-6fbe-4183-8ba2-8d2f55134214")
+		(uuid "c6b6e4fb-e6e7-4aac-92d6-d31bc5a90e59")
 	)
 	(fp_line
 		(start 3.4 -6.25)
@@ -112,7 +112,7 @@
 			(type default)
 		)
 		(layer "F.SilkS")
-		(uuid "fa01ef87-5cdc-4b7f-b934-5c8d7ea7f259")
+		(uuid "06498fb7-22c4-4be7-95e1-e2c6b58b107e")
 	)
 	(fp_line
 		(start 3.4 -4.01)
@@ -122,7 +122,7 @@
 			(type default)
 		)
 		(layer "F.SilkS")
-		(uuid "b5f77323-cfc3-422e-aa35-ababca3c5d3d")
+		(uuid "417da12b-2c35-4b96-9042-76832c5aa8a7")
 	)
 	(fp_line
 		(start 3.4 2.75)
@@ -132,7 +132,7 @@
 			(type default)
 		)
 		(layer "F.SilkS")
-		(uuid "56e89847-8238-458e-a2fe-6d55b5d07058")
+		(uuid "e254d2c1-0377-4577-93af-1d3c79897df1")
 	)
 	(pad "1" thru_hole oval
 		(at 3 -1.75)
