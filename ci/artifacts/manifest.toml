@@ -4,3 +4,8 @@
 path = "ci/artifacts/v3-manufacturing.kicad_pcb"
 sha256 = "89d897b9323d4285cf7b2413741f9232e505326750110dd3a2e8d3c3e5a99242"
 role = "manufacturing_pcb"
+
+[[artifacts]]
+path = "ci/artifacts/v3-manufacturing.kicad_pro"
+sha256 = "6acb1c1e9db79cf93d3268ac24526c6ed63afd607908e5ca832daa4644f21819"
+role = "manufacturing_project"

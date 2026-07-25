@@ -81,11 +81,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: DRC V3 manufacturing PCB
+      - name: DRC V3 manufacturing PCB (with project rules)
+        working-directory: ci/artifacts
         run: |
+          # Run beside .kicad_pro so netclasses / min_* rules load (not KiCad defaults).
           kicad-cli pcb drc --format json --severity-error --severity-warning \
-            -o v3-drc.json \
-            ci/artifacts/v3-manufacturing.kicad_pcb
+            -o ../../v3-drc.json \
+            v3-manufacturing.kicad_pcb
 
       - name: DRC Rev1 historical PCB
         run: |
