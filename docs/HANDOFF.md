@@ -55,10 +55,10 @@ circuit/index.circuit.tsx     tscircuit source of truth
 
 | Item | Value |
 |------|-------|
-| Submodule | `third_party/topola` |
+| Submodule | `third_party/topola` (`.gitmodules` → fork URL) |
 | Upstream | https://codeberg.org/topola/topola |
-| Fork | https://github.com/djmango/topola |
-| Feature branch | `feature/cli-multilayer-remaining` |
+| Fork / clone URL | https://github.com/djmango/topola |
+| Feature branch | `feature/cli-multilayer-remaining` @ `5d10621` |
 | Upstream PR | https://github.com/mikwielgus/topola/pull/1 (also Codeberg as applicable) |
 | tscircuit issue | https://github.com/tscircuit/tscircuit/issues/4078 |
 
