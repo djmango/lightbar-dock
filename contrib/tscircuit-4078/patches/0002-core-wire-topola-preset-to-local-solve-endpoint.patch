@@ -27,16 +27,18 @@ index bedc574..9d53bad 100644
        return {
          local: true,
 diff --git a/tests/utils/autorouting/getPresetAutoroutingConfig.test.ts b/tests/utils/autorouting/getPresetAutoroutingConfig.test.ts
-index 90d1310..ac74986 100644
+index 90d1310..cf09e7c 100644
 --- a/tests/utils/autorouting/getPresetAutoroutingConfig.test.ts
 +++ b/tests/utils/autorouting/getPresetAutoroutingConfig.test.ts
-@@ -28,3 +28,25 @@ describe("getPresetAutoroutingConfig", () => {
+@@ -27,4 +27,27 @@ describe("getPresetAutoroutingConfig", () => {
+ 
      expect(alias).toEqual(expected)
    })
- })
 +
 +  test("topola preset points at local solve-endpoint", () => {
-+    const config = getPresetAutoroutingConfig("topola" as unknown as AutorouterConfig)
++    const config = getPresetAutoroutingConfig(
++      "topola" as unknown as AutorouterConfig,
++    )
 +    expect(config).toMatchObject({
 +      local: false,
 +      groupMode: "subcircuit",
@@ -55,4 +57,4 @@ index 90d1310..ac74986 100644
 +    expect(config.serverUrl).toBe("http://127.0.0.1:4099")
 +    expect(config.serverMode).toBe("solve-endpoint")
 +  })
-+
+ })
