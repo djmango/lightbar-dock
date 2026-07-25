@@ -54,8 +54,10 @@ Routed V3 copper / 3D exports (when regenerated): `docs/images/v3-routed-*`,
 ## Toolchain
 
 - Node.js 24+, npm, packages from `package-lock.json`
+- [Bun](https://bun.sh) on `PATH` (`tsci` is a bun script)
 - tscircuit `0.0.2096` (pinned)
-- KiCad 10 CLI for DRC / SVG / STEP / gerbers
+- KiCad 10 CLI for DRC / SVG / STEP / gerbers (macOS app or Linux AppImage;
+  see `scripts/kicad-env.mjs`)
 - RISC-V GCC + pinned ch32fun for MCU firmware
 - **Topola** (Rust Specctra autorouter) via git submodule `third_party/topola`
 - Java 25+ + `third_party/freerouting/` as emergency fallback only
@@ -65,13 +67,14 @@ Routed V3 copper / 3D exports (when regenerated): `docs/images/v3-routed-*`,
 ```sh
 npm ci
 git submodule update --init --recursive
+cargo build --release -p topola-cli --manifest-path third_party/topola/Cargo.toml
 npm run verify          # test + tsci check + build + electrical + vias
 npm run route:circuit   # Topola multilayer Specctra route → generated/kicad/
 npm run route:finish    # grid A* for leftover ratsnest (safe on pre-routed boards)
 # npm run route:freerouting   # fallback
 npm run autoroute:server      # optional: tscircuit HTTP adapter on :3099
 npm run export:kicad
-/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb drc \
+kicad-cli pcb drc \
   --exit-code-violations \
   -o generated/reports/tscircuit-kicad-drc.rpt \
   generated/kicad/default.kicad_pcb

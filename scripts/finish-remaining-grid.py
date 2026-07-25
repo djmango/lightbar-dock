@@ -18,7 +18,11 @@ from dataclasses import dataclass
 from typing import Dict, List, Optional, Set, Tuple
 
 import pcbnew
-import wx
+
+try:
+    import wx  # optional; some KiCad builds want an app for GUI-tied APIs
+except ImportError:  # pragma: no cover
+    wx = None
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 PCB = os.environ.get(
@@ -500,7 +504,12 @@ def route_one(board, a: Endpoint, b: Endpoint, xmin, ymin, xmax, ymax):
 
 
 def main():
-    app = wx.App(False)
+    # Headless Linux (AppImage) can LoadBoard without wx; macOS KiCad often wants it.
+    if wx is not None:
+        try:
+            wx.App(False)
+        except Exception:
+            pass
     log("loading", PCB)
     board = pcbnew.LoadBoard(PCB)
     pairs = parse_unconnected_from_drc(DRC_JSON)

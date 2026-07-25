@@ -27,11 +27,10 @@ import { spawn } from "node:child_process"
 import { access, mkdir, copyFile } from "node:fs/promises"
 import { existsSync } from "node:fs"
 import { resolve } from "node:path"
+import { requireKicadEnv } from "./kicad-env.mjs"
 
 const root = resolve(import.meta.dirname, "..")
-const kicadPython =
-  "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3"
-const kicadCli = "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli"
+const { python: kicadPython, cli: kicadCli, env: kicadEnv } = requireKicadEnv()
 const topolaSrc = resolve(root, "third_party/topola")
 const defaultTopola = resolve(topolaSrc, "target/release/topola")
 const topolaBin = process.env.TOPOLA_BIN || defaultTopola
@@ -78,8 +77,7 @@ await run(process.execPath, [
 ])
 
 const exportPy = `
-import os, pcbnew, wx
-app = wx.App(False)
+import os, pcbnew
 src = ${JSON.stringify(srcPcb)}
 dst = ${JSON.stringify(routePcb)}
 dsn = ${JSON.stringify(dsn)}
@@ -96,15 +94,7 @@ print("renamed_empty_refs", n, "dsn_ok", ok, "size", os.path.getsize(dsn) if ok 
 raise SystemExit(0 if ok else 1)
 `
 
-await run(kicadPython, ["-c", exportPy], {
-  env: {
-    ...process.env,
-    PYTHONHOME:
-      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9",
-    DYLD_FALLBACK_LIBRARY_PATH:
-      "/Applications/KiCad/KiCad.app/Contents/Frameworks",
-  },
-})
+await run(kicadPython, ["-c", exportPy], { env: kicadEnv })
 
 await run(
   "timeout",
@@ -112,8 +102,7 @@ await run(
 )
 
 const importPy = `
-import os, pcbnew, wx
-app = wx.App(False)
+import os, pcbnew
 board = pcbnew.LoadBoard(${JSON.stringify(routePcb)})
 ok = pcbnew.ImportSpecctraSES(board, ${JSON.stringify(ses)})
 
@@ -146,15 +135,7 @@ print("import_ok", ok, "segments", segs, "vias", vias)
 raise SystemExit(0 if ok else 1)
 `
 
-await run(kicadPython, ["-c", importPy], {
-  env: {
-    ...process.env,
-    PYTHONHOME:
-      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9",
-    DYLD_FALLBACK_LIBRARY_PATH:
-      "/Applications/KiCad/KiCad.app/Contents/Frameworks",
-  },
-})
+await run(kicadPython, ["-c", importPy], { env: kicadEnv })
 
 await run(process.execPath, [
   resolve(root, "scripts/fix-tscircuit-fp-lib.mjs"),

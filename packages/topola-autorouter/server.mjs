@@ -30,6 +30,12 @@ const topolaBin =
   process.env.TOPOLA_BIN ||
   resolve(root, "third_party/topola/target/release/topola")
 const timeoutSec = Number(process.env.TOPOLA_TIMEOUT || "120")
+const defaultArgs = (
+  process.env.TOPOLA_ARGS ||
+  "--multilayer --timeout-progress-bonus 0 --wall-timeout 90"
+)
+  .split(/\s+/)
+  .filter(Boolean)
 
 function run(cmd, args, opts = {}) {
   return new Promise((resolvePromise, reject) => {
@@ -56,18 +62,47 @@ async function ensureTopola() {
   })
 }
 
-async function solveSimple(srj) {
+/** Merge request options with env defaults; keep CLI flags extensible. */
+function buildTopolaArgs(srj, options = {}) {
+  const args = [...defaultArgs]
+  const planar = options.planar ?? srj.planar
+  if (planar && !args.includes("--planar")) {
+    const i = args.indexOf("--multilayer")
+    if (i >= 0) args.splice(i, 1)
+    args.push("--planar")
+  }
+  if (options.permutate || srj.permutate) args.push("--permutate")
+  const skip = options.skipNets ?? srj.skipNets
+  if (skip != null) {
+    args.push("--skip-nets", Array.isArray(skip) ? skip.join(",") : String(skip))
+  }
+  const nets = options.nets ?? srj.nets
+  if (nets) {
+    args.push("--nets", Array.isArray(nets) ? nets.join(",") : String(nets))
+  }
+  if (options.remaining || srj.remaining) args.push("--remaining")
+  const wall = options.wallTimeout ?? srj.wallTimeout
+  if (wall != null) {
+    const i = args.findIndex((a) => a === "--wall-timeout")
+    if (i >= 0) args.splice(i, 2)
+    args.push("--wall-timeout", String(wall))
+  }
+  return args
+}
+
+async function solveSimple(srj, options = {}) {
   await ensureTopola()
   const dir = await mkdtemp(join(tmpdir(), "topola-srj-"))
   const dsnPath = join(dir, "board.dsn")
   const sesPath = join(dir, "board.ses")
   try {
     await writeFile(dsnPath, dsnFromSimpleRouteJson(srj))
+    const cliArgs = buildTopolaArgs(srj, options)
     await run("timeout", [
-      String(timeoutSec),
+      String(options.timeoutSec ?? timeoutSec),
       topolaBin,
       dsnPath,
-      "--multilayer",
+      ...cliArgs,
       "-o",
       sesPath,
     ])
@@ -100,7 +135,14 @@ const server = createServer(async (req, res) => {
 
   if (req.method === "GET" && url.pathname === "/health") {
     res.writeHead(200, { "Content-Type": "application/json" })
-    res.end(JSON.stringify({ ok: true, topola: existsSync(topolaBin) }))
+    res.end(
+      JSON.stringify({
+        ok: true,
+        topola: existsSync(topolaBin),
+        binary: topolaBin,
+        defaultArgs,
+      }),
+    )
     return
   }
 
@@ -108,7 +150,10 @@ const server = createServer(async (req, res) => {
     try {
       const body = await readJson(req)
       if (body.input_simple_route_json) {
-        const out = await solveSimple(body.input_simple_route_json)
+        const out = await solveSimple(
+          body.input_simple_route_json,
+          body.options || {},
+        )
         res.writeHead(200, { "Content-Type": "application/json" })
         res.end(JSON.stringify({ output_simple_route_json: out }))
         return

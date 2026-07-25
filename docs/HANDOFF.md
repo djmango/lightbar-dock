@@ -76,26 +76,31 @@ Optional HTTP adapter: `packages/topola-autorouter/` → `npm run autoroute:serv
 ## How to reproduce / continue locally
 
 ```sh
-npm ci
-git submodule update --init --recursive
-cargo build --release -p topola-cli --manifest-path third_party/topola/Cargo.toml
+npm run setup:toolchain   # or: npm ci + submodule + cargo build Topola
+# Bun is required on PATH for `tsci` (https://bun.sh)
 
-# Circuit checks
+# Circuit checks (build:circuit uses bun + RootCircuit.render — see note below)
 npm run verify
+npm run smoke:autoroute   # Topola HTTP adapter, no KiCad
 
 # Full Topola route from unrouted export (slow / may wall-timeout on dense board)
 npm run route:circuit
 
 # Finish leftovers on an already-routed board (preferred)
-# Requires KiCad.app Python + kicad-cli paths in the scripts
+# Scripts resolve KiCad via scripts/kicad-env.mjs (macOS app or Linux AppImage).
 npm run route:finish
 
-# DRC
-/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb drc \
+# DRC (macOS example; on Linux use kicad-cli from the AppImage / PATH)
+kicad-cli pcb drc \
   --format json --severity-all --units mm --refill-zones \
   -o generated/reports/v3-drc.json \
   generated/kicad/v3-routed.kicad_pcb
 ```
+
+**KiCad on Linux:** extract the official `kicad-*-x86_64.AppImage` with
+`--appimage-extract` into `~/tools/kicad/squashfs-root` (or set
+`KICAD_APPIMAGE_ROOT` / `KICAD_CLI` / `KICAD_PYTHON`). Specctra export/import
+and DRC run headless without a display.
 
 Freerouting JARs are **not** in git (~118 MB). Place `freerouting-2.2.4.jar` under `third_party/freerouting/` if you need `npm run route:freerouting`.
 
@@ -138,6 +143,8 @@ Freerouting JARs are **not** in git (~118 MB). Place `freerouting-2.2.4.jar` u
 | Grid “no path” on U7 pads | Fine pitch + keepout too fat | Thin width 0.15, lower keepout, multilayer |
 | Grid shorts after validate=0 | Keepout weaker than DRC | Re-run with higher `FINISH_CLEAR_MM` / validate |
 | `GetTracks()` SWIG blowup after `Remove` | KiCad 10 quirk | Snapshot track list before mutating |
+| `tsci export` / `renderUntilSettled` hangs | Never settles on this board | `npm run build:circuit` → `scripts/build-circuit.mjs` (`render()` only) |
+| Route scripts fail on Linux | Hardcoded macOS KiCad.app paths | `scripts/kicad-env.mjs` + AppImage extract to `~/tools/kicad/squashfs-root` |
 
 ## Suggested next PR / work chunks
 

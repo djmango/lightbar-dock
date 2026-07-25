@@ -29,9 +29,21 @@ npm run autoroute:server
 ## API
 
 - `POST /autorouting/solve` with `{ input_simple_route_json }` → `{ output_simple_route_json }` (adds `traces`)
-- `GET /health`
+- Optional body `options`: `{ planar, permutate, skipNets, nets, remaining, wallTimeout, timeoutSec }`
+- `GET /health` → `{ ok, topola, binary, defaultArgs }`
+
+Smoke test (no KiCad): `npm run smoke:autoroute`.
 
 See [tscircuit autorouting API](https://docs.tscircuit.com/web-apis/autorouting-api) and [custom autorouters](https://docs.tscircuit.com/advanced/create-or-use-custom-autorouter).
+
+## Env
+
+| Variable | Default | Meaning |
+| --- | --- | --- |
+| `TOPOLA_BIN` | `third_party/topola/target/release/topola` | Path to Topola CLI |
+| `TOPOLA_AUTOROUTER_PORT` | `3099` | Listen port |
+| `TOPOLA_TIMEOUT` | `120` | Outer `timeout(1)` seconds per solve |
+| `TOPOLA_ARGS` | `--multilayer --timeout-progress-bonus 0 --wall-timeout 90` | Extra CLI flags |
 
 ## Upstream
 

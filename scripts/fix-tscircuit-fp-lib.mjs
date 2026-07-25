@@ -16,10 +16,10 @@
 import { spawn } from "node:child_process"
 import { existsSync, mkdirSync, writeFileSync } from "node:fs"
 import { dirname, resolve } from "node:path"
+import { requireKicadEnv } from "./kicad-env.mjs"
 
 const root = resolve(import.meta.dirname, "..")
-const kicadPython =
-  "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3"
+const { python: kicadPython, env: kicadEnv } = requireKicadEnv()
 const prettyDir = resolve(root, "circuit/kicad/tscircuit.pretty")
 const kicadDir = resolve(root, "generated/kicad")
 const defaultPcbs = [
@@ -34,10 +34,6 @@ const pcbs = (process.argv.slice(2).length
   : defaultPcbs
 ).filter((p) => existsSync(p))
 
-if (!existsSync(kicadPython)) {
-  console.error("KiCad Python not found:", kicadPython)
-  process.exit(1)
-}
 if (pcbs.length === 0) {
   console.error("No PCB files found under generated/kicad/")
   process.exit(1)
@@ -60,8 +56,7 @@ const fpLibTable = `(fp_lib_table
 writeFileSync(resolve(kicadDir, "fp-lib-table"), fpLibTable)
 
 const py = `
-import os, shutil, pcbnew, wx
-app = wx.App(False)
+import os, shutil, pcbnew
 
 pretty = ${JSON.stringify(prettyDir)}
 pcbs = ${JSON.stringify(pcbs)}
@@ -128,13 +123,7 @@ function runPython(code) {
     const child = spawn(kicadPython, ["-c", code], {
       cwd: root,
       stdio: "inherit",
-      env: {
-        ...process.env,
-        PYTHONHOME:
-          "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9",
-        DYLD_FALLBACK_LIBRARY_PATH:
-          "/Applications/KiCad/KiCad.app/Contents/Frameworks",
-      },
+      env: kicadEnv,
     })
     child.on("exit", (code) =>
       code === 0 ? resolvePromise() : reject(new Error(`python exit ${code}`)),

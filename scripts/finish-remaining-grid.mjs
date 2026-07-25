@@ -10,21 +10,12 @@
  */
 import { spawn } from "node:child_process"
 import { resolve } from "node:path"
+import { requireKicadEnv } from "./kicad-env.mjs"
 
 const root = resolve(import.meta.dirname, "..")
-const kicadPython =
-  "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3"
-const kicadCli = "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli"
+const { python: kicadPython, cli: kicadCli, env } = requireKicadEnv()
 const pcb = resolve(root, process.env.FINISH_PCB || "generated/kicad/v3-routed.kicad_pcb")
 const drc = resolve(root, "generated/reports/v3-drc.json")
-
-const env = {
-  ...process.env,
-  PYTHONHOME:
-    "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9",
-  DYLD_FALLBACK_LIBRARY_PATH:
-    "/Applications/KiCad/KiCad.app/Contents/Frameworks",
-}
 
 function run(cmd, args, opts = {}) {
   console.log("+", cmd, args.join(" "))

@@ -18,11 +18,10 @@ import { spawn } from "node:child_process"
 import { access, mkdir, writeFile, readFile } from "node:fs/promises"
 import { existsSync } from "node:fs"
 import { resolve } from "node:path"
+import { requireKicadEnv } from "./kicad-env.mjs"
 
 const root = resolve(import.meta.dirname, "..")
-const kicadPython =
-  "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3"
-const kicadCli = "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli"
+const { python: kicadPython, cli: kicadCli, env } = requireKicadEnv()
 const topolaSrc = resolve(root, "third_party/topola")
 const topolaBin =
   process.env.TOPOLA_BIN || resolve(topolaSrc, "target/release/topola")
@@ -35,14 +34,6 @@ const defaultPcb = resolve(root, "generated/kicad/default.kicad_pcb")
 const workDir = resolve(root, "generated/kicad")
 const reportPath = resolve(root, "generated/reports/v3-finish-remaining.json")
 const drcPath = resolve(root, "generated/reports/v3-finish-drc.json")
-
-const env = {
-  ...process.env,
-  PYTHONHOME:
-    "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9",
-  DYLD_FALLBACK_LIBRARY_PATH:
-    "/Applications/KiCad/KiCad.app/Contents/Frameworks",
-}
 
 async function run(cmd, args, opts = {}) {
   console.log("+", cmd, args.join(" "))
@@ -107,8 +98,7 @@ async function listUnconnected() {
   // Also count via python for a single source of truth
   const countPath = resolve(workDir, "_unconn_count.json")
   await py(`
-import json, pcbnew, wx
-app = wx.App(False)
+import json, pcbnew
 board = pcbnew.LoadBoard(${JSON.stringify(pcb)})
 cd = board.GetConnectivity()
 cd.RecalculateRatsnest()
@@ -164,8 +154,7 @@ while (nets.length && stuck < 3) {
     console.log(`\n=== finish net: ${net} ===`)
     try {
       await py(`
-import pcbnew, wx, os
-app = wx.App(False)
+import pcbnew, os
 board = pcbnew.LoadBoard(${JSON.stringify(pcb)})
 ok = pcbnew.ExportSpecctraDSN(board, ${JSON.stringify(dsn)})
 print("dsn_ok", ok, "size", os.path.getsize(${JSON.stringify(dsn)}) if ok else 0)
@@ -189,8 +178,7 @@ raise SystemExit(0 if ok else 1)
       ])
 
       await py(`
-import pcbnew, wx
-app = wx.App(False)
+import pcbnew
 board = pcbnew.LoadBoard(${JSON.stringify(pcb)})
 ok = pcbnew.ImportSpecctraSES(board, ${JSON.stringify(ses)})
 for z in list(board.Zones()):
