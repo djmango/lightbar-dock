@@ -1,0 +1,41 @@
+# lightbar-dock routing profile — paths relative to repo root (cwd) or walked up from this file.
+# No environment variables.
+
+engine = "topola"
+topola_bin = "third_party/topola/target/release/topola"
+freerouting_jar = "third_party/freerouting/freerouting-2.2.4.jar"
+java_bin = "java"
+
+topola_args = [
+  "--multilayer",
+  "--timeout-progress-bonus", "0",
+  "--wall-timeout", "600",
+]
+
+freerouting_passes = 50
+
+trace_width_mm = 0.15
+via_diameter_mm = 0.6
+via_drill_mm = 0.3
+clearance_mm = 0.15
+
+skip_nets = ["GND", "gnd"]
+
+finish = true
+finish_grid_mm = 0.1
+
+[[repairs]]
+type = "usb_c_flip_pads"
+component = "USB1"
+net = "usb_dp"
+via_offset_mm = 2.0
+
+[[repairs]]
+type = "usb_c_flip_pads"
+component = "USB1"
+net = "usb_dm"
+via_offset_mm = 2.0
+
+[gate]
+unconnected = 0
+shorts = 0

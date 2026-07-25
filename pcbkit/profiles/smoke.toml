@@ -1,0 +1,21 @@
+# Short smoke profile — verifies DSN→Topola→SES→apply wiring.
+engine = "topola"
+topola_bin = "third_party/topola/target/release/topola"
+
+topola_args = [
+  "--multilayer",
+  "--timeout-progress-bonus", "0",
+  "--wall-timeout", "45",
+]
+
+trace_width_mm = 0.15
+via_diameter_mm = 0.6
+via_drill_mm = 0.3
+clearance_mm = 0.15
+skip_nets = ["GND", "gnd"]
+finish = false
+
+[gate]
+# Smoke only verifies the DSN→engine→SES→apply loop; routing quality is not gated.
+unconnected = 99999
+shorts = 99999

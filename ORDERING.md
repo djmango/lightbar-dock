@@ -1,67 +1,55 @@
 # Ordering checklist (JLCPCB PCBA)
 
-Lessons learned from the v1.0 order (July 2026). Run through this list top to bottom
-before uploading anything, and again right before paying.
+Specs: [`docs/SPECS.md`](docs/SPECS.md). Design gates:
+[`docs/DESIGN_ASSURANCE.md`](docs/DESIGN_ASSURANCE.md).
+
+Lessons from the v1.0 order (July 2026) are in [`docs/HISTORY.md`](docs/HISTORY.md).
+For **V3**, export manufacturing files from `bun run export:*` after verify.
 
 ## 1. Design freeze
 
-- [ ] `git status` is clean; the routed `layouts/default/default.kicad_pcb` is committed.
-- [ ] Do NOT run `ato build` after routing — it re-syncs placement and destroys the
-      routed layout. Generate fab outputs with `kicad-cli` directly (see README).
-- [ ] DRC in KiCad: 0 errors, or every remaining violation is understood and waivable
-      (write down why, e.g. padstack warnings on NPTH mounting holes).
-- [ ] All nets connected: 0 unconnected items in the ratsnest.
-- [ ] Visual check of the 3D render — connector orientation, silkscreen designators,
-      nothing floating outside the board outline.
+- [ ] Confirm revision: **V3** from tscircuit (not historical Rev 1.0 `fab/`).
+- [ ] `git status` is clean for the commit you will tag.
+- [ ] `bun install && bun run verify` green.
+- [ ] `bun run export:kicad` then KiCad CLI DRC: manufacturing categories
+      clean (USB footprint-internal waivers only). Vias ≥ 0.6 / 0.3 mm.
+- [ ] Manual rows in `docs/DESIGN_ASSURANCE.md` signed off (F6P6, INA, RGB).
+- [ ] Visual check of PCB SVG / 3D STEP — connectors, 240×47 mm outline,
+      status LEDs aligned with ports.
 
-## 2. Part availability (do this BEFORE finalizing the BOM)
+## 2. Part availability (BEFORE finalizing the BOM)
 
-This bit us: 4 of 32 line items showed 0 JLC stock only after upload.
-
-- [ ] For every LCSC part number in the BOM, check live stock on jlcpcb.com/parts
-      (the "JLCPCB" stock column, not "Other"). LCSC stock ≠ JLCPCB assembly stock.
-- [ ] Prefer **Basic** parts for passives — no extended-part setup fee, rarely out
-      of stock. For generic R/C, search by value + package (e.g. "10k 0402") and pick
-      a Basic part with tens of thousands in stock.
-- [ ] For Extended parts with no stock, options in order of preference:
-      1. Substitute an equivalent in-stock part (same value/package, equal-or-better
-         specs — check current rating, tolerance, Rds(on), etc.).
-      2. JLC "Pre-order" (formerly Global Sourcing) — adds ~1-2 weeks lead time.
-      3. Consigned inventory (ship parts to JLC yourself) — last resort.
-- [ ] Record every substitution in `fab/bom_jlcpcb.csv` and the README as-built table
-      immediately, so the repo matches what was actually manufactured.
+- [ ] Check **JLCPCB assembly** stock (not just LCSC) for every Extended part:
+      CH32V203F6P6 (`C3040880`), INA3221 (`C181255`), RGB LED (`C5119723`),
+      HT7533-1 (`C2686823`).
+- [ ] Prefer Basic passives. Record substitutions in the BOM immediately
+      (do not invent a second specs doc).
 
 ## 3. Upload and BOM matching
 
-- [ ] Upload `fab/lightbar-dock-gerbers.zip`, `fab/bom_jlcpcb.csv`, `fab/cpl_jlcpcb.csv`.
-- [ ] Board settings: 2 layers, 1.6 mm FR-4, HASL or ENIG, board size auto-detected
-      (should read 240 x 47 mm).
-- [ ] Assembly: **single-sided (top)** — all parts on F.Cu.
-- [ ] Every BOM line shows "confirmed" with the intended LCSC part. Watch for JLC
-      auto-matching a different part than the C-number you specified.
-- [ ] "Inventory shortage" flags: resolve via section 2. Parts in your cart do NOT
-      count toward assembly stock — pre-order/consign is a separate flow.
+- [ ] Upload V3 gerbers/BOM/CPL from `generated/` (or refreshed `fab/`).
+- [ ] Board: 2 layers, 1.6 mm FR-4, 240×47 mm, assembly **top**.
+- [ ] Every BOM line confirmed; resolve inventory shortages per section 2.
 
-## 4. Placement review (JLC's 3D viewer)
+## 4. Placement review (JLC 3D viewer)
 
-- [ ] Polarized parts (diodes, LEDs, electrolytics): cathode marks match the board.
-- [ ] ICs: pin-1 orientation correct (JLC sometimes rotates 90/180° from the CPL).
-- [ ] Connectors sit on their pads; vertical USB-C plugs centered on each port.
-- [ ] Nothing overlapping, nothing off-board.
+- [ ] Polarized parts and IC pin-1 correct.
+- [ ] Vertical USB-C plugs centered; MCU TSSOP-20 orientation correct.
+- [ ] **USB1 PD receptacle opening faces the left edge** (pads inboard),
+      same as barrel jack — not flipped inboard.
+- [ ] BOOT switch SW1 accessible; nothing off-board.
 
 ## 5. Before paying
 
-- [ ] Screenshot/save the final BOM match page (part numbers + prices).
-- [ ] Tag the exact commit that produced the uploaded files
-      (e.g. `git tag v1.0 && git push --tags`) and attach the fab zips to a GitHub
-      release so the order is reproducible.
-- [ ] Note the order number and date in the release notes.
+- [ ] Screenshot final BOM match page.
+- [ ] Tag the commit (`git tag v3.0 && git push --tags`) and attach fab zips
+      to a GitHub release.
 
-## 6. After ordering
+## 6. After ordering / bring-up
 
-- [ ] Update BOM/README with any last-minute substitutions made in the JLC UI.
-- [ ] Export `fab/lightbar-dock.step` for mechanical design if the board outline or
-      connector positions changed.
-- [ ] Plan bring-up: power via bench supply first with current limit (~100 mA), check
-      both 5 V rails unloaded, then plug in one light bar at a time and confirm each
-      status LED lights while charging.
+- [ ] Power via USB1 or limited bench supply; check `rail_3v3` and both 5 V rails.
+- [ ] Flash firmware over USB1 + BOOT0 with `wchisp` (barrel unplugged). See
+      `firmware/status-controller/README.md`.
+- [ ] Confirm OE keeps LEDs dark until firmware enables outputs; calibrate
+      thresholds in `status_config.h` against a real bar (meanings in
+      [`docs/SPECS.md`](docs/SPECS.md)).

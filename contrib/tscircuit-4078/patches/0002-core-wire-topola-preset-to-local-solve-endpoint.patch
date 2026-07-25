@@ -1,0 +1,60 @@
+diff --git a/lib/utils/autorouting/getPresetAutoroutingConfig.ts b/lib/utils/autorouting/getPresetAutoroutingConfig.ts
+index bedc574..9d53bad 100644
+--- a/lib/utils/autorouting/getPresetAutoroutingConfig.ts
++++ b/lib/utils/autorouting/getPresetAutoroutingConfig.ts
+@@ -116,6 +116,23 @@ export function getPresetAutoroutingConfig(
+         ...rest,
+       }
+     }
++    case "topola": {
++      const {
++        preset: _preset,
++        local: _local,
++        groupMode: _groupMode,
++        ...rest
++      } = providedConfig
++      return {
++        local: false,
++        groupMode: "subcircuit",
++        serverUrl: "http://127.0.0.1:3099",
++        serverMode: "solve-endpoint",
++        inputFormat: "simplified",
++        serverCacheEnabled: false,
++        ...rest,
++      }
++    }
+     default:
+       return {
+         local: true,
+diff --git a/tests/utils/autorouting/getPresetAutoroutingConfig.test.ts b/tests/utils/autorouting/getPresetAutoroutingConfig.test.ts
+index 90d1310..cf09e7c 100644
+--- a/tests/utils/autorouting/getPresetAutoroutingConfig.test.ts
++++ b/tests/utils/autorouting/getPresetAutoroutingConfig.test.ts
+@@ -27,4 +27,27 @@ describe("getPresetAutoroutingConfig", () => {
+ 
+     expect(alias).toEqual(expected)
+   })
++
++  test("topola preset points at local solve-endpoint", () => {
++    const config = getPresetAutoroutingConfig(
++      "topola" as unknown as AutorouterConfig,
++    )
++    expect(config).toMatchObject({
++      local: false,
++      groupMode: "subcircuit",
++      serverUrl: "http://127.0.0.1:3099",
++      serverMode: "solve-endpoint",
++      inputFormat: "simplified",
++      serverCacheEnabled: false,
++    })
++  })
++
++  test("topola preset allows overriding serverUrl", () => {
++    const config = getPresetAutoroutingConfig({
++      preset: "topola",
++      serverUrl: "http://127.0.0.1:4099",
++    } as AutorouterConfig)
++    expect(config.serverUrl).toBe("http://127.0.0.1:4099")
++    expect(config.serverMode).toBe("solve-endpoint")
++  })
+ })

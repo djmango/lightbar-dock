@@ -1,0 +1,8 @@
+{
+  "name": "@lightbar-dock/pcbkit-tscircuit",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Thin tscircuit solve-endpoint adapter that shells out to pcbkit (no env config)",
+  "main": "server.mjs"
+}

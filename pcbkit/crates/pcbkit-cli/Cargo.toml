@@ -1,0 +1,18 @@
+[package]
+name = "pcbkit-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "pcbkit command-line interface"
+
+[[bin]]
+name = "pcbkit"
+path = "src/main.rs"
+
+[dependencies]
+pcbkit-core = { workspace = true }
+pcbkit-route = { workspace = true }
+pcbkit-assurance = { workspace = true }
+clap = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }

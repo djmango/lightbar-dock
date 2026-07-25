@@ -197,5 +197,21 @@ dmypy.json
 # pytype static type analyzer
 .pytype/
 
+# Node/tscircuit local outputs
+node_modules/
+.tscircuit/
+third_party/ch32fun/
+third_party/topola/target/
+# Freerouting JARs are large; download locally for route:freerouting
+third_party/freerouting/*.jar
+circuit/*.circuit.json
+build/lightbar-dock.circuit.json
+generated/
+
 # Cython debug symbols
 cython_debug/
+
+# Pinned manufacturing artifacts for CI DRC (tracked)
+!ci/
+!ci/artifacts/
+!ci/artifacts/**
