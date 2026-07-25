@@ -8,7 +8,7 @@ import { resolve } from "node:path"
 
 const root = resolve(import.meta.dirname, "..")
 const pcbkit = resolve(root, "pcbkit/target/release/pcbkit")
-const profile = resolve(root, "pcbkit/profiles/lightbar-dock.toml")
+const profile = resolve(root, "pcbkit/profiles/lightbar-dock-circuit.toml")
 const input = resolve(root, "build/lightbar-dock.circuit.json")
 const out = resolve(root, "build/lightbar-dock.routed.circuit.json")
 

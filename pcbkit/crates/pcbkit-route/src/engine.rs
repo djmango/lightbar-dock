@@ -9,8 +9,7 @@ pub struct EngineResult {
     pub work_dir: PathBuf,
 }
 
-/// Run the configured autorouter engine; return routes in board coordinates (mm).
-pub fn run_engine(board: &Board, profile: &Profile) -> Result<EngineResult> {
+fn new_work_dir() -> Result<PathBuf> {
     let persist = PathBuf::from("target/pcbkit-work");
     std::fs::create_dir_all(&persist)?;
     let stamp = std::time::SystemTime::now()
@@ -19,16 +18,59 @@ pub fn run_engine(board: &Board, profile: &Profile) -> Result<EngineResult> {
         .as_millis();
     let work_dir = persist.join(format!("run-{stamp}"));
     std::fs::create_dir_all(&work_dir)?;
+    Ok(work_dir)
+}
 
+fn run_engine_paths(profile: &Profile, dsn_path: &Path, ses_path: &Path) -> Result<()> {
+    match profile.engine {
+        EngineKind::Topola => run_topola(profile, dsn_path, ses_path),
+        EngineKind::Freerouting => run_freerouting(profile, dsn_path, ses_path),
+    }
+}
+
+/// Run the configured autorouter engine; return routes in board coordinates (mm).
+pub fn run_engine(board: &Board, profile: &Profile) -> Result<EngineResult> {
+    let work_dir = new_work_dir()?;
     let dsn = board_to_dsn(board, profile);
     let dsn_path = work_dir.join("board.dsn");
     let ses_path = work_dir.join("board.ses");
     std::fs::write(&dsn_path, &dsn)?;
 
-    match profile.engine {
-        EngineKind::Topola => run_topola(profile, &dsn_path, &ses_path)?,
-        EngineKind::Freerouting => run_freerouting(profile, &dsn_path, &ses_path)?,
+    run_engine_paths(profile, &dsn_path, &ses_path)?;
+
+    if !ses_path.exists() {
+        return Err(Error::Msg(format!(
+            "engine produced no SES at {}",
+            ses_path.display()
+        )));
     }
+    let ses_text = std::fs::read_to_string(&ses_path)?;
+    let paths = ses_to_paths(&ses_text, profile.trace_width_mm);
+    Ok(EngineResult { paths, work_dir })
+}
+
+/// Run the engine on an existing Specctra DSN (typically KiCad-exported).
+/// Returns the work directory containing `board.dsn` (copy) and `board.ses`.
+pub fn run_engine_on_dsn(dsn_in: &Path, profile: &Profile) -> Result<EngineResult> {
+    if !dsn_in.exists() {
+        return Err(Error::Msg(format!(
+            "DSN not found at {}",
+            dsn_in.display()
+        )));
+    }
+    let dsn_text = std::fs::read_to_string(dsn_in)?;
+    run_engine_on_dsn_text(&dsn_text, profile)
+}
+
+/// Like [`run_engine_on_dsn`], but takes already-prepared DSN text (e.g. with
+/// USB-C flip bridges injected into `wiring`).
+pub fn run_engine_on_dsn_text(dsn_text: &str, profile: &Profile) -> Result<EngineResult> {
+    let work_dir = new_work_dir()?;
+    let dsn_path = work_dir.join("board.dsn");
+    let ses_path = work_dir.join("board.ses");
+    std::fs::write(&dsn_path, dsn_text)?;
+
+    run_engine_paths(profile, &dsn_path, &ses_path)?;
 
     if !ses_path.exists() {
         return Err(Error::Msg(format!(
@@ -78,7 +120,13 @@ fn run_freerouting(profile: &Profile, dsn: &Path, ses: &Path) -> Result<()> {
             jar.display()
         )));
     }
-    let status = Command::new(&profile.java_bin)
+    let java = if profile.java_bin.exists() {
+        profile.java_bin.clone()
+    } else {
+        // Fall back to PATH `java` when the profile symlink is missing.
+        PathBuf::from("java")
+    };
+    let status = Command::new(&java)
         .arg("-jar")
         .arg(jar)
         .arg("-de")
@@ -90,7 +138,12 @@ fn run_freerouting(profile: &Profile, dsn: &Path, ses: &Path) -> Result<()> {
         .arg("-dct")
         .arg("0")
         .status()
-        .map_err(|e| Error::Msg(format!("failed to spawn java/freerouting: {e}")))?;
+        .map_err(|e| {
+            Error::Msg(format!(
+                "failed to spawn java/freerouting ({}): {e}",
+                java.display()
+            ))
+        })?;
     if !status.success() && !ses.exists() {
         return Err(Error::Msg(format!(
             "freerouting exited with status {status} and produced no SES"

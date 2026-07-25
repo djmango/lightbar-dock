@@ -3,7 +3,7 @@ use pcbkit_assurance::{
     evaluate_drc_json, run_assurance, verify_manifest, DrcGateSpec, FabRules,
 };
 use pcbkit_core::{load_circuit, save_circuit, Profile};
-use pcbkit_route::{check_document, route_document};
+use pcbkit_route::{apply_ses_board, check_document, route_document, route_kicad_board};
 use std::path::PathBuf;
 use std::process::ExitCode;
 
@@ -30,6 +30,28 @@ enum Cmd {
         out: Option<PathBuf>,
         #[arg(long)]
         allow_fail: bool,
+    },
+    /// Full Specctra stack on a KiCad board: DSN → engine → SES → PCB (no Python).
+    RouteBoard {
+        /// Unrouted (or to-be-stripped) `.kicad_pcb`
+        #[arg(long)]
+        pcb: PathBuf,
+        /// KiCad-exported Specctra DSN matching the PCB
+        #[arg(long)]
+        dsn: PathBuf,
+        #[arg(long, short = 'p')]
+        profile: PathBuf,
+        #[arg(long, short = 'o')]
+        out: PathBuf,
+        /// Inject empty GND zone outlines when no `--zones-from` is given
+        #[arg(long, default_value_t = true)]
+        gnd_zones: bool,
+        /// Copy filled `(zone …)` sexps from this KiCad PCB (e.g. prior green board)
+        #[arg(long)]
+        zones_from: Option<PathBuf>,
+        /// Skip the engine and apply an existing SES instead
+        #[arg(long)]
+        ses: Option<PathBuf>,
     },
     /// Connectivity check only
     Check {
@@ -120,6 +142,32 @@ fn run() -> Result<ExitCode, Box<dyn std::error::Error>> {
                     }
                 }
             }
+        }
+        Cmd::RouteBoard {
+            pcb,
+            dsn,
+            profile,
+            out,
+            gnd_zones,
+            zones_from,
+            ses,
+        } => {
+            let profile = Profile::load(&profile)?;
+            let zones = zones_from.as_deref();
+            let outcome = if let Some(ses) = ses {
+                apply_ses_board(&pcb, &ses, &out, &profile, gnd_zones, zones)?
+            } else {
+                route_kicad_board(&pcb, &dsn, &out, &profile, gnd_zones, zones)?
+            };
+            println!(
+                "pcbkit route-board OK: {} segments, {} vias → {}",
+                outcome.segments,
+                outcome.vias,
+                outcome.out_pcb.display()
+            );
+            println!("ses: {}", outcome.ses_path.display());
+            println!("work: {}", outcome.work_dir.display());
+            Ok(ExitCode::SUCCESS)
         }
         Cmd::Check {
             input,

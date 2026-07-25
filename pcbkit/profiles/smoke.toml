@@ -1,4 +1,5 @@
 # Short smoke profile — verifies DSN→Topola→SES→apply wiring.
+# Circuit-json IR smoke (not the KiCad Specctra stack — use lightbar-dock.toml + route-board for that).
 engine = "topola"
 topola_bin = "third_party/topola/target/release/topola"
 

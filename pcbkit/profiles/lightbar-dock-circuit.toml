@@ -1,14 +1,9 @@
-# lightbar-dock routing profile — paths relative to repo root (cwd) or walked up from this file.
-# No environment variables.
-#
-# Full manufacturing stack uses Freerouting on a KiCad Specctra DSN:
-#   pcbkit route-board --pcb … --dsn … -p pcbkit/profiles/lightbar-dock.toml -o …
-# Circuit-json IR path can still use Topola via engine = "topola".
+# Circuit-json IR routing (pcbkit route / autoroute:pcbkit).
+# For the full KiCad Specctra stack use lightbar-dock.toml + `pcbkit route-board`.
 
-engine = "freerouting"
+engine = "topola"
 topola_bin = "third_party/topola/target/release/topola"
 freerouting_jar = "third_party/freerouting/freerouting-2.2.4.jar"
-# Prefer repo-local JDK symlink (see scripts/ensure-java.mjs); falls back to PATH `java`.
 java_bin = "third_party/java/bin/java"
 
 topola_args = [

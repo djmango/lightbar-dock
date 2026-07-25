@@ -204,6 +204,8 @@ third_party/ch32fun/
 third_party/topola/target/
 # Freerouting JARs are large; download locally for route:freerouting
 third_party/freerouting/*.jar
+# Local JDK symlink created by scripts/ensure-java.mjs
+third_party/java/
 circuit/*.circuit.json
 build/lightbar-dock.circuit.json
 generated/
