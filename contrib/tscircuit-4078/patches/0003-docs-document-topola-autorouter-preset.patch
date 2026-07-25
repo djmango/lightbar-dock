@@ -1,0 +1,77 @@
+diff --git a/docs/elements/board.mdx b/docs/elements/board.mdx
+index dead8f9..35f1b11 100644
+--- a/docs/elements/board.mdx
++++ b/docs/elements/board.mdx
+@@ -272,10 +272,13 @@ Usually you'll want to use an autorouter preset:
+ - `autorouter="auto-cloud"` - Use the platform configuration for
+ - `autorouter="laser_prefab"` - Reserve prefabricated vias that can be reassigned during routing. Ideal for rapid-turn PCBs produced with laser ablation and mechanical drilling templates. See the [ViaGrid / Prefabricated Vias guide](../guides/tscircuit-essentials/using-viagrid-prefabricated-vias-with-autorouter.mdx) for a complete walkthrough.
+ - `autorouter="auto_jumper"` - Route single-layer boards by inserting jumper wires when traces would otherwise cross. See the [Single Layer Jumper Autorouting guide](../guides/tscircuit-essentials/single-layer-jumper-autorouting.mdx) for a complete walkthrough.
++- `autorouter="topola"` - Use a local [Topola](https://topola.dev/) Specctra autorouter over the HTTP `solve-endpoint` API (default `http://127.0.0.1:3099`). See the [Autorouting API](../web-apis/autorouting-api.mdx#example-topola-local-specctra-autorouter).
+ 
+ For complex boards with over 50 traces, you should use `autorouter="auto-cloud"`
+ to take advantage of tscircuit's cloud autorouters, which internally use the popular
+-[freerouting](https://github.com/freerouting/freerouting) library.
++[freerouting](https://github.com/freerouting/freerouting) library. For an
++open-source local Specctra alternative, use `autorouter="topola"` with a local
++Topola adapter.
+ 
+ ### Tuning Router Work with `autorouterEffortLevel`
+ 
+diff --git a/docs/guides/running-tscircuit/platform-configuration.md b/docs/guides/running-tscircuit/platform-configuration.md
+index f6393a5..b73de8d 100644
+--- a/docs/guides/running-tscircuit/platform-configuration.md
++++ b/docs/guides/running-tscircuit/platform-configuration.md
+@@ -27,6 +27,7 @@ All of the following features of the platform can be configured:
+ - **partsEngine** - The engine used to automatically find parts matching component specifications
+ - **registryApiUrl** - The registry to use, defaults to `https://api.tscircuit.com`. See [Registry API](../../web-apis/the-registry-api.md) for more details
+ - **cloudAutorouterUrl** - The cloud autorouter to use, defaults to a tscircuit cloud service that uses freerouting
++- **autorouterMap** - Named local autorouter factories (for example `krt`). Board code can select them with `autorouter="krt"`. For Topola, prefer the built-in `autorouter="topola"` HTTP preset, or register your own adapter here.
+ - Disable specific circuit outputs to optimize build times, such as disabling autorouting
+ - **footprintLibraryMap** - Configure custom prefixes for loading footprint strings from a server. This is how built-in strings like `kicad:*` and `jlcpcb:*` are loaded.
+ - **printBoardInformationToSilkscreen** - Print the board information to the silkscreen. This includes standard board and platform information like the board name, version etc.
+diff --git a/docs/web-apis/autorouting-api.mdx b/docs/web-apis/autorouting-api.mdx
+index 19b8803..19cf58c 100644
+--- a/docs/web-apis/autorouting-api.mdx
++++ b/docs/web-apis/autorouting-api.mdx
+@@ -345,5 +345,40 @@ endpoint or the `/autorouting/solve` endpoint to configure the autorouter.
+ | Parameter | Example Value | Description |
+ | --------- | ------------- | ----------- |
+ | `display_name` | `"Nine-key Macropad"` | A display name for the autorouting job. Useful for debugging! |
+-| `provider` | `"freerouting"` | The autorouting algorithm to use |
++| `provider` | `"freerouting"` / `"topola"` | The autorouting algorithm to use (cloud jobs typically use freerouting; local Topola uses the `topola` preset / solve-endpoint adapter) |
+ | `subcircuit_id` | `"subcircuit_source_group_1"` | To support subcircuit autorouting, you must accept this parameter and only solve for the subset of routes within the subcircuit. |
++
++## Example: Topola (local Specctra autorouter)
++
++[Topola](https://topola.dev/) is an MIT-licensed Rust topological Specctra
++(DSN→SES) autorouter. You can run it behind tscircuit's `solve-endpoint` API
++and select it with the `topola` autorouter preset:
++
++```tsx
++<board autorouter="topola">
++  {/* ... */}
++</board>
++```
++
++That preset is equivalent to:
++
++```tsx
++<board
++  autorouter={{
++    serverUrl: "http://127.0.0.1:3099",
++    serverMode: "solve-endpoint",
++    inputFormat: "simplified",
++  }}
++>
++  {/* ... */}
++</board>
++```
++
++Run a local adapter that shells the Topola CLI (see
++[`djmango/lightbar-dock` `packages/topola-autorouter`](https://github.com/djmango/lightbar-dock/tree/master/packages/topola-autorouter)
++or the example package once published), then start your board with
++`autorouter="topola"`.
++
++You can also register Topola through `platform.autorouterMap` if you prefer a
++custom `createAutorouter` wrapper instead of the HTTP preset.
++

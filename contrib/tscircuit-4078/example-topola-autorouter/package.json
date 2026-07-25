@@ -1,0 +1,22 @@
+{
+  "name": "@tsci/example-topola-autorouter",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "tscircuit example: Topola Specctra autorouter via solve-endpoint",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsci dev",
+    "build": "tsci build",
+    "typecheck": "tsc --noEmit",
+    "autoroute:server": "node src/server.mjs",
+    "start": "tsci dev"
+  },
+  "devDependencies": {
+    "tscircuit": "latest",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
