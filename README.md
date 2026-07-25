@@ -1,194 +1,115 @@
 # lightbar-dock
 
-A 1x8 USB-C charging dock for stick-anywhere rechargeable light bars. Bars
-plug vertically onto upward-facing USB-C plugs; a green LED per port shows
-live charging status (actual current flow, not just power present).
+A 1×8 USB-C charging dock for stick-anywhere rechargeable light bars. Bars
+plug vertically onto upward-facing USB-C plugs; each port has a red/green
+status LED driven from measured charge current and CC attach.
 
 ![Assembled board render](docs/images/render-hero.png)
 
-Designed in [atopile](https://atopile.io), the whole board is code in
-`main.ato`.
+## Specs (single source of truth)
 
-## Architecture
+**[`docs/SPECS.md`](docs/SPECS.md)** — product, power budget, per-port channel,
+indicators, and mechanical notes.
+
+Do not copy those numbers into other markdown files; link to SPECS instead.
+
+| Concern | Where |
+| --- | --- |
+| Schematic / PCB | `circuit/` (`circuit/index.circuit.tsx`) |
+| Thresholds / timing | `firmware/status-controller/include/status_config.h` |
+| MCU pin map / flash | `firmware/status-controller/README.md` |
+| Fab gates / IC sign-off | `docs/DESIGN_ASSURANCE.md` |
+| Order checklist | `ORDERING.md` |
+| Rev‑1 history | `docs/HISTORY.md` |
+
+## Architecture (overview)
 
 ![Power architecture](docs/images/diagram-power.svg)
 
-Each of the 8 port channels:
-
 ![Port channel](docs/images/diagram-port.svg)
 
-(Diagram sources are in `docs/*.mmd`; regenerate with
+(Diagram sources: `docs/*.mmd`. Regenerate with
 `npx @mermaid-js/mermaid-cli -i docs/diagram-power.mmd -o docs/images/diagram-power.svg -t neutral -b white`.)
 
-Each port: 1.5A-hold polyfuse → 100mΩ current-sense resistor → vertical
-USB-C plug (Jing Extension 918-118A2021Y40006, C399938), with 22k CC
-pull-ups (both orientations) advertising a 1.5A 5V source and D+/D-
-shorted as a BC1.2 dedicated-charger signature. Two LM339 quad comparators watch the sense resistors against a
-shared "rail minus 21mV" reference; while a bar draws more than roughly
-150-200mA its green LED is lit. LED off = done (or empty slot).
-
-Indicators: red = 12V power present, blue = PD negotiation succeeded
-(CH224K PG), 8x green = port charging.
+V3 keeps the dual-buck power path and vertical charge plugs; status is
+**CH32V203F6P6** + INA3221 + CC muxes + common-anode RGB LEDs (not LM339).
+Details: [`docs/SPECS.md`](docs/SPECS.md).
 
 ## Board
 
-Top-down view, power input and bucks on the left, 8 port channels on a
-22.5 mm pitch, status LEDs along the front edge:
+Top-down: power input and bucks on the left, eight ports on 22.5 mm pitch,
+status LEDs on the front edge aligned with each receptacle:
 
 ![Top-down board render](docs/images/render-top.png)
 
-The back silkscreen carries the complete electrical legend and SKG revision
-mark so the ratings remain readable while light bars are docked:
-
 ![Back silkscreen legend](docs/images/render-back.png)
-
-Power input end: barrel jack, USB-C PD receptacle, CH224K, both TPS54560
-bucks with their 8x8 mm inductors:
 
 ![Power input end](docs/images/render-power-end.png)
 
-Port channels: vertical USB-C plug, polyfuse, sense resistor, and the
-LM339 comparator that drives the per-port charging LED:
-
 ![Port channels](docs/images/render-ports.png)
 
-## Power budget
-
-- Per port: 5V up to ~1A continuous (polyfuse 1.5A hold / 3A trip)
-- Barrel jack input: use a 12V / 5A brick for the full 8 x 1A load
-- USB-C PD input: a 12V-capable PD brick tops out at 3A (36W), so all-8
-  simultaneous charging derates to ~0.75A per port, fine in practice
-  since charge current tapers
-- **PD brick must support 12V.** CH224K is configured (24k on CFG1) to
-  request 12V; if the brick doesn't offer it, VBUS stays at 5V and the
-  bucks stay off (UVLO turn-on is ~6.2V), nothing charges, nothing breaks.
+Routed V3 copper / 3D exports (when regenerated): `docs/images/v3-routed-*`,
+`generated/renders/`, `generated/kicad/v3-routed.kicad_pcb`.
 
 ## Toolchain
 
-- `uv tool install atopile` (v0.15+)
-- KiCad **9** for layout (the generated `.kicad_pcb` uses the KiCad 9
-  format; KiCad 8 will refuse to open it)
-- atopile VS Code / Cursor extension for the sidebar UI, build button and
-  manufacturing export wizard
+- Node.js 24+, npm, packages from `package-lock.json`
+- tscircuit `0.0.2096` (pinned)
+- KiCad 10 CLI for DRC / SVG / STEP / gerbers
+- RISC-V GCC + pinned ch32fun for MCU firmware
+- **Topola** (Rust Specctra autorouter) via git submodule `third_party/topola`
+- Java 25+ + `third_party/freerouting/` as emergency fallback only
 
 ## Workflow
 
 ```sh
-ato build                 # compile, pick parts, refresh layouts/default/default.kicad_pcb
+npm ci
+git submodule update --init --recursive
+npm run verify          # test + tsci check + build + electrical + vias
+npm run route:circuit   # Topola multilayer Specctra route → generated/kicad/
+npm run route:finish    # grid A* for leftover ratsnest (safe on pre-routed boards)
+# npm run route:freerouting   # fallback
+npm run autoroute:server      # optional: tscircuit HTTP adapter on :3099
+npm run export:kicad
+/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb drc \
+  --exit-code-violations \
+  -o generated/reports/tscircuit-kicad-drc.rpt \
+  generated/kicad/default.kicad_pcb
 ```
 
-Then open `layouts/default/default.kicad_pcb` in KiCad and place/route.
-Re-running `ato build` preserves your layout and only syncs
-added/removed/changed components.
+tscircuit editor autorouting: see [`packages/topola-autorouter/README.md`](packages/topola-autorouter/README.md).
+Manufacturing boards still go through KiCad Specctra (`route:circuit`).
 
-Build artifacts land in `build/builds/default/` (BOM csv/json, power tree,
-pinout report, variable report).
+Circuit JSON → `build/`. Manufacturing exports → `generated/`. Refresh `fab/`
+from those exports only after DRC is manufacturing-clean. See
+[`docs/DESIGN_ASSURANCE.md`](docs/DESIGN_ASSURANCE.md) and
+[`ORDERING.md`](ORDERING.md).
 
-**Warning, do not save the board from KiCad 10 before running
-`ato build`.** KiCad 10 rewrites the file in its new format (per-track
-`(net "name")` references, no net table, nested `tenting`/`covering`
-stackup tokens) which atopile 0.15.x cannot parse, and `ato build` will
-then regenerate stale placement. The routed board in git is the source
-of truth; if KiCad 10 re-saves it, restore with
-`git checkout -- layouts/default/default.kicad_pcb`.
+### Status-controller firmware
 
-## Fabrication outputs
+```sh
+./scripts/fetch-ch32fun.sh
+make -C firmware/status-controller verify-ch32fun build
+# Flash: USB1 + BOOT0 (wchisp) — firmware/status-controller/README.md
+```
 
-`fab/` contains ready-to-upload JLCPCB files generated from the routed
-board with `kicad-cli` (gerbers + drill in `lightbar-dock-gerbers.zip`,
-`bom_jlcpcb.csv`, `cpl_jlcpcb.csv`). Order flow: upload the zip, pick
-2-layer / 1oz, enable PCB Assembly (top side), upload BOM + CPL, and
-review every footprint in their placement preview, especially the 8
-vertical USB-C plugs and the two rotated buck ICs.
+## Fabrication
 
-### Rev 1.0 as-built (ordered 2026-07-04)
+Order V3 from `generated/` (or a refreshed `fab/`) after `npm run verify` and
+KiCad DRC. JLCPCB: 2-layer / 1 oz, PCBA top side, BOM + CPL; review every
+footprint in their placement preview (vertical USB-C plugs and buck ICs).
 
-`bom_jlcpcb.csv` reflects the parts actually ordered. Three lines were
-substituted at order time due to JLC stock (electrically equivalent or
-better; atopile's original picks in parentheses):
-
-| Refs | Part ordered | LCSC | Notes |
-|---|---|---|---|
-| L1, L2 | Sunlord SWPA8040S4R7NT 4.7µH | C36417 | (was 5.6µH C96972) higher rated/sat current; ripple ~1.0A p-p, fine |
-| R7, R11 | RALEC RTT023401FTH 3.4kΩ 1% | C102987 | (was C4940) same value, sets buck fsw |
-| R52 | YAGEO RC0402FR-0710KL 10kΩ 1% | C60490 | (was C25744) power LED series R |
-
-USB2-9 plugs (C399938) were bought into the JLC parts library via
-parts pre-order (40 pcs).
-
-## Assembly
-
-The entire board is JLC-assemblable, every part including the vertical
-plugs is in JLC's PCBA library. The barrel jack is the only through-hole
-part; select Standard assembly (or Economic + THT option) so JLC solders
-it too. Zero hand assembly required.
+Full checklist: [`ORDERING.md`](ORDERING.md).
 
 ## Known part caveats
 
 - **Vertical plug (C399938)**: verify gender/orientation against the
-  datasheet 3D model before ordering a full run, or spend ~$5 on samples
-  from LCSC first, LCSC's listing metadata for Chinese-brand USB
-  connectors is occasionally wrong. A 24P alternative is C2763096.
-- **C399938 positioning slots**: the manufacturer footprint uses
-  0.60 x 1.80 mm plated slots, but JLC reported that the production shell
-  tabs fit loosely enough for the plugs to shift during reflow. Before the
-  next PCB revision, measure the tabs on production parts (or ask JLC for
-  their measured maximum dimensions), then set the finished slot to the tab
-  maximum plus 0.10 mm across its width and 0.15-0.20 mm along its length,
-  subject to JLC's plated-slot tolerance. Do not shrink below the measured
-  tab size based only on the assembly photograph.
-- **3D model for C399938**: EasyEDA/LCSC has no 3D model for this plug, so
-  this repo includes one built from the datasheet drawing, see
-  `parts/Jing_Extension_of_the_Electronic_Co_918_118A2021Y40006/USB-C-SMD_918-118A2021Y40006.step`
-  (Jing Extension 918-118A2021Y40006, vertical USB-C 3.1 male plug, SMD).
-  Free to reuse; the cadquery generator script is alongside it.
-- The USB-C plug is not a structural mount. The 3D-printed top shell must
-  cradle the bars so the connector only carries electrical load. Plug
-  mated height is ~8.65mm.
+  datasheet 3D model (or LCSC samples) before a full run. 24P alt: C2763096.
+- **C399938 positioning slots**: manufacturer footprint uses 0.60 × 1.80 mm
+  plated slots; production tabs can sit loose in reflow. Measure tabs before
+  tightening slots (tab max + ~0.10 mm width / 0.15–0.20 mm length, within
+  JLC plated-slot tolerance).
+- **3D model for C399938**: repo includes a datasheet-built STEP under
+  `parts/Jing_Extension_of_the_Electronic_Co_918_118A2021Y40006/`.
+- The plug is not structural — the printed shell must cradle the bars.
 - Barrel jack pin 3 (insertion detect) is intentionally unconnected.
-
-## Layout notes
-
-- Board is 240 x 47 mm, 2-layer; 8 identical port channels on a 22.5 mm
-  pitch in a single row; comparators behind their 4 ports; bucks and input
-  stage at the left end. Run `python3 place_board.py` after any
-  `ato build` to re-apply placement (tune the constants at the top).
-- The USB-C PD receptacle and barrel jack both open through the left edge.
-  USB1 footprint is at 270° (pads inboard); its 3D model uses rotate Z=0 and
-  offset Z=0.9 so the shell opens left (native STEP −Y is the opening side).
-- Onshape enclosure exports are in `fab/`: `lightbar-dock.step` (populated
-  assembly) and `lightbar-dock-board-only.step` (bare PCB). Export solids only —
-  do not include silkscreen or soldermask. Import the assembly as a parts
-  library into a **new** Onshape document; old tabs do not update on re-import.
-- Pitch rationale: the Gritin bars are ~10.5 mm thick (17 mm at the bulge)
-  and stack face-to-face, so 22.5 mm leaves ~5 mm for printed divider
-  walls. The port sits on the bottom end face of the bar, long axis
-  across the bar's width, which is why the plugs are rotated 90 degrees.
-- M3 mounting holes in the corners for the printed shell (add in KiCad;
-  `standardize_designators` is disabled in `ato.yaml` due to an upstream
-  bug with no-silkscreen footprints).
-
-## Routing status (done)
-
-The board is fully routed and passes connectivity (0 unconnected items):
-
-- Bulk routing by Freerouting 2.2.4 headless (via `export_dsn.py` +
-  Specctra SES import), finishing passes and repairs with
-  KiCadRoutingTools (A* grid router, patched locally to respect actual
-  widths of existing tracks/vias when building its obstacle map).
-- GND is a B.Cu plane with ~80 stitching vias
-  (`route_planes.py --nets lv --plane-layers B.Cu`), plus via-in-pad
-  under both TPS54560 PowerPADs.
-- Escape stubs for the PD receptacle's fine-pitch pads (VBUS, CC1/CC2,
-  D+/D-) were placed programmatically; nothing was routed by hand in a
-  GUI.
-- DRC: 4 remaining violations, all footprint-internal artifacts of the
-  USB-C receptacle (locating-peg annular width x2, peg-to-pad hole
-  clearance x2). Waive them; they ship on every board using this part.
-- Design rules relaxed to JLCPCB 2-layer capabilities: 0.127 mm default
-  clearance, min via 0.45/0.25 mm (six 0.45 mm vias exist in the dense
-  corridor under the PD receptacle, JLC charges nothing extra for
-  0.25 mm drill on 2-layer).
-- Power: 12V rail 1.2 mm; 5V rails 1.2-1.5 mm on F.Cu with a 2.0 mm
-  B.Cu feeder along the bottom edge for buck B's four ports; per-port
-  VBUS 0.8 mm.

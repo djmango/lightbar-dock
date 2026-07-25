@@ -1,0 +1,5 @@
+[submodule "third_party/topola"]
+	path = third_party/topola
+	# Fork with multilayer CLI / wall-timeout work. Upstream: https://codeberg.org/topola/topola.git
+	url = https://github.com/djmango/topola.git
+	branch = feature/cli-multilayer-remaining

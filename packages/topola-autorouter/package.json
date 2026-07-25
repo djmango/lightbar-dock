@@ -1,0 +1,16 @@
+{
+  "name": "@lightbar-dock/topola-autorouter",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "tscircuit HTTP autorouting adapter that shells Topola (Specctra DSN→SES)",
+  "bin": {
+    "topola-autorouting-server": "./server.mjs"
+  },
+  "scripts": {
+    "start": "node server.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

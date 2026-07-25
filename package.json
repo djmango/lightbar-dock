@@ -1,0 +1,55 @@
+{
+  "name": "lightbar-dock",
+  "version": "1.0.0",
+  "description": "A 1x8 USB-C charging dock for stick-anywhere rechargeable light bars. Bars plug vertically onto upward-facing USB-C plugs; a green LED per port shows live charging status (actual current flow, not just power present).",
+  "type": "module",
+  "main": "circuit/index.circuit.tsx",
+  "scripts": {
+    "import:kicad": "node scripts/import-kicad.mjs",
+    "build:circuit": "tsci export circuit/index.circuit.tsx -f circuit-json -o ../build/lightbar-dock.circuit.json",
+    "route:circuit": "node scripts/route-with-topola.mjs",
+    "route:freerouting": "node scripts/route-with-freerouting.mjs",
+    "route:topola": "node scripts/route-with-topola.mjs",
+    "route:finish": "node scripts/finish-remaining-grid.mjs",
+    "autoroute:server": "node packages/topola-autorouter/server.mjs",
+    "check:netlist": "tsci check netlist circuit/index.circuit.tsx",
+    "check:pins": "tsci check pin_specification circuit/index.circuit.tsx",
+    "check:placement": "tsci check placement circuit/index.circuit.tsx",
+    "check:circuit": "npm run check:netlist && npm run check:pins && npm run check:placement",
+    "typecheck": "tsc --noEmit",
+    "test:firmware": "cc -std=c11 -Wall -Wextra -Werror -Ifirmware/status-controller/include firmware/status-controller/src/status_logic.c firmware/status-controller/test/status_logic_test.c -o /tmp/lightbar-status-test && /tmp/lightbar-status-test",
+    "test": "npm run typecheck && npm run test:firmware",
+    "export:kicad": "tsci export circuit/index.circuit.tsx -f kicad_pcb -o ../generated/kicad/default.kicad_pcb && node scripts/fix-tscircuit-fp-lib.mjs",
+    "fix:kicad-fp-lib": "node scripts/fix-tscircuit-fp-lib.mjs",
+    "export:gerbers": "tsci export circuit/index.circuit.tsx -f gerbers -o ../generated/lightbar-dock-gerbers.zip",
+    "export:pcb-svg": "tsci export circuit/index.circuit.tsx -f pcb-svg -o ../docs/images/tscircuit-pcb.svg",
+    "export:schematic-svg": "tsci export circuit/index.circuit.tsx -f schematic-svg -o ../docs/images/tscircuit-schematic.svg",
+    "export:step": "tsci export circuit/index.circuit.tsx -f step -o ../generated/lightbar-dock.step",
+    "verify:electrical": "node scripts/verify-electrical.mjs",
+    "verify:vias": "node scripts/assert-via-sizes.mjs",
+    "verify": "npm test && npm run check:circuit && npm run build:circuit && npm run verify:electrical && npm run verify:vias"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/djmango/lightbar-dock.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/djmango/lightbar-dock/issues"
+  },
+  "homepage": "https://github.com/djmango/lightbar-dock#readme",
+  "dependencies": {
+    "@tscircuit/core": "0.0.1450",
+    "@tscircuit/eval": "0.0.1015",
+    "circuit-json-to-connectivity-map": "0.0.25",
+    "kicad-to-circuit-json": "0.0.113",
+    "tscircuit": "0.0.2096"
+  },
+  "devDependencies": {
+    "@types/node": "24.0.15",
+    "@types/react": "19.2.17",
+    "typescript": "5.9.3"
+  }
+}

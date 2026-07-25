@@ -1,0 +1,821 @@
+{
+  "source": "layouts/default/default.kicad_pcb",
+  "generatedBy": "scripts/import-kicad.mjs",
+  "normalizedKiCad10Nets": 108,
+  "componentsByAtopileAddress": {
+    "bank_a.comparator": {
+      "reference": "U1",
+      "x": 155,
+      "y": 77,
+      "rotation": 0
+    },
+    "bank_a.decoupling_cap": {
+      "reference": "C1",
+      "x": 147.5,
+      "y": 77,
+      "rotation": 90
+    },
+    "bank_a.vref_bottom": {
+      "reference": "R1",
+      "x": 162.5,
+      "y": 78,
+      "rotation": 0
+    },
+    "bank_a.vref_top": {
+      "reference": "R2",
+      "x": 162.5,
+      "y": 75,
+      "rotation": 0
+    },
+    "bank_b.comparator": {
+      "reference": "U2",
+      "x": 245,
+      "y": 77,
+      "rotation": 0
+    },
+    "bank_b.decoupling_cap": {
+      "reference": "C2",
+      "x": 237.5,
+      "y": 77,
+      "rotation": 90
+    },
+    "bank_b.vref_bottom": {
+      "reference": "R3",
+      "x": 252.5,
+      "y": 78,
+      "rotation": 0
+    },
+    "bank_b.vref_top": {
+      "reference": "R4",
+      "x": 252.5,
+      "y": 75,
+      "rotation": 0
+    },
+    "barrel_jack": {
+      "reference": "DC1",
+      "x": 61,
+      "y": 84,
+      "rotation": 0
+    },
+    "buck_a.bootstrap_capacitor": {
+      "reference": "C3",
+      "x": 85.5,
+      "y": 62,
+      "rotation": 90
+    },
+    "buck_a.compensation_capacitors[0]": {
+      "reference": "C4",
+      "x": 98.5,
+      "y": 57,
+      "rotation": 90
+    },
+    "buck_a.compensation_capacitors[1]": {
+      "reference": "C5",
+      "x": 100.5,
+      "y": 57,
+      "rotation": 90
+    },
+    "buck_a.compensation_resistor": {
+      "reference": "R5",
+      "x": 98.5,
+      "y": 53.5,
+      "rotation": 90
+    },
+    "buck_a.diode": {
+      "reference": "D1",
+      "x": 94,
+      "y": 57,
+      "rotation": 90
+    },
+    "buck_a.feedback_divider.chain.resistors[0]": {
+      "reference": "R6",
+      "x": 103,
+      "y": 53.5,
+      "rotation": 90
+    },
+    "buck_a.feedback_divider.chain.resistors[1]": {
+      "reference": "R7",
+      "x": 103,
+      "y": 57,
+      "rotation": 90
+    },
+    "buck_a.inductor": {
+      "reference": "L1",
+      "x": 93,
+      "y": 67,
+      "rotation": 180
+    },
+    "buck_a.input_caps[0]": {
+      "reference": "C6",
+      "x": 82.5,
+      "y": 63,
+      "rotation": 90
+    },
+    "buck_a.input_caps[1]": {
+      "reference": "C7",
+      "x": 82.5,
+      "y": 58.5,
+      "rotation": 90
+    },
+    "buck_a.input_caps[2]": {
+      "reference": "C8",
+      "x": 82.5,
+      "y": 54,
+      "rotation": 90
+    },
+    "buck_a.output_caps[0]": {
+      "reference": "C9",
+      "x": 101.5,
+      "y": 63,
+      "rotation": 90
+    },
+    "buck_a.output_caps[1]": {
+      "reference": "C10",
+      "x": 101.5,
+      "y": 67.5,
+      "rotation": 90
+    },
+    "buck_a.output_caps[2]": {
+      "reference": "C11",
+      "x": 104.5,
+      "y": 63,
+      "rotation": 90
+    },
+    "buck_a.output_caps[3]": {
+      "reference": "C12",
+      "x": 104.5,
+      "y": 67.5,
+      "rotation": 90
+    },
+    "buck_a.package": {
+      "reference": "U3",
+      "x": 88,
+      "y": 57,
+      "rotation": 0
+    },
+    "buck_a.switching_frequency_resistor": {
+      "reference": "R8",
+      "x": 100.5,
+      "y": 53.5,
+      "rotation": 90
+    },
+    "buck_b.bootstrap_capacitor": {
+      "reference": "C13",
+      "x": 85.5,
+      "y": 83,
+      "rotation": 90
+    },
+    "buck_b.compensation_capacitors[0]": {
+      "reference": "C14",
+      "x": 98.5,
+      "y": 78,
+      "rotation": 90
+    },
+    "buck_b.compensation_capacitors[1]": {
+      "reference": "C15",
+      "x": 100.5,
+      "y": 78,
+      "rotation": 90
+    },
+    "buck_b.compensation_resistor": {
+      "reference": "R9",
+      "x": 98.5,
+      "y": 74.5,
+      "rotation": 90
+    },
+    "buck_b.diode": {
+      "reference": "D2",
+      "x": 94,
+      "y": 78,
+      "rotation": 90
+    },
+    "buck_b.feedback_divider.chain.resistors[0]": {
+      "reference": "R10",
+      "x": 103,
+      "y": 74.5,
+      "rotation": 90
+    },
+    "buck_b.feedback_divider.chain.resistors[1]": {
+      "reference": "R11",
+      "x": 103,
+      "y": 78,
+      "rotation": 90
+    },
+    "buck_b.inductor": {
+      "reference": "L2",
+      "x": 93,
+      "y": 87.5,
+      "rotation": 180
+    },
+    "buck_b.input_caps[0]": {
+      "reference": "C16",
+      "x": 82.5,
+      "y": 84,
+      "rotation": 90
+    },
+    "buck_b.input_caps[1]": {
+      "reference": "C17",
+      "x": 82.5,
+      "y": 79.5,
+      "rotation": 90
+    },
+    "buck_b.input_caps[2]": {
+      "reference": "C18",
+      "x": 82.5,
+      "y": 75,
+      "rotation": 90
+    },
+    "buck_b.output_caps[0]": {
+      "reference": "C19",
+      "x": 101.5,
+      "y": 83.5,
+      "rotation": 90
+    },
+    "buck_b.output_caps[1]": {
+      "reference": "C20",
+      "x": 101.5,
+      "y": 88,
+      "rotation": 90
+    },
+    "buck_b.output_caps[2]": {
+      "reference": "C21",
+      "x": 104.5,
+      "y": 83.5,
+      "rotation": 90
+    },
+    "buck_b.output_caps[3]": {
+      "reference": "C22",
+      "x": 104.5,
+      "y": 88,
+      "rotation": 90
+    },
+    "buck_b.package": {
+      "reference": "U4",
+      "x": 88,
+      "y": 78,
+      "rotation": 0
+    },
+    "buck_b.switching_frequency_resistor": {
+      "reference": "R12",
+      "x": 100.5,
+      "y": 74.5,
+      "rotation": 90
+    },
+    "en_bottom_a": {
+      "reference": "R13",
+      "x": 107.5,
+      "y": 57,
+      "rotation": 90
+    },
+    "en_bottom_b": {
+      "reference": "R14",
+      "x": 107.5,
+      "y": 78,
+      "rotation": 90
+    },
+    "en_top_a": {
+      "reference": "R15",
+      "x": 107.5,
+      "y": 53.5,
+      "rotation": 90
+    },
+    "en_top_b": {
+      "reference": "R16",
+      "x": 107.5,
+      "y": 74.5,
+      "rotation": 90
+    },
+    "or_diode_jack": {
+      "reference": "D3",
+      "x": 78,
+      "y": 74,
+      "rotation": 90
+    },
+    "or_diode_pd": {
+      "reference": "D4",
+      "x": 71.5,
+      "y": 74,
+      "rotation": 90
+    },
+    "pd_input.cfg1_resistor": {
+      "reference": "R17",
+      "x": 64,
+      "y": 67.5,
+      "rotation": 0
+    },
+    "pd_input.connector": {
+      "reference": "USB1",
+      "x": 55,
+      "y": 62,
+      "rotation": -90
+    },
+    "pd_input.pd_ok_led.package": {
+      "reference": "LED1",
+      "x": 64,
+      "y": 70.5,
+      "rotation": 0
+    },
+    "pd_input.pd_ok_resistor": {
+      "reference": "R18",
+      "x": 67,
+      "y": 70.5,
+      "rotation": 0
+    },
+    "pd_input.trigger": {
+      "reference": "U5",
+      "x": 64,
+      "y": 62,
+      "rotation": 0
+    },
+    "pd_input.vbus_sense_resistor": {
+      "reference": "R19",
+      "x": 64,
+      "y": 56,
+      "rotation": 0
+    },
+    "pd_input.vdd_cap": {
+      "reference": "C23",
+      "x": 69.5,
+      "y": 56,
+      "rotation": 0
+    },
+    "ports[0].cc_pullup_1": {
+      "reference": "R20",
+      "x": 113.75,
+      "y": 63,
+      "rotation": 90
+    },
+    "ports[0].cc_pullup_2": {
+      "reference": "R21",
+      "x": 113.75,
+      "y": 69,
+      "rotation": 90
+    },
+    "ports[0].charge_led.package": {
+      "reference": "LED2",
+      "x": 118.75,
+      "y": 91,
+      "rotation": 0
+    },
+    "ports[0].fuse": {
+      "reference": "F1",
+      "x": 117.25,
+      "y": 55,
+      "rotation": 0
+    },
+    "ports[0].led_resistor": {
+      "reference": "R22",
+      "x": 124.25,
+      "y": 84,
+      "rotation": 0
+    },
+    "ports[0].plug": {
+      "reference": "USB2",
+      "x": 121.25,
+      "y": 66,
+      "rotation": 90
+    },
+    "ports[0].port_cap": {
+      "reference": "C24",
+      "x": 128.75,
+      "y": 66,
+      "rotation": 90
+    },
+    "ports[0].sense_resistor": {
+      "reference": "R23",
+      "x": 125.75,
+      "y": 55,
+      "rotation": 0
+    },
+    "ports[1].cc_pullup_1": {
+      "reference": "R24",
+      "x": 136.25,
+      "y": 63,
+      "rotation": 90
+    },
+    "ports[1].cc_pullup_2": {
+      "reference": "R25",
+      "x": 136.25,
+      "y": 69,
+      "rotation": 90
+    },
+    "ports[1].charge_led.package": {
+      "reference": "LED3",
+      "x": 141.25,
+      "y": 91,
+      "rotation": 0
+    },
+    "ports[1].fuse": {
+      "reference": "F2",
+      "x": 139.75,
+      "y": 55,
+      "rotation": 0
+    },
+    "ports[1].led_resistor": {
+      "reference": "R26",
+      "x": 146.75,
+      "y": 84,
+      "rotation": 0
+    },
+    "ports[1].plug": {
+      "reference": "USB3",
+      "x": 143.75,
+      "y": 66,
+      "rotation": 90
+    },
+    "ports[1].port_cap": {
+      "reference": "C25",
+      "x": 151.25,
+      "y": 66,
+      "rotation": 90
+    },
+    "ports[1].sense_resistor": {
+      "reference": "R27",
+      "x": 148.25,
+      "y": 55,
+      "rotation": 0
+    },
+    "ports[2].cc_pullup_1": {
+      "reference": "R28",
+      "x": 158.75,
+      "y": 63,
+      "rotation": 90
+    },
+    "ports[2].cc_pullup_2": {
+      "reference": "R29",
+      "x": 158.75,
+      "y": 69,
+      "rotation": 90
+    },
+    "ports[2].charge_led.package": {
+      "reference": "LED4",
+      "x": 163.75,
+      "y": 91,
+      "rotation": 0
+    },
+    "ports[2].fuse": {
+      "reference": "F3",
+      "x": 162.25,
+      "y": 55,
+      "rotation": 0
+    },
+    "ports[2].led_resistor": {
+      "reference": "R30",
+      "x": 169.25,
+      "y": 84,
+      "rotation": 0
+    },
+    "ports[2].plug": {
+      "reference": "USB4",
+      "x": 166.25,
+      "y": 66,
+      "rotation": 90
+    },
+    "ports[2].port_cap": {
+      "reference": "C26",
+      "x": 173.75,
+      "y": 66,
+      "rotation": 90
+    },
+    "ports[2].sense_resistor": {
+      "reference": "R31",
+      "x": 170.75,
+      "y": 55,
+      "rotation": 0
+    },
+    "ports[3].cc_pullup_1": {
+      "reference": "R32",
+      "x": 181.25,
+      "y": 63,
+      "rotation": 90
+    },
+    "ports[3].cc_pullup_2": {
+      "reference": "R33",
+      "x": 181.25,
+      "y": 69,
+      "rotation": 90
+    },
+    "ports[3].charge_led.package": {
+      "reference": "LED5",
+      "x": 186.25,
+      "y": 91,
+      "rotation": 0
+    },
+    "ports[3].fuse": {
+      "reference": "F4",
+      "x": 184.75,
+      "y": 55,
+      "rotation": 0
+    },
+    "ports[3].led_resistor": {
+      "reference": "R34",
+      "x": 191.75,
+      "y": 84,
+      "rotation": 0
+    },
+    "ports[3].plug": {
+      "reference": "USB5",
+      "x": 188.75,
+      "y": 66,
+      "rotation": 90
+    },
+    "ports[3].port_cap": {
+      "reference": "C27",
+      "x": 196.25,
+      "y": 66,
+      "rotation": 90
+    },
+    "ports[3].sense_resistor": {
+      "reference": "R35",
+      "x": 193.25,
+      "y": 55,
+      "rotation": 0
+    },
+    "ports[4].cc_pullup_1": {
+      "reference": "R36",
+      "x": 203.75,
+      "y": 63,
+      "rotation": 90
+    },
+    "ports[4].cc_pullup_2": {
+      "reference": "R37",
+      "x": 203.75,
+      "y": 69,
+      "rotation": 90
+    },
+    "ports[4].charge_led.package": {
+      "reference": "LED6",
+      "x": 208.75,
+      "y": 91,
+      "rotation": 0
+    },
+    "ports[4].fuse": {
+      "reference": "F5",
+      "x": 207.25,
+      "y": 55,
+      "rotation": 0
+    },
+    "ports[4].led_resistor": {
+      "reference": "R38",
+      "x": 214.25,
+      "y": 84,
+      "rotation": 0
+    },
+    "ports[4].plug": {
+      "reference": "USB6",
+      "x": 211.25,
+      "y": 66,
+      "rotation": 90
+    },
+    "ports[4].port_cap": {
+      "reference": "C28",
+      "x": 218.75,
+      "y": 66,
+      "rotation": 90
+    },
+    "ports[4].sense_resistor": {
+      "reference": "R39",
+      "x": 215.75,
+      "y": 55,
+      "rotation": 0
+    },
+    "ports[5].cc_pullup_1": {
+      "reference": "R40",
+      "x": 226.25,
+      "y": 63,
+      "rotation": 90
+    },
+    "ports[5].cc_pullup_2": {
+      "reference": "R41",
+      "x": 226.25,
+      "y": 69,
+      "rotation": 90
+    },
+    "ports[5].charge_led.package": {
+      "reference": "LED7",
+      "x": 231.25,
+      "y": 91,
+      "rotation": 0
+    },
+    "ports[5].fuse": {
+      "reference": "F6",
+      "x": 229.75,
+      "y": 55,
+      "rotation": 0
+    },
+    "ports[5].led_resistor": {
+      "reference": "R42",
+      "x": 236.75,
+      "y": 84,
+      "rotation": 0
+    },
+    "ports[5].plug": {
+      "reference": "USB7",
+      "x": 233.75,
+      "y": 66,
+      "rotation": 90
+    },
+    "ports[5].port_cap": {
+      "reference": "C29",
+      "x": 241.25,
+      "y": 66,
+      "rotation": 90
+    },
+    "ports[5].sense_resistor": {
+      "reference": "R43",
+      "x": 238.25,
+      "y": 55,
+      "rotation": 0
+    },
+    "ports[6].cc_pullup_1": {
+      "reference": "R44",
+      "x": 248.75,
+      "y": 63,
+      "rotation": 90
+    },
+    "ports[6].cc_pullup_2": {
+      "reference": "R45",
+      "x": 248.75,
+      "y": 69,
+      "rotation": 90
+    },
+    "ports[6].charge_led.package": {
+      "reference": "LED8",
+      "x": 253.75,
+      "y": 91,
+      "rotation": 0
+    },
+    "ports[6].fuse": {
+      "reference": "F7",
+      "x": 252.25,
+      "y": 55,
+      "rotation": 0
+    },
+    "ports[6].led_resistor": {
+      "reference": "R46",
+      "x": 259.25,
+      "y": 84,
+      "rotation": 0
+    },
+    "ports[6].plug": {
+      "reference": "USB8",
+      "x": 256.25,
+      "y": 66,
+      "rotation": 90
+    },
+    "ports[6].port_cap": {
+      "reference": "C30",
+      "x": 263.75,
+      "y": 66,
+      "rotation": 90
+    },
+    "ports[6].sense_resistor": {
+      "reference": "R47",
+      "x": 260.75,
+      "y": 55,
+      "rotation": 0
+    },
+    "ports[7].cc_pullup_1": {
+      "reference": "R48",
+      "x": 271.25,
+      "y": 63,
+      "rotation": 90
+    },
+    "ports[7].cc_pullup_2": {
+      "reference": "R49",
+      "x": 271.25,
+      "y": 69,
+      "rotation": 90
+    },
+    "ports[7].charge_led.package": {
+      "reference": "LED9",
+      "x": 276.25,
+      "y": 91,
+      "rotation": 0
+    },
+    "ports[7].fuse": {
+      "reference": "F8",
+      "x": 274.75,
+      "y": 55,
+      "rotation": 0
+    },
+    "ports[7].led_resistor": {
+      "reference": "R50",
+      "x": 281.75,
+      "y": 84,
+      "rotation": 0
+    },
+    "ports[7].plug": {
+      "reference": "USB9",
+      "x": 278.75,
+      "y": 66,
+      "rotation": 90
+    },
+    "ports[7].port_cap": {
+      "reference": "C31",
+      "x": 286.25,
+      "y": 66,
+      "rotation": 90
+    },
+    "ports[7].sense_resistor": {
+      "reference": "R51",
+      "x": 283.25,
+      "y": 55,
+      "rotation": 0
+    },
+    "power_led_resistor": {
+      "reference": "R52",
+      "x": 76.5,
+      "y": 88,
+      "rotation": 0
+    },
+    "power_led.package": {
+      "reference": "LED10",
+      "x": 72,
+      "y": 88,
+      "rotation": 0
+    }
+  },
+  "chargePortNets": {
+    "0": {
+      "cc1": "ports_0_3",
+      "cc2": "net_11",
+      "shuntIn": "ports_0_2",
+      "shuntOut": "port_cap_power_hv_1"
+    },
+    "1": {
+      "cc1": "ports_1_3",
+      "cc2": "ports_1_11",
+      "shuntIn": "ports_1_2",
+      "shuntOut": "port_cap_power_hv"
+    },
+    "2": {
+      "cc1": "ports_2_3",
+      "cc2": "ports_2_11",
+      "shuntIn": "ports_2_2",
+      "shuntOut": "port_cap_power_hv_2"
+    },
+    "3": {
+      "cc1": "ports_3_3",
+      "cc2": "ports_3_11",
+      "shuntIn": "ports_3_2",
+      "shuntOut": "hv"
+    },
+    "4": {
+      "cc1": "ports_4_3",
+      "cc2": "ports_4_11",
+      "shuntIn": "ports_4_2",
+      "shuntOut": "port_cap_power_hv_5"
+    },
+    "5": {
+      "cc1": "ports_5_3",
+      "cc2": "ports_5_11",
+      "shuntIn": "ports_5_2",
+      "shuntOut": "port_cap_power_hv_4"
+    },
+    "6": {
+      "cc1": "ports_6_3",
+      "cc2": "ports_6_11",
+      "shuntIn": "ports_6_2",
+      "shuntOut": "port_cap_power_hv_6"
+    },
+    "7": {
+      "cc1": "ports_7_3",
+      "cc2": "ports_7_11",
+      "shuntIn": "ports_7_2",
+      "shuntOut": "port_cap_power_hv_3"
+    }
+  },
+  "powerNets": {
+    "bankA5v": "ports_3_power_in_anode",
+    "bankB5v": "ports_7_power_in_anode",
+    "ground": "lv"
+  },
+  "warnings": [],
+  "stats": {
+    "pads": 444,
+    "components": 129,
+    "traces": 965,
+    "vias": 240,
+    "copper_pours": 3
+  },
+  "elementCounts": {
+    "pcb_board": 1,
+    "pcb_component": 129,
+    "pcb_copper_pour": 3,
+    "pcb_fabrication_note_path": 132,
+    "pcb_fabrication_note_text": 122,
+    "pcb_hole": 7,
+    "pcb_plated_hole": 33,
+    "pcb_port": 434,
+    "pcb_silkscreen_path": 949,
+    "pcb_silkscreen_text": 130,
+    "pcb_smtpad": 411,
+    "pcb_trace": 857,
+    "pcb_via": 240,
+    "source_component": 129,
+    "source_net": 108,
+    "source_port": 432,
+    "source_trace": 108
+  }
+}

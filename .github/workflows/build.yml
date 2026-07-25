@@ -1,15 +1,31 @@
 name: CI
 
-# This project intentionally does NOT run `ato build` in CI: the routed
-# board in layouts/default/default.kicad_pcb is the source of truth and is
-# saved in KiCad 10 format, which atopile 0.15.x cannot parse (and whose
-# PCB-sync step would destroy the routing anyway — see README "Workflow").
-# Instead we validate the board directly with kicad-cli.
+# V3 source of truth is tscircuit under circuit/. Never run `ato build`.
 
 on: [push, pull_request]
 
 jobs:
-  pcb-checks:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+      - run: npm run verify
+
+      - name: Upload assurance reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: design-assurance-reports
+          path: generated/reports
+
+  pcb-checks-rev1-historical:
     runs-on: ubuntu-latest
     container:
       image: kicad/kicad:10.0
@@ -17,7 +33,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Run DRC
+      - name: Run DRC on frozen Rev 1.0 layout
         run: |
           kicad-cli pcb drc --format json --severity-error --severity-warning \
             -o drc.json layouts/default/default.kicad_pcb
@@ -39,22 +55,9 @@ jobs:
 
           # Baseline: 4 waivable errors internal to the USB-C PD receptacle
           # footprint (locating-peg annular_width x2, hole_clearance x2)
-          # plus 2 padstack warnings. Anything beyond that is a regression.
           if unconnected:
               sys.exit("FAIL: board has unconnected items")
           if len(errors) > 4:
               sys.exit(f"FAIL: {len(errors)} DRC errors (waivable baseline is 4)")
           print("PASS")
           EOF
-
-      - name: Export gerbers + drill (smoke test)
-        run: |
-          mkdir -p out
-          kicad-cli pcb export gerbers -o out/ layouts/default/default.kicad_pcb
-          kicad-cli pcb export drill -o out/ layouts/default/default.kicad_pcb
-
-      - name: Upload gerbers
-        uses: actions/upload-artifact@v4
-        with:
-          name: gerbers
-          path: out
