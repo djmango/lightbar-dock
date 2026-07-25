@@ -221,18 +221,16 @@
 		(layers "*.Cu" "*.Mask")
 		(uuid "bca9518b-4040-4624-978f-732c7863d1a0")
 	)
-	(pad "" thru_hole circle
+	(pad "" npth circle
 		(at -2.89 -1.3)
 		(size 0.7 0.7)
 		(drill 0.7)
-		(layers "*.Cu" "*.Mask")
 		(uuid "0a9dc196-aa52-4a6b-aa7c-6c2f733085da")
 	)
-	(pad "" thru_hole circle
+	(pad "" npth circle
 		(at 2.89 -1.3)
 		(size 0.7 0.7)
 		(drill 0.7)
-		(layers "*.Cu" "*.Mask")
 		(uuid "4d7fb89a-c597-4c1d-bb95-d77703595952")
 	)
 	(model "${KIPRJMOD}/../../parts/SHOU_HAN_TYPE_C_16PIN_2MD_073/USB-C-SMD_TYPE-C-6PIN-2MD-073.step"

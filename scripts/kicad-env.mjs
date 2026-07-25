@@ -1,10 +1,8 @@
 /**
- * Resolve KiCad CLI + pcbnew Python across macOS app bundle and Linux AppImage.
+ * Resolve KiCad CLI across macOS app bundle and Linux AppImage.
+ * CLI only — no Python. Mutation/DRC gating lives in Rust pcbkit.
  *
- * Override with:
- *   KICAD_CLI, KICAD_PYTHON, KICAD_PYTHONHOME, KICAD_EXTRA_LIB
- * Optional search roots:
- *   KICAD_APPIMAGE_ROOT (default: ~/tools/kicad/squashfs-root)
+ * Override: KICAD_CLI, KICAD_APPIMAGE_ROOT
  */
 import { existsSync } from "node:fs"
 import { homedir } from "node:os"
@@ -23,81 +21,30 @@ export function resolveKicadEnv() {
     process.env.KICAD_APPIMAGE_ROOT ||
     resolve(home, "tools/kicad/squashfs-root")
 
-  const macPython =
-    "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3"
-  const macPythonHome =
-    "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9"
-  const macFrameworks =
-    "/Applications/KiCad/KiCad.app/Contents/Frameworks"
   const macCli = "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli"
-
-  const linuxPython = firstExisting([
-    resolve(appImageRoot, "usr/bin/python3.11"),
-    resolve(appImageRoot, "usr/bin/python3"),
-    "/usr/bin/python3",
-  ])
   const linuxCli = firstExisting([
     resolve(appImageRoot, "usr/bin/kicad-cli"),
     "/usr/bin/kicad-cli",
   ])
 
-  const python =
-    process.env.KICAD_PYTHON ||
-    firstExisting([macPython, linuxPython])
-  const cli =
-    process.env.KICAD_CLI || firstExisting([macCli, linuxCli])
-
-  const isMac = python === macPython || cli === macCli
-  const pythonHome =
-    process.env.KICAD_PYTHONHOME || (isMac ? macPythonHome : undefined)
-  const dyldFallback =
-    process.env.KICAD_EXTRA_LIB || (isMac ? macFrameworks : undefined)
-
+  const cli = process.env.KICAD_CLI || firstExisting([macCli, linuxCli])
   const env = { ...process.env }
-  if (pythonHome) env.PYTHONHOME = pythonHome
-  else delete env.PYTHONHOME
-  if (dyldFallback) env.DYLD_FALLBACK_LIBRARY_PATH = dyldFallback
 
-  // Linux AppImage: ensure bundled libs are visible when invoking python/cli directly.
-  if (!isMac && appImageRoot && existsSync(appImageRoot)) {
-    const libDirs = [
-      resolve(appImageRoot, "usr/lib"),
-      resolve(appImageRoot, "usr/lib/x86_64-linux-gnu"),
-      resolve(appImageRoot, "usr/lib64"),
-    ].filter((p) => existsSync(p))
-    if (libDirs.length) {
-      env.LD_LIBRARY_PATH = [...libDirs, env.LD_LIBRARY_PATH || ""]
-        .filter(Boolean)
-        .join(":")
-    }
-    const pathPrefix = resolve(appImageRoot, "usr/bin")
-    if (existsSync(pathPrefix)) {
-      env.PATH = `${pathPrefix}:${env.PATH || ""}`
-    }
+  if (cli && cli.includes("squashfs-root")) {
+    const root = cli.split("/usr/bin/kicad-cli")[0]
+    const lib = resolve(root, "usr/lib")
+    env.LD_LIBRARY_PATH = [lib, env.LD_LIBRARY_PATH].filter(Boolean).join(":")
   }
 
-  return {
-    python,
-    cli,
-    env,
-    isMac,
-    appImageRoot: existsSync(appImageRoot) ? appImageRoot : null,
-  }
+  return { cli, env }
 }
 
 export function requireKicadEnv() {
   const k = resolveKicadEnv()
-  if (!k.python) {
-    console.error(
-      "KiCad Python not found. Install KiCad 10, extract the Linux AppImage to ~/tools/kicad/squashfs-root, or set KICAD_PYTHON.",
-    )
-    process.exit(1)
-  }
   if (!k.cli) {
-    console.error(
-      "kicad-cli not found. Install KiCad 10 or set KICAD_CLI.",
+    throw new Error(
+      "kicad-cli not found. Set KICAD_CLI or install KiCad AppImage under ~/tools/kicad/squashfs-root",
     )
-    process.exit(1)
   }
   return k
 }

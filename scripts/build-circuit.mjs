@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 /**
  * Build circuit JSON without tsci's renderUntilSettled() (hangs on this board).
  *

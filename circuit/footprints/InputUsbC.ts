@@ -773,33 +773,21 @@ export const InputUsbCFootprint = [
     "pin_label": "pin14"
   },
   {
-    "type": "pcb_plated_hole",
-    "pcb_plated_hole_id": "pcb_plated_hole_4",
-    "shape": "circle",
+    "type": "pcb_hole",
+    "pcb_hole_id": "pcb_hole_usb1_peg_a",
+    "hole_shape": "circle",
     "x": -2.89,
     "y": 1.3,
-    "outer_diameter": 0.7,
     "hole_diameter": 0.7,
-    "port_hints": [],
-    "layers": [
-      "top",
-      "bottom"
-    ],
     "pcb_component_id": "pcb_component_0"
   },
   {
-    "type": "pcb_plated_hole",
-    "pcb_plated_hole_id": "pcb_plated_hole_5",
-    "shape": "circle",
+    "type": "pcb_hole",
+    "pcb_hole_id": "pcb_hole_usb1_peg_b",
+    "hole_shape": "circle",
     "x": 2.89,
     "y": 1.3,
-    "outer_diameter": 0.7,
     "hole_diameter": 0.7,
-    "port_hints": [],
-    "layers": [
-      "top",
-      "bottom"
-    ],
     "pcb_component_id": "pcb_component_0"
   },
   {

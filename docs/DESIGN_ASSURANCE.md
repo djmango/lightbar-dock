@@ -6,8 +6,8 @@ restate them here).
 Schematic/PCB source of truth: `circuit/`. Gates:
 
 ```bash
-npm run verify         # test + check:circuit + build + electrical + vias
-npm run route:circuit  # optional Freerouting (slow); then verify:vias
+bun run verify         # test + check:circuit + build + electrical + vias
+bun run route:circuit  # optional Freerouting (slow); then verify:vias
 ```
 
 Manual rows below cover what scripts cannot invent from datasheets.
@@ -40,6 +40,6 @@ here).
 ## Pre-order
 
 - [ ] Manual footprint sign-off for INA RGV + RGB C5119723
-- [ ] `npm run verify` green
+- [ ] `bun run verify` green
 - [ ] KiCad DRC on exported PCB manufacturing-clean
 - [ ] JLC Extended assembly stock for F6P6, INA3221, RGB, HT7533

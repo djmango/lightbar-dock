@@ -210,3 +210,8 @@ generated/
 
 # Cython debug symbols
 cython_debug/
+
+# Pinned manufacturing artifacts for CI DRC (tracked)
+!ci/
+!ci/artifacts/
+!ci/artifacts/**

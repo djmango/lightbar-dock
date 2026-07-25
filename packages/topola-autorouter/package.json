@@ -8,9 +8,6 @@
     "topola-autorouting-server": "./server.mjs"
   },
   "scripts": {
-    "start": "node server.mjs"
-  },
-  "engines": {
-    "node": ">=20"
+    "start": "bun server.mjs"
   }
 }

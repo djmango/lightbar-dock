@@ -1,9 +1,9 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 /**
  * Export unrouted KiCad PCB (+ project) from build/lightbar-dock.circuit.json.
  *
  * Avoids `tsci export -f kicad_pcb`, which hangs on renderUntilSettled for this board.
- * Run `npm run build:circuit` first (or this script will).
+ * Run `bun run build:circuit` first (or this script will).
  */
 import { mkdir, readFile, writeFile, access } from "node:fs/promises"
 import { resolve } from "node:path"
@@ -70,6 +70,20 @@ try {
   })
 } catch (err) {
   console.warn("fp-lib normalize skipped:", err.message || err)
+}
+
+try {
+  const proJson = JSON.parse(await readFile(proOut, "utf8"))
+  const rules = proJson.board?.design_settings?.rules
+  if (rules) {
+    rules.min_hole_clearance = 0.18
+    rules.min_clearance = Math.max(Number(rules.min_clearance) || 0, 0.15)
+    rules.min_via_diameter = Math.max(Number(rules.min_via_diameter) || 0, 0.6)
+    await writeFile(proOut, JSON.stringify(proJson, null, 2))
+    console.log("patched design rules in", proOut)
+  }
+} catch (err) {
+  console.warn("pro rules patch skipped:", err.message || err)
 }
 
 console.log("wrote", pcbOut)

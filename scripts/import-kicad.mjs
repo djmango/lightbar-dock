@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 
 import { readFile, writeFile } from "node:fs/promises"
 import { resolve } from "node:path"

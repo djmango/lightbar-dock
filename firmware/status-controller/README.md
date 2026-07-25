@@ -17,7 +17,7 @@ make -C firmware/status-controller verify-ch32fun build
 Host unit tests (no MCU required):
 
 ```sh
-npm run test:firmware
+bun run test:firmware
 ```
 
 ## Flash over USB1 (wchisp)

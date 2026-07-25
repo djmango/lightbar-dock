@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 /**
  * End-to-end smoke test for packages/topola-autorouter (no KiCad required).
  * Spawns the solve server, posts a tiny SRJ, asserts traces come back.

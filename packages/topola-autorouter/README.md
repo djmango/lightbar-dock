@@ -7,7 +7,7 @@ tscircuit HTTP autorouting adapter for **[Topola](https://topola.dev/)** (Rust S
 From the repo root (builds `third_party/topola` CLI if needed):
 
 ```sh
-npm run autoroute:server
+bun run autoroute:server
 ```
 
 ## Use from a tscircuit board
@@ -24,7 +24,7 @@ npm run autoroute:server
 </board>
 ```
 
-`lightbar-dock` keeps `autorouter="none"` / KiCad Specctra (`npm run route:circuit`) for manufacturing so `npm run verify` stays deterministic without the server.
+`lightbar-dock` keeps `autorouter="none"` / KiCad Specctra (`bun run route:circuit`) for manufacturing so `bun run verify` stays deterministic without the server.
 
 ## API
 
@@ -32,7 +32,7 @@ npm run autoroute:server
 - Optional body `options`: `{ planar, permutate, skipNets, nets, remaining, wallTimeout, timeoutSec }`
 - `GET /health` → `{ ok, topola, binary, defaultArgs }`
 
-Smoke test (no KiCad): `npm run smoke:autoroute`.
+Smoke test (no KiCad): `bun run smoke:autoroute`.
 
 See [tscircuit autorouting API](https://docs.tscircuit.com/web-apis/autorouting-api) and [custom autorouters](https://docs.tscircuit.com/advanced/create-or-use-custom-autorouter).
 

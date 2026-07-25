@@ -40,12 +40,12 @@ Last known counts (post-finish):
 ```text
 circuit/index.circuit.tsx     tscircuit source of truth
         │
-        ├─ npm run export:kicad / tsci → generated/kicad/*.kicad_pcb
+        ├─ bun run export:kicad / tsci → generated/kicad/*.kicad_pcb
         │
-        ├─ npm run route:circuit      → Topola Specctra (DSN→SES) full route
+        ├─ bun run route:circuit      → Topola Specctra (DSN→SES) full route
         │                                 (good for greenfield / unrouted)
         │
-        └─ npm run route:finish       → KiCad Python grid A*
+        └─ bun run route:finish       → KiCad Python grid A*
                                           (safe on already-routed boards)
 ```
 
@@ -72,24 +72,24 @@ CLI flags added on the fork (build: `cargo build --release -p topola-cli`):
 - `--timeout-initial`, `--timeout-progress-bonus` (default 0)
 - `--wall-timeout` (hard abort, still writes SES)
 
-Optional HTTP adapter: `packages/topola-autorouter/` → `npm run autoroute:server`.
+Optional HTTP adapter: `packages/topola-autorouter/` → `bun run autoroute:server`.
 
 ## How to reproduce / continue locally
 
 ```sh
-npm run setup:toolchain   # or: npm ci + submodule + cargo build Topola
+bun run setup:toolchain   # or: bun install + submodule + cargo build Topola
 # Bun is required on PATH for `tsci` (https://bun.sh)
 
 # Circuit checks (build:circuit uses bun + RootCircuit.render — see note below)
-npm run verify
-npm run smoke:autoroute   # Topola HTTP adapter, no KiCad
+bun run verify
+bun run smoke:autoroute   # Topola HTTP adapter, no KiCad
 
 # Full Topola route from unrouted export (slow / may wall-timeout on dense board)
-npm run route:circuit
+bun run route:circuit
 
 # Finish leftovers on an already-routed board (preferred)
 # Scripts resolve KiCad via scripts/kicad-env.mjs (macOS app or Linux AppImage).
-npm run route:finish
+bun run route:finish
 
 # DRC (macOS example; on Linux use kicad-cli from the AppImage / PATH)
 kicad-cli pcb drc \
@@ -103,7 +103,7 @@ kicad-cli pcb drc \
 `KICAD_APPIMAGE_ROOT` / `KICAD_CLI` / `KICAD_PYTHON`). Specctra export/import
 and DRC run headless without a display.
 
-Freerouting JARs are **not** in git (~118 MB). Place `freerouting-2.2.4.jar` under `third_party/freerouting/` if you need `npm run route:freerouting`.
+Freerouting JARs are **not** in git (~118 MB). Place `freerouting-2.2.4.jar` under `third_party/freerouting/` if you need `bun run route:freerouting`.
 
 ## Key scripts
 
@@ -130,9 +130,9 @@ Freerouting JARs are **not** in git (~118 MB). Place `freerouting-2.2.4.jar` u
 2. **Via diameter / hole clearance** from finish vias — align to netclass (0.8/0.4) everywhere; dedupe stacked vias (`hole_to_hole`).
 3. **Silk over copper** (~70) — refs/values hidden or moved; fp-lib already partially fixed via `fix-tscircuit-fp-lib`.
 4. **lib_footprint_mismatch** — open `generated/kicad/default.kicad_pro` so `fp-lib-table` loads `circuit/kicad/tscircuit.pretty`.
-5. **3D** — KiCad footprints have no STEP models; use `npx tsci dev` / tscircuit `--3d` for visuals.
+5. **3D** — KiCad footprints have no STEP models; use `bunx tsci dev` / tscircuit `--3d` for visuals.
 6. **Push Topola fork commits** and refresh submodule SHA if the PR submodule pointer drifts.
-7. **CI** — `.github/workflows/build.yml` updated for tscircuit path; confirm runners have what they need (Node, KiCad container, submodule init).
+7. **CI** — `.github/workflows/build.yml` uses Bun; confirm runners have Bun, KiCad container, submodule init.
 8. **Do not commit** `generated/` or Freerouting JARs.
 
 ## Hard-won failure modes
@@ -144,9 +144,9 @@ Freerouting JARs are **not** in git (~118 MB). Place `freerouting-2.2.4.jar` u
 | Grid “no path” on U7 pads | Fine pitch + keepout too fat | Thin width 0.15, lower keepout, multilayer |
 | Grid shorts after validate=0 | Keepout weaker than DRC | Re-run with higher `FINISH_CLEAR_MM` / validate |
 | `GetTracks()` SWIG blowup after `Remove` | KiCad 10 quirk | Snapshot track list before mutating |
-| `tsci export` / `renderUntilSettled` hangs | Never settles on this board | `npm run build:circuit` / `npm run export:kicad` (circuit-json-to-kicad) |
+| `tsci export` / `renderUntilSettled` hangs | Never settles on this board | `bun run build:circuit` / `bun run export:kicad` (circuit-json-to-kicad) |
 | Route scripts fail on Linux | Hardcoded macOS KiCad.app paths | `scripts/kicad-env.mjs` + AppImage extract to `~/tools/kicad/squashfs-root` |
-| Topola panics mid-route on dense board | Fanout / cross-layer asserts | Apply `contrib/topola/*.patch` via `npm run setup:toolchain` |
+| Topola panics mid-route on dense board | Fanout / cross-layer asserts | Apply `contrib/topola/*.patch` via `bun run setup:toolchain` |
 
 ## Suggested next PR / work chunks
 

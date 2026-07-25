@@ -1,9 +1,9 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 
 /**
  * tscircuit autorouting solve-endpoint adapter for Topola.
  *
- *   npm run autoroute:server
+ *   bun run autoroute:server
  *   POST http://127.0.0.1:3099/autorouting/solve
  *     { "input_simple_route_json": { ... } }
  *   → { "output_simple_route_json": { ... traces } }
@@ -163,7 +163,7 @@ const server = createServer(async (req, res) => {
         res.end(
           JSON.stringify({
             error:
-              "circuit_json not implemented here; use inputFormat simplified, or npm run route:circuit for KiCad Specctra",
+              "circuit_json not implemented here; use inputFormat simplified, or bun run route:circuit for KiCad Specctra",
           }),
         )
         return

@@ -103,19 +103,19 @@ pour; that is what produced hundreds of false DRC hits earlier.
 
 ## Autorouting
 
-Primary: **Topola** (Rust Specctra) via `npm run route:circuit` →
+Primary: **Topola** (Rust Specctra) via `bun run route:circuit` →
 `scripts/route-with-topola.mjs` (submodule `third_party/topola`). CLI flags
 include `--multilayer`, `--remaining`, `--nets`. Set `TOPOLA_TIMEOUT` (seconds)
 for large boards; Topola is still pre-alpha on dense 2-layer layouts — use
-`npm run route:freerouting` if a job exceeds the timeout. For tscircuit editor
-solve API: `npm run autoroute:server`
+`bun run route:freerouting` if a job exceeds the timeout. For tscircuit editor
+solve API: `bun run autoroute:server`
 ([`packages/topola-autorouter`](../packages/topola-autorouter/README.md)).
 
 ## KiCad DRC
 
 Open `generated/kicad/default.kicad_pro` (project, not bare PCB) so the
 `tscircuit` footprint library loads from `circuit/kicad/tscircuit.pretty`
-(`npm run fix:kicad-fp-lib` regenerates it). Copper **error**-level DRC
+(`bun run fix:kicad-fp-lib` regenerates it). Copper **error**-level DRC
 should be **0** after route + pour refill. A handful of unconnected items
 may remain for hand touch-up. Remaining silk/text warnings are not fab
 blockers. USB1 locating pegs are NPTH.

@@ -4,14 +4,14 @@ Specs: [`docs/SPECS.md`](docs/SPECS.md). Design gates:
 [`docs/DESIGN_ASSURANCE.md`](docs/DESIGN_ASSURANCE.md).
 
 Lessons from the v1.0 order (July 2026) are in [`docs/HISTORY.md`](docs/HISTORY.md).
-For **V3**, export manufacturing files from `npm run export:*` after verify.
+For **V3**, export manufacturing files from `bun run export:*` after verify.
 
 ## 1. Design freeze
 
 - [ ] Confirm revision: **V3** from tscircuit (not historical Rev 1.0 `fab/`).
 - [ ] `git status` is clean for the commit you will tag.
-- [ ] `npm ci && npm run verify` green.
-- [ ] `npm run export:kicad` then KiCad CLI DRC: manufacturing categories
+- [ ] `bun install && bun run verify` green.
+- [ ] `bun run export:kicad` then KiCad CLI DRC: manufacturing categories
       clean (USB footprint-internal waivers only). Vias ≥ 0.6 / 0.3 mm.
 - [ ] Manual rows in `docs/DESIGN_ASSURANCE.md` signed off (F6P6, INA, RGB).
 - [ ] Visual check of PCB SVG / 3D STEP — connectors, 240×47 mm outline,

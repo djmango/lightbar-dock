@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 
 /**
  * Hard fab gate: every pcb_via must be >= 0.6 mm pad / 0.3 mm hole.

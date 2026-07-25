@@ -34,4 +34,4 @@ firmware-driven red/green LEDs — see [`SPECS.md`](SPECS.md).
 
 Rev 1 was routed with Freerouting + KiCad cleanup, B.Cu GND plane, and JLC
 2-layer rules of that era (including some 0.45/0.25 mm vias). V3 via policy is
-≥ 0.6 mm pad / 0.3 mm hole (`npm run verify:vias`).
+≥ 0.6 mm pad / 0.3 mm hole (`bun run verify:vias`).

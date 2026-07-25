@@ -65,23 +65,22 @@ Routed V3 copper / 3D exports (when regenerated): `docs/images/v3-routed-*`,
 ## Workflow
 
 ```sh
-npm ci
-git submodule update --init --recursive
-cargo build --release -p topola-cli --manifest-path third_party/topola/Cargo.toml
-npm run verify          # test + tsci check + build + electrical + vias
-npm run route:circuit   # Topola multilayer Specctra route → generated/kicad/
-npm run route:finish    # grid A* for leftover ratsnest (safe on pre-routed boards)
-# npm run route:freerouting   # fallback
-npm run autoroute:server      # optional: tscircuit HTTP adapter on :3099
-npm run export:kicad
+bun run setup:toolchain   # bun install + Topola + pcbkit
+bun run verify            # test + tsci check + build + electrical + vias
+bun run pcbkit:route      # Rust circuit-json route (primary)
+bun run route:circuit     # legacy KiCad Specctra path (needs KiCad)
+bun run route:finish      # grid A* for leftover ratsnest
+bun run autoroute:pcbkit  # optional: tscircuit HTTP adapter → pcbkit
+bun run export:kicad
 kicad-cli pcb drc \
   --exit-code-violations \
   -o generated/reports/tscircuit-kicad-drc.rpt \
   generated/kicad/default.kicad_pcb
 ```
 
-tscircuit editor autorouting: see [`packages/topola-autorouter/README.md`](packages/topola-autorouter/README.md).
-Manufacturing boards still go through KiCad Specctra (`route:circuit`).
+Routing/IR is **Rust** (`pcbkit` + Topola). Bun only runs tscircuit/scripts glue.
+tscircuit editor autorouting: see [`packages/pcbkit-tscircuit/`](packages/pcbkit-tscircuit/)
+(or legacy [`packages/topola-autorouter/README.md`](packages/topola-autorouter/README.md)).
 
 Circuit JSON → `build/`. Manufacturing exports → `generated/`. Refresh `fab/`
 from those exports only after DRC is manufacturing-clean. See
@@ -98,7 +97,7 @@ make -C firmware/status-controller verify-ch32fun build
 
 ## Fabrication
 
-Order V3 from `generated/` (or a refreshed `fab/`) after `npm run verify` and
+Order V3 from `generated/` (or a refreshed `fab/`) after `bun run verify` and
 KiCad DRC. JLCPCB: 2-layer / 1 oz, PCBA top side, BOM + CPL; review every
 footprint in their placement preview (vertical USB-C plugs and buck ICs).
 

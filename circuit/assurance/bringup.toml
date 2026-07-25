@@ -1,0 +1,26 @@
+# Machine-readable bring-up checklist. CI verifies structure.
+# Set signed=true (and required_before_fab if blocking fab) after human bring-up.
+
+[[steps]]
+id = "flash_mcu"
+title = "Flash CH32V203F6P6 over USB1 with BOOT0"
+required_before_fab = false
+signed = false
+
+[[steps]]
+id = "pd_12v"
+title = "USB1 PD handshake reaches 12 V on vin_pd"
+required_before_fab = false
+signed = false
+
+[[steps]]
+id = "port_current_sense"
+title = "INA3221 ports report non-zero current when lightbar charging"
+required_before_fab = false
+signed = false
+
+[[steps]]
+id = "status_leds"
+title = "Per-port RGB LEDs track charging status firmware"
+required_before_fab = false
+signed = false

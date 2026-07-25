@@ -1,31 +1,79 @@
 name: CI
 
 # V3 source of truth is tscircuit under circuit/. Never run `ato build`.
+# Gates are Bun (tscircuit) + Rust (pcbkit). Zero Python.
 
 on: [push, pull_request]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
         with:
-          node-version: 24
-          cache: npm
+          submodules: recursive
 
-      - run: npm ci
-      - run: npm run verify
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.14
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache bun
+        uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache
+          key: bun-${{ runner.os }}-${{ hashFiles('bun.lock') }}
+
+      - name: Cache cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            pcbkit/target
+          key: pcbkit-${{ runner.os }}-${{ hashFiles('pcbkit/Cargo.lock', 'pcbkit/**/Cargo.toml') }}
+
+      - run: bun install --frozen-lockfile
+
+      - name: verify (quiet)
+        run: bun run verify:ci
+
+      - name: build pcbkit
+        run: cargo build --release --manifest-path pcbkit/Cargo.toml -p pcbkit-cli
+
+      - name: pcbkit assure
+        run: |
+          ./pcbkit/target/release/pcbkit assure \
+            -i build/lightbar-dock.circuit.json \
+            --fab pcbkit/profiles/fab-jlcpcb-2layer.toml \
+            --golden circuit/assurance/golden-footprints.json \
+            --pcb ci/artifacts/v3-manufacturing.kicad_pcb \
+            --manifest ci/artifacts/manifest.toml \
+            --bringup circuit/assurance/bringup.toml
+
+      - name: Upload pcbkit binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: pcbkit-linux
+          path: pcbkit/target/release/pcbkit
 
       - name: Upload assurance reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: design-assurance-reports
-          path: generated/reports
+          path: |
+            generated/reports
+            build/lightbar-dock.circuit.json
+          if-no-files-found: ignore
 
-  pcb-checks-rev1-historical:
+  # KiCad CLI only in this job — no Python, no gating logic.
+  kicad-drc:
     runs-on: ubuntu-latest
     container:
       image: kicad/kicad:10.0
@@ -33,31 +81,53 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Run DRC on frozen Rev 1.0 layout
+      - name: DRC V3 manufacturing PCB
         run: |
           kicad-cli pcb drc --format json --severity-error --severity-warning \
-            -o drc.json layouts/default/default.kicad_pcb
+            -o v3-drc.json \
+            ci/artifacts/v3-manufacturing.kicad_pcb
 
-      - name: Check DRC results
+      - name: DRC Rev1 historical PCB
         run: |
-          python3 - <<'EOF'
-          import json, sys
+          kicad-cli pcb drc --format json --severity-error --severity-warning \
+            -o rev1-drc.json \
+            layouts/default/default.kicad_pcb
 
-          d = json.load(open("drc.json"))
-          unconnected = d.get("unconnected_items", [])
-          violations = d.get("violations", [])
-          errors = [v for v in violations if v.get("severity") == "error"]
+      - name: Upload DRC JSON
+        uses: actions/upload-artifact@v4
+        with:
+          name: kicad-drc-json
+          path: |
+            v3-drc.json
+            rev1-drc.json
 
-          print(f"{len(unconnected)} unconnected items")
-          print(f"{len(errors)} DRC errors / {len(violations)} total violations")
-          for v in violations:
-              print(f"  [{v['severity']}] {v['type']}: {v['description']}")
+  # Rust gates on DRC JSON + artifact pin (no Python).
+  drc-gate:
+    runs-on: ubuntu-latest
+    needs: [verify, kicad-drc]
+    steps:
+      - uses: actions/checkout@v4
 
-          # Baseline: 4 waivable errors internal to the USB-C PD receptacle
-          # footprint (locating-peg annular_width x2, hole_clearance x2)
-          if unconnected:
-              sys.exit("FAIL: board has unconnected items")
-          if len(errors) > 4:
-              sys.exit(f"FAIL: {len(errors)} DRC errors (waivable baseline is 4)")
-          print("PASS")
-          EOF
+      - name: Download pcbkit
+        uses: actions/download-artifact@v4
+        with:
+          name: pcbkit-linux
+          path: bin
+
+      - name: Download DRC JSON
+        uses: actions/download-artifact@v4
+        with:
+          name: kicad-drc-json
+          path: drc
+
+      - name: chmod pcbkit
+        run: chmod +x bin/pcbkit
+
+      - name: Artifact pin
+        run: ./bin/pcbkit pin --manifest ci/artifacts/manifest.toml
+
+      - name: V3 DRC gate (0 unconnected, 0 copper errors)
+        run: ./bin/pcbkit drc-gate -j drc/v3-drc.json --max-unconnected 0 --max-fatal-errors 0
+
+      - name: Rev1 historical DRC gate (baseline ≤4 footprint errors)
+        run: ./bin/pcbkit drc-gate -j drc/rev1-drc.json --max-unconnected 0 --max-fatal-errors 4

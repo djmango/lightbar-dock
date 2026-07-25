@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 
 import { mkdir, readFile, writeFile } from "node:fs/promises"
 import { basename, resolve } from "node:path"
@@ -82,6 +82,25 @@ for (const [name, relativePath] of Object.entries(footprints)) {
       if (element.type === "pcb_plated_hole" && element.port_hints.length === 0) {
         element.port_hints = ["9", "pin9"]
       }
+    }
+  }
+  // Zero-annular unported holes (USB-C locating pegs) → NPTH pcb_hole.
+  for (let i = 0; i < circuitJson.length; i++) {
+    const el = circuitJson[i]
+    if (el.type !== "pcb_plated_hole") continue
+    const hints = el.port_hints || []
+    if (hints.length) continue
+    const outer = el.outer_diameter ?? el.hole_diameter
+    const hole = el.hole_diameter
+    if (outer == null || hole == null || Math.abs(outer - hole) > 0.02) continue
+    circuitJson[i] = {
+      type: "pcb_hole",
+      pcb_hole_id: `pcb_hole_from_${el.pcb_plated_hole_id || i}`,
+      hole_shape: el.shape || "circle",
+      x: el.x,
+      y: el.y,
+      hole_diameter: hole,
+      pcb_component_id: el.pcb_component_id,
     }
   }
   const notice = `// Generated from ${relativePath} by scripts/convert-footprints.mjs.\n`

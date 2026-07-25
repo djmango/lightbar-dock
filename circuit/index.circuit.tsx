@@ -6,8 +6,8 @@ import { Tps54560Buck } from "./components/Tps54560Buck"
 import { MOUNTING_HOLES } from "./placement"
 
 /**
- * Manufacturing routing uses KiCad Specctra + Topola (`npm run route:circuit`).
- * For in-editor Topola via the HTTP adapter (`npm run autoroute:server`), set
+ * Manufacturing routing uses KiCad Specctra + Topola (`bun run route:circuit`).
+ * For in-editor Topola via the HTTP adapter (`bun run autoroute:server`), set
  * USE_TOPOLA_SERVER and point autorouter at http://127.0.0.1:3099.
  */
 const USE_TOPOLA_SERVER = false

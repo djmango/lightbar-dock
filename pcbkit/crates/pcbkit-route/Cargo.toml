@@ -1,0 +1,14 @@
+[package]
+name = "pcbkit-route"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Specctra engines, SES apply, finish, and repairs for pcbkit"
+
+[dependencies]
+pcbkit-core = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+regex = { workspace = true }
+tempfile = { workspace = true }

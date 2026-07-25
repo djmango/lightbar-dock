@@ -1,0 +1,6 @@
+# JLCPCB-class 2-layer defaults (mm). No env vars.
+min_via_hole_mm = 0.3
+min_via_pad_mm = 0.6
+min_trace_mm = 0.15
+min_clearance_mm = 0.15
+min_annular_ring_mm = 0.15
