@@ -69,14 +69,17 @@ bun run setup:toolchain   # bun install + Topola + pcbkit
 bun run verify            # test + tsci check + build + electrical + vias
 bun run pcbkit:route      # Rust circuit-json route (primary)
 bun run pcbkit:assure     # gates vs pinned manufacturing PCB
+bun run board:make        # Freerouting Specctra stack → zone fill → DRC gate
 bun run autoroute:pcbkit  # optional: tscircuit HTTP adapter → pcbkit
-bun run pcbkit:attach-3d  # STEP models from parts/ → generated/kicad/…-3d.kicad_pcb
+bun run pcbkit:attach-3d  # STEP models from modelcdn → generated/kicad/…-3d.kicad_pcb
 open generated/kicad/v3-manufacturing-3d.kicad_pro   # view routed board + 3D in KiCad
-# Unrouted placement from current circuit (also gets attach-3d):
-#   bun run export:kicad && open generated/kicad/default.kicad_pro
+# Placement → for-route DSN refresh (see ci/artifacts/README.md):
+#   bun run export:kicad && bun run for-route:promote && bun run board:make -- --pin
 ```
 
-Routing/IR is **Rust** (`pcbkit` + Topola). Bun only runs tscircuit/scripts glue.
+Routing/IR is **Rust** (`pcbkit` + Topola / Freerouting). Bun only runs
+tscircuit/scripts glue. Fast CI gates the pinned manufacturing board; full
+`board:make` runs on demand, nightly, and when route inputs change.
 tscircuit editor autorouting: see [`packages/pcbkit-tscircuit/`](packages/pcbkit-tscircuit/).
 3D: `pcbkit attach-3d` downloads STEPs from `modelcdn.tscircuit.com` (EasyEDA + jscad)
 into `generated/kicad/3dmodels/` — not the legacy `parts/` tree.

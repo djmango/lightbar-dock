@@ -2,7 +2,7 @@
 
 [[artifacts]]
 path = "ci/artifacts/v3-manufacturing.kicad_pcb"
-sha256 = "edd257fccfb36e96929edd33b3d77565112383814d5557fc390e03b77133a7c3"
+sha256 = "84daf4a803caa2a5f48e50bf7e7a79d20569296ef35f6eaf3978a8a1c2de1998"
 role = "manufacturing_pcb"
 
 [[artifacts]]

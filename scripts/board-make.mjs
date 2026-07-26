@@ -12,7 +12,8 @@
  * No Python. No env-var pcbkit config.
  *
  * DSN note: ci/artifacts/v3-for-route.dsn is the checked-in Specctra export.
- * Re-export from KiCad (File → Export → Specctra DSN) when placement changes.
+ * When placement changes: `bun run for-route:promote` (or `bun run dsn:export` /
+ * KiCad GUI Specctra export), then `bun run dsn:check`.
  */
 import { spawn } from "node:child_process"
 import {
@@ -157,6 +158,15 @@ if (proIn) {
   console.warn("warn: no .kicad_pro found; DRC may use KiCad defaults")
 }
 
+// Footprint library table so KiCad can resolve `tscircuit:*` for lib checks.
+const fpLibSrc = resolve(root, "ci/artifacts/fp-lib-table")
+const fpLibDst = resolve(outDir, "fp-lib-table")
+if (existsSync(fpLibSrc)) {
+  copyFileSync(fpLibSrc, fpLibDst)
+} else {
+  console.warn("warn: missing ci/artifacts/fp-lib-table — lib_footprint_issues likely")
+}
+
 if (routeOnly) {
   console.log("board:make route-only OK:", outPcb)
   console.log("next: bun run board:make -- --skip-route   # zone refill + DRC")
@@ -207,6 +217,11 @@ await run(pcbkit, [
   "0",
   "--max-fatal-errors",
   "0",
+  // Hygiene tightened after USB silk / fp-lib-table fixes.
+  "--max-type",
+  "silk_edge_clearance=0",
+  "--max-type",
+  "lib_footprint_issues=0",
 ])
 
 console.log("board:make OK:", outPcb)

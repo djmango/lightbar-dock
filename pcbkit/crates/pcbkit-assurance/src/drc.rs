@@ -3,13 +3,16 @@
 use crate::report::CheckItem;
 use pcbkit_core::Result;
 use serde::Deserialize;
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 use std::path::Path;
 
+/// Warning types that are never treated as fatal copper errors even if
+/// KiCad marks them severity=error.
 const WARNING_OK: &[&str] = &[
     "silk_over_copper",
     "silk_edge_clearance",
     "lib_footprint_mismatch",
+    "lib_footprint_issues",
     "track_dangling",
 ];
 
@@ -47,6 +50,9 @@ struct DrcViolation {
 pub struct DrcGateSpec {
     pub max_unconnected: usize,
     pub max_fatal_errors: usize,
+    /// Cap counts of specific violation types (any severity).
+    /// Example: `silk_edge_clearance=0`, `lib_footprint_issues=0`.
+    pub max_by_type: HashMap<String, usize>,
 }
 
 impl Default for DrcGateSpec {
@@ -54,6 +60,7 @@ impl Default for DrcGateSpec {
         Self {
             max_unconnected: 0,
             max_fatal_errors: 0,
+            max_by_type: HashMap::new(),
         }
     }
 }
@@ -76,6 +83,11 @@ pub fn evaluate_drc_json(path: &Path, spec: &DrcGateSpec) -> Result<(bool, Vec<C
         .iter()
         .filter(|v| v.severity == "warning")
         .count();
+
+    let mut type_counts: HashMap<&str, usize> = HashMap::new();
+    for v in &report.violations {
+        *type_counts.entry(v.r#type.as_str()).or_default() += 1;
+    }
 
     let mut fatal: Vec<&DrcViolation> = Vec::new();
     for v in &errors {
@@ -115,6 +127,53 @@ pub fn evaluate_drc_json(path: &Path, spec: &DrcGateSpec) -> Result<(bool, Vec<C
         ));
     }
 
-    let passed = unconnected <= spec.max_unconnected && fatal.len() <= spec.max_fatal_errors;
+    let mut type_ok = true;
+    for (ty, max) in &spec.max_by_type {
+        let count = type_counts.get(ty.as_str()).copied().unwrap_or(0);
+        let passed = count <= *max;
+        type_ok &= passed;
+        items.push(CheckItem {
+            name: format!("drc type {ty}"),
+            passed,
+            details: format!("{count} (max {max})"),
+        });
+    }
+
+    let passed =
+        unconnected <= spec.max_unconnected && fatal.len() <= spec.max_fatal_errors && type_ok;
     Ok((passed, items))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::io::Write;
+
+    #[test]
+    fn max_by_type_fails_on_silk_edge() {
+        let path = std::env::temp_dir().join("pcbkit-drc-gate-test.json");
+        {
+            let mut f = std::fs::File::create(&path).unwrap();
+            write!(
+                f,
+                r#"{{
+              "unconnected_items": [],
+              "violations": [
+                {{"severity":"warning","type":"silk_edge_clearance","description":"edge"}},
+                {{"severity":"warning","type":"silk_over_copper","description":"pad"}}
+              ]
+            }}"#
+            )
+            .unwrap();
+        }
+        let mut spec = DrcGateSpec::default();
+        spec.max_by_type
+            .insert("silk_edge_clearance".into(), 0);
+        let (passed, items) = evaluate_drc_json(&path, &spec).unwrap();
+        let _ = std::fs::remove_file(&path);
+        assert!(!passed);
+        assert!(items
+            .iter()
+            .any(|i| i.name.contains("silk_edge_clearance") && !i.passed));
+    }
 }

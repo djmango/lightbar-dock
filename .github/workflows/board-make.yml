@@ -1,12 +1,44 @@
 name: Board make
 
-# On-demand end-to-end: Freerouting → SES → PCB → KiCad zone refill → DRC gate.
-# Does not replace the fast pinned-artifact CI in build.yml.
+# End-to-end: Freerouting → SES → PCB → KiCad zone refill → DRC gate.
+# Fast PR CI still uses the pinned manufacturing board in build.yml.
+# This workflow runs on demand, nightly, and when route inputs / stack change.
 # To refresh the manufacturing pin after a green run: download board-make-filled
 # and run `bun run board:make -- --skip-route --pin` locally (or copy artifacts).
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * *"
+  pull_request:
+    paths:
+      - "ci/artifacts/v3-for-route.kicad_pcb"
+      - "ci/artifacts/v3-for-route.dsn"
+      - "ci/artifacts/v3-for-route.kicad_pro"
+      - "ci/artifacts/fp-lib-table"
+      - "pcbkit/profiles/lightbar-dock.toml"
+      - "pcbkit/crates/pcbkit-route/**"
+      - "pcbkit/crates/pcbkit-cli/**"
+      - "scripts/board-make.mjs"
+      - "scripts/route-board-pcbkit.mjs"
+      - "scripts/ensure-java.mjs"
+      - "scripts/kicad-env.mjs"
+      - ".github/workflows/board-make.yml"
+  push:
+    branches: [master]
+    paths:
+      - "ci/artifacts/v3-for-route.kicad_pcb"
+      - "ci/artifacts/v3-for-route.dsn"
+      - "ci/artifacts/v3-for-route.kicad_pro"
+      - "ci/artifacts/fp-lib-table"
+      - "pcbkit/profiles/lightbar-dock.toml"
+      - "pcbkit/crates/pcbkit-route/**"
+      - "pcbkit/crates/pcbkit-cli/**"
+      - "scripts/board-make.mjs"
+      - "scripts/route-board-pcbkit.mjs"
+      - "scripts/ensure-java.mjs"
+      - "scripts/kicad-env.mjs"
+      - ".github/workflows/board-make.yml"
 
 concurrency:
   group: board-make-${{ github.ref }}
@@ -65,6 +97,9 @@ jobs:
       - name: Build pcbkit
         run: cargo build --release --manifest-path pcbkit/Cargo.toml -p pcbkit-cli
 
+      - name: DSN freshness (placement vs Specctra)
+        run: bun run dsn:check
+
       - name: Route board (Freerouting + USB repairs)
         run: bun run board:make -- --route-only
 
@@ -89,13 +124,27 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: board-make-routed
-          path: generated/kicad
+          path: board-make-routed
+
+      - name: Stage board + fp-lib-table
+        run: |
+          mkdir -p generated/kicad
+          if [[ -f board-make-routed/generated/kicad/v3-board-make.kicad_pcb ]]; then
+            cp board-make-routed/generated/kicad/* generated/kicad/
+          elif [[ -f board-make-routed/kicad/v3-board-make.kicad_pcb ]]; then
+            cp board-make-routed/kicad/* generated/kicad/
+          else
+            cp board-make-routed/v3-board-make.kicad_pcb generated/kicad/
+            cp board-make-routed/v3-board-make.kicad_pro generated/kicad/
+          fi
+          cp -f ci/artifacts/fp-lib-table generated/kicad/fp-lib-table
+          ls -la generated/kicad
 
       - name: Zone refill + DRC
         working-directory: generated/kicad
         run: |
           mkdir -p ../reports
-          # Run beside .kicad_pro so project rules load.
+          # Run beside .kicad_pro + fp-lib-table so project rules / tscircuit lib load.
           kicad-cli pcb drc --format json --severity-error --severity-warning \
             --refill-zones --save-board \
             -o ../reports/v3-board-make-drc.json \
@@ -155,12 +204,14 @@ jobs:
           fi
           ls -la generated/kicad generated/reports
 
-      - name: DRC gate (0 unconnected, 0 copper errors)
+      - name: DRC gate (0 unconnected, 0 copper errors, tight silk/lib)
         run: |
           ./pcbkit/target/release/pcbkit drc-gate \
             -j generated/reports/v3-board-make-drc.json \
             --max-unconnected 0 \
-            --max-fatal-errors 0
+            --max-fatal-errors 0 \
+            --max-type silk_edge_clearance=0 \
+            --max-type lib_footprint_issues=0
 
       - run: bun install --frozen-lockfile
 

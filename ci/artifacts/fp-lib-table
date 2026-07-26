@@ -1,0 +1,10 @@
+(fp_lib_table
+	(version 7)
+	(lib
+		(name "tscircuit")
+		(type "KiCad")
+		(uri "${KIPRJMOD}/../../circuit/kicad/tscircuit.pretty")
+		(options "")
+		(descr "Project footprints used by V3 manufacturing / for-route boards")
+	)
+)

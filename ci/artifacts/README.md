@@ -5,20 +5,33 @@
 | `v3-manufacturing.kicad_pcb` / `.kicad_pro` | Fab golden — CI DRC + `pcbkit pin` |
 | `manifest.toml` | sha256 pins for the fab golden |
 | `v3-for-route.kicad_pcb` / `.dsn` / `.kicad_pro` | Unrouted board + Specctra DSN for `board:make` |
+| `fp-lib-table` | Resolves `tscircuit:*` footprints for KiCad lib checks |
 
-## DSN regeneration
+## Placement → for-route → DSN refresh
 
-When **placement** changes, re-export Specctra DSN from KiCad:
+When **placement / netlist / pads** change:
 
-1. Open `v3-for-route.kicad_pcb` (or the new unrouted export)
-2. **File → Export → Specctra DSN**
-3. Replace `ci/artifacts/v3-for-route.dsn` (and keep the PCB/pro in sync)
+```bash
+bun run export:kicad              # → generated/kicad/v3-unrouted.kicad_pcb
+bun run for-route:promote         # copy into ci/artifacts + export DSN (Docker kicad)
+# or, if Docker/pcbnew unavailable:
+#   1. copy/promote PCB+pro into ci/artifacts/v3-for-route.*
+#   2. KiCad GUI: File → Export → Specctra DSN
+#   3. bun run dsn:check
+bun run board:make -- --pin       # Freerouting → zone fill → DRC → refresh fab pin
+```
 
-Routing copper changes do **not** require a new DSN — only footprint moves / netlist/pad changes do.
+Routing copper changes alone do **not** require a new DSN — only footprint moves / pad / netlist changes do.
+
+`bun run dsn:check` (also part of `verify:ci`) fails if DSN placement drifts from `v3-for-route.kicad_pcb`.
 
 ## Refresh fab pin after a green `board:make`
 
 ```bash
 bun run board:make -- --pin    # local, with Docker or kicad-cli
-# or copy workflow artifact board-make-filled → ci/artifacts and update manifest.toml
+# or copy workflow artifact board-make-filled → generated/kicad + update manifest
 ```
+
+CI also runs `board:make` on a schedule and when route inputs / pcbkit-route change
+(see `.github/workflows/board-make.yml`). Fast PR CI still gates the pinned
+manufacturing board in `build.yml`.

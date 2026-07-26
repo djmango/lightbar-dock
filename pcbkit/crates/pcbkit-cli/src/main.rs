@@ -90,6 +90,9 @@ enum Cmd {
         max_unconnected: usize,
         #[arg(long, default_value_t = 0)]
         max_fatal_errors: usize,
+        /// Cap a violation type count: `--max-type silk_edge_clearance=0`
+        #[arg(long = "max-type", value_name = "TYPE=N")]
+        max_type: Vec<String>,
     },
     /// Verify pinned artifact sha256 manifest.
     Pin {
@@ -256,10 +259,24 @@ fn run() -> Result<ExitCode, Box<dyn std::error::Error>> {
             json,
             max_unconnected,
             max_fatal_errors,
+            max_type,
         } => {
+            let mut max_by_type = std::collections::HashMap::new();
+            for entry in &max_type {
+                let (ty, n) = entry.split_once('=').ok_or_else(|| {
+                    pcbkit_core::Error::Msg(format!(
+                        "--max-type expected TYPE=N, got {entry:?}"
+                    ))
+                })?;
+                let n: usize = n.parse().map_err(|_| {
+                    pcbkit_core::Error::Msg(format!("--max-type count not an integer: {n:?}"))
+                })?;
+                max_by_type.insert(ty.to_string(), n);
+            }
             let spec = DrcGateSpec {
                 max_unconnected,
                 max_fatal_errors,
+                max_by_type,
             };
             let (passed, items) = evaluate_drc_json(&json, &spec)?;
             for c in &items {
