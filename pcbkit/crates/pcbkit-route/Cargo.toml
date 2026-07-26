@@ -9,6 +9,8 @@ description = "Specctra engines, SES apply, finish, and repairs for pcbkit"
 pcbkit-core = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
+toml = { workspace = true }
 thiserror = { workspace = true }
 regex = { workspace = true }
 tempfile = { workspace = true }
+ureq = { workspace = true }

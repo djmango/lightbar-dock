@@ -4,17 +4,20 @@ Specs: [`docs/SPECS.md`](docs/SPECS.md). Design gates:
 [`docs/DESIGN_ASSURANCE.md`](docs/DESIGN_ASSURANCE.md).
 
 Lessons from the v1.0 order (July 2026) are in [`docs/HISTORY.md`](docs/HISTORY.md).
-For **V3**, export manufacturing files from `bun run export:*` after verify.
+For **V3**, fab from the pinned manufacturing board under `ci/artifacts/`
+(after verify + `pcbkit:assure`), not from unrouted `export:kicad` output.
 
 ## 1. Design freeze
 
 - [ ] Confirm revision: **V3** from tscircuit (not historical Rev 1.0 `fab/`).
 - [ ] `git status` is clean for the commit you will tag.
 - [ ] `bun install && bun run verify` green.
-- [ ] `bun run export:kicad` then KiCad CLI DRC: manufacturing categories
-      clean (USB footprint-internal waivers only). Vias ≥ 0.6 / 0.3 mm.
+- [ ] `bun run pcbkit:assure` green against
+      `ci/artifacts/v3-manufacturing.kicad_pcb`. Open that `.kicad_pro` in
+      KiCad; DRC manufacturing categories clean (USB footprint-internal
+      waivers only). Vias ≥ 0.6 / 0.3 mm.
 - [ ] Manual rows in `docs/DESIGN_ASSURANCE.md` signed off (F6P6, INA, RGB).
-- [ ] Visual check of PCB SVG / 3D STEP — connectors, 240×47 mm outline,
+- [ ] Visual check in KiCad — connectors, 240×47 mm outline,
       status LEDs aligned with ports.
 
 ## 2. Part availability (BEFORE finalizing the BOM)

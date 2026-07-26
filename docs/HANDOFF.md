@@ -1,5 +1,11 @@
 # Handoff: tscircuit V3 + Topola / grid finish
 
+> **Archived.** The KiCad Python / `route:circuit` / `route:finish` path is
+> gone. Day-to-day flow is Rust **pcbkit** (`bun run pcbkit:route`,
+> `pcbkit:assure`) and the pinned board
+> `ci/artifacts/v3-manufacturing.kicad_pro`. Keep this doc for historical
+> context only.
+
 **Date:** 2026-07-24  
 **Default branch:** `master`  
 **PR context:** tscircuit migration, Topola submodule, Freerouting leftovers finished with grid A*
@@ -130,7 +136,7 @@ Freerouting JARs are **not** in git (~118 MB). Place `freerouting-2.2.4.jar` u
 2. **Via diameter / hole clearance** from finish vias — align to netclass (0.8/0.4) everywhere; dedupe stacked vias (`hole_to_hole`).
 3. **Silk over copper** (~70) — refs/values hidden or moved; fp-lib already partially fixed via `fix-tscircuit-fp-lib`.
 4. **lib_footprint_mismatch** — open `generated/kicad/default.kicad_pro` so `fp-lib-table` loads `circuit/kicad/tscircuit.pretty`.
-5. **3D** — KiCad footprints have no STEP models; use `bunx tsci dev` / tscircuit `--3d` for visuals.
+5. **3D** — `bun run pcbkit:attach-3d` downloads from modelcdn → `generated/kicad/v3-manufacturing-3d.kicad_pro`.
 6. **Push Topola fork commits** and refresh submodule SHA if the PR submodule pointer drifts.
 7. **CI** — `.github/workflows/build.yml` uses Bun; confirm runners have Bun, KiCad container, submodule init.
 8. **Do not commit** `generated/` or Freerouting JARs.

@@ -163,7 +163,7 @@ const server = createServer(async (req, res) => {
         res.end(
           JSON.stringify({
             error:
-              "circuit_json not implemented here; use inputFormat simplified, or bun run route:circuit for KiCad Specctra",
+              "circuit_json not implemented here; use inputFormat simplified, or bun run pcbkit:route / route:board",
           }),
         )
         return

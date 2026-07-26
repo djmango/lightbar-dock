@@ -1,0 +1,9 @@
+# Optional per-LCSC 3D placement (KiCad degrees / mm).
+# Used by `pcbkit attach-3d` when present next to `{LCSC}.step` or alone.
+#
+# Values for C381116 copied from the proven DC-005 footprint
+# (parts/XKB_…/DC-IN-TH_DC-005-5A-2.0.kicad_mod) — opening faces board edge.
+
+[C381116]
+offset = [-3.65, 2.2, 0.0]
+rotate = [0.0, 0.0, 90.0]

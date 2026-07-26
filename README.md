@@ -68,22 +68,21 @@ Routed V3 copper / 3D exports (when regenerated): `docs/images/v3-routed-*`,
 bun run setup:toolchain   # bun install + Topola + pcbkit
 bun run verify            # test + tsci check + build + electrical + vias
 bun run pcbkit:route      # Rust circuit-json route (primary)
-bun run route:circuit     # legacy KiCad Specctra path (needs KiCad)
-bun run route:finish      # grid A* for leftover ratsnest
+bun run pcbkit:assure     # gates vs pinned manufacturing PCB
 bun run autoroute:pcbkit  # optional: tscircuit HTTP adapter → pcbkit
-bun run export:kicad
-kicad-cli pcb drc \
-  --exit-code-violations \
-  -o generated/reports/tscircuit-kicad-drc.rpt \
-  generated/kicad/default.kicad_pcb
+bun run pcbkit:attach-3d  # STEP models from parts/ → generated/kicad/…-3d.kicad_pcb
+open generated/kicad/v3-manufacturing-3d.kicad_pro   # view routed board + 3D in KiCad
+# Unrouted placement from current circuit (also gets attach-3d):
+#   bun run export:kicad && open generated/kicad/default.kicad_pro
 ```
 
 Routing/IR is **Rust** (`pcbkit` + Topola). Bun only runs tscircuit/scripts glue.
-tscircuit editor autorouting: see [`packages/pcbkit-tscircuit/`](packages/pcbkit-tscircuit/)
-(or legacy [`packages/topola-autorouter/README.md`](packages/topola-autorouter/README.md)).
+tscircuit editor autorouting: see [`packages/pcbkit-tscircuit/`](packages/pcbkit-tscircuit/).
+3D: `pcbkit attach-3d` downloads STEPs from `modelcdn.tscircuit.com` (EasyEDA + jscad)
+into `generated/kicad/3dmodels/` — not the legacy `parts/` tree.
 
-Circuit JSON → `build/`. Manufacturing exports → `generated/`. Refresh `fab/`
-from those exports only after DRC is manufacturing-clean. See
+Circuit JSON → `build/`. Pinned manufacturing board → `ci/artifacts/`.
+Refresh `fab/` only after DRC is manufacturing-clean. See
 [`docs/DESIGN_ASSURANCE.md`](docs/DESIGN_ASSURANCE.md) and
 [`ORDERING.md`](ORDERING.md).
 
@@ -97,9 +96,10 @@ make -C firmware/status-controller verify-ch32fun build
 
 ## Fabrication
 
-Order V3 from `generated/` (or a refreshed `fab/`) after `bun run verify` and
-KiCad DRC. JLCPCB: 2-layer / 1 oz, PCBA top side, BOM + CPL; review every
-footprint in their placement preview (vertical USB-C plugs and buck ICs).
+Order V3 from `ci/artifacts/` (or a refreshed `fab/`) after `bun run verify`
+and `bun run pcbkit:assure`. JLCPCB: 2-layer / 1 oz, PCBA top side, BOM + CPL;
+review every footprint in their placement preview (vertical USB-C plugs and
+buck ICs).
 
 Full checklist: [`ORDERING.md`](ORDERING.md).
 

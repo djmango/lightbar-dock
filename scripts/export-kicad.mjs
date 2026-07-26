@@ -4,8 +4,13 @@
  *
  * Avoids `tsci export -f kicad_pcb`, which hangs on renderUntilSettled for this board.
  * Run `bun run build:circuit` first (or this script will).
+ *
+ * After write, runs `pcbkit attach-3d` (downloads STEPs from modelcdn.tscircuit.com).
+ * For the routed manufacturing board with 3D:
+ *   bun run pcbkit:attach-3d && open generated/kicad/v3-manufacturing-3d.kicad_pro
  */
-import { mkdir, readFile, writeFile, access } from "node:fs/promises"
+import { mkdir, readFile, writeFile, access, copyFile } from "node:fs/promises"
+import { existsSync } from "node:fs"
 import { resolve } from "node:path"
 import { spawn } from "node:child_process"
 import {
@@ -19,23 +24,46 @@ const outDir = resolve(root, "generated/kicad")
 const pcbOut = resolve(outDir, "default.kicad_pcb")
 const unroutedOut = resolve(outDir, "v3-unrouted.kicad_pcb")
 const proOut = resolve(outDir, "default.kicad_pro")
+const pcbkit = resolve(root, "pcbkit/target/release/pcbkit")
+
+function run(cmd, args) {
+  return new Promise((resolvePromise, reject) => {
+    const child = spawn(cmd, args, {
+      cwd: root,
+      stdio: "inherit",
+      env: process.env,
+    })
+    child.on("exit", (c) =>
+      c === 0 ? resolvePromise() : reject(new Error(`${cmd} ${args.join(" ")} → ${c}`)),
+    )
+  })
+}
 
 async function ensureCircuitJson() {
   try {
     await access(circuitPath)
   } catch {
     console.log("building circuit json…")
-    await new Promise((resolvePromise, reject) => {
-      const child = spawn("npm", ["run", "build:circuit"], {
-        cwd: root,
-        stdio: "inherit",
-        env: process.env,
-      })
-      child.on("exit", (c) =>
-        c === 0 ? resolvePromise() : reject(new Error(`build:circuit ${c}`)),
-      )
-    })
+    await run("bun", ["run", "build:circuit"])
   }
+}
+
+async function ensurePcbkit() {
+  if (existsSync(pcbkit)) return
+  console.log("building pcbkit…")
+  await run("cargo", [
+    "build",
+    "--release",
+    "--manifest-path",
+    "pcbkit/Cargo.toml",
+    "-p",
+    "pcbkit-cli",
+  ])
+}
+
+async function attach3d(pcbPath) {
+  await ensurePcbkit()
+  await run(pcbkit, ["attach-3d", "--pcb", pcbPath, "-o", pcbPath])
 }
 
 await ensureCircuitJson()
@@ -56,22 +84,6 @@ const pro = new CircuitJsonToKicadProConverter(circuitJson, {
 pro.runUntilFinished()
 await writeFile(proOut, pro.getOutputString())
 
-// Normalize tscircuit footprint lib paths when KiCad Python is available.
-try {
-  await new Promise((resolvePromise, reject) => {
-    const child = spawn(
-      process.execPath,
-      [resolve(root, "scripts/fix-tscircuit-fp-lib.mjs"), pcbOut, unroutedOut],
-      { cwd: root, stdio: "inherit", env: process.env },
-    )
-    child.on("exit", (c) =>
-      c === 0 ? resolvePromise() : reject(new Error(`fix-fp-lib ${c}`)),
-    )
-  })
-} catch (err) {
-  console.warn("fp-lib normalize skipped:", err.message || err)
-}
-
 try {
   const proJson = JSON.parse(await readFile(proOut, "utf8"))
   const rules = proJson.board?.design_settings?.rules
@@ -84,6 +96,13 @@ try {
   }
 } catch (err) {
   console.warn("pro rules patch skipped:", err.message || err)
+}
+
+try {
+  await attach3d(pcbOut)
+  await copyFile(pcbOut, unroutedOut)
+} catch (err) {
+  console.warn("attach-3d skipped:", err.message || err)
 }
 
 console.log("wrote", pcbOut)

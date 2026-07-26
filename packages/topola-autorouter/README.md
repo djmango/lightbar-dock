@@ -24,7 +24,9 @@ bun run autoroute:server
 </board>
 ```
 
-`lightbar-dock` keeps `autorouter="none"` / KiCad Specctra (`bun run route:circuit`) for manufacturing so `bun run verify` stays deterministic without the server.
+`lightbar-dock` keeps `autorouter="none"` / pcbkit (`bun run pcbkit:route`,
+`pcbkit:assure`) for manufacturing so `bun run verify` stays deterministic
+without the server.
 
 ## API
 

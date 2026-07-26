@@ -178,7 +178,7 @@ fn strip_top_level_tags(pcb_text: &str, tags: &[&str]) -> String {
     out
 }
 
-fn looks_like_top_level(bytes: &[u8], i: usize, tag: &[u8]) -> bool {
+pub(crate) fn looks_like_top_level(bytes: &[u8], i: usize, tag: &[u8]) -> bool {
     if i + tag.len() > bytes.len() {
         return false;
     }
@@ -192,7 +192,7 @@ fn looks_like_top_level(bytes: &[u8], i: usize, tag: &[u8]) -> bool {
     i == 0
 }
 
-fn skip_sexp(bytes: &[u8], start: usize) -> Option<usize> {
+pub(crate) fn skip_sexp(bytes: &[u8], start: usize) -> Option<usize> {
     if start >= bytes.len() || bytes[start] != b'(' {
         return None;
     }

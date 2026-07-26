@@ -7,7 +7,8 @@ Schematic/PCB source of truth: `circuit/`. Gates:
 
 ```bash
 bun run verify         # test + check:circuit + build + electrical + vias
-bun run route:circuit  # optional Freerouting (slow); then verify:vias
+bun run pcbkit:route   # circuit-json IR route (optional local experiment)
+bun run pcbkit:assure  # gates vs ci/artifacts/v3-manufacturing.kicad_pcb
 ```
 
 Manual rows below cover what scripts cannot invent from datasheets.

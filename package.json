@@ -8,12 +8,6 @@
   "scripts": {
     "import:kicad": "bun scripts/import-kicad.mjs",
     "build:circuit": "bun scripts/build-circuit.mjs",
-    "build:circuit:tsci": "tsci export circuit/index.circuit.tsx -f circuit-json -o build/lightbar-dock.circuit.json --disable-parts-engine",
-    "route:circuit": "bun scripts/route-with-topola.mjs",
-    "route:freerouting": "bun scripts/route-with-freerouting.mjs",
-    "route:topola": "bun scripts/route-with-topola.mjs",
-    "route:finish": "bun scripts/finish-remaining-grid.mjs",
-    "route:auto": "bun scripts/route-auto.mjs",
     "route:pcbkit": "bun run pcbkit:route",
     "route:board": "bun scripts/route-board-pcbkit.mjs",
     "board:make": "bun scripts/board-make.mjs",
@@ -38,17 +32,12 @@
     "test:firmware": "cc -std=c11 -Wall -Wextra -Werror -Ifirmware/status-controller/include firmware/status-controller/src/status_logic.c firmware/status-controller/test/status_logic_test.c -o /tmp/lightbar-status-test && /tmp/lightbar-status-test",
     "test": "bun run typecheck && bun run test:firmware",
     "export:kicad": "bun scripts/export-kicad.mjs",
-    "export:kicad:tsci": "tsci export circuit/index.circuit.tsx -f kicad_pcb -o generated/kicad/default.kicad_pcb --disable-parts-engine && bun scripts/fix-tscircuit-fp-lib.mjs",
-    "fix:kicad-fp-lib": "bun scripts/fix-tscircuit-fp-lib.mjs",
-    "export:gerbers": "tsci export circuit/index.circuit.tsx -f gerbers -o ../generated/lightbar-dock-gerbers.zip",
-    "export:pcb-svg": "tsci export circuit/index.circuit.tsx -f pcb-svg -o ../docs/images/tscircuit-pcb.svg",
-    "export:schematic-svg": "tsci export circuit/index.circuit.tsx -f schematic-svg -o ../docs/images/tscircuit-schematic.svg",
-    "export:step": "tsci export circuit/index.circuit.tsx -f step -o ../generated/lightbar-dock.step",
     "verify:electrical": "bun scripts/verify-electrical.mjs",
     "verify:vias": "bun scripts/assert-via-sizes.mjs",
     "verify": "bun run test && bun run check:circuit && bun run build:circuit && bun run verify:electrical && bun run verify:vias",
     "verify:ci": "bun run typecheck && bun run test:firmware && bun run check:netlist > /tmp/tsci-netlist.txt && bun run check:pins > /tmp/tsci-pins.txt && bun run check:placement > /tmp/tsci-placement.txt && bun run build:circuit && bun run verify:electrical && bun run verify:vias",
-    "pcbkit:assure": "pcbkit/target/release/pcbkit assure -i build/lightbar-dock.circuit.json --pcb ci/artifacts/v3-manufacturing.kicad_pcb"
+    "pcbkit:assure": "pcbkit/target/release/pcbkit assure -i build/lightbar-dock.circuit.json --pcb ci/artifacts/v3-manufacturing.kicad_pcb",
+    "pcbkit:attach-3d": "mkdir -p generated/kicad && pcbkit/target/release/pcbkit attach-3d --pcb ci/artifacts/v3-manufacturing.kicad_pcb -o generated/kicad/v3-manufacturing-3d.kicad_pcb && bun scripts/make-3d-kicad-pro.mjs"
   },
   "repository": {
     "type": "git",

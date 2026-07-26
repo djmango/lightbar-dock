@@ -3,8 +3,10 @@ use pcbkit_assurance::{
     evaluate_drc_json, run_assurance, verify_manifest, DrcGateSpec, FabRules,
 };
 use pcbkit_core::{load_circuit, save_circuit, Profile};
-use pcbkit_route::{apply_ses_board, check_document, route_document, route_kicad_board};
-use std::path::PathBuf;
+use pcbkit_route::{
+    apply_ses_board, attach_3d_to_pcb_files, check_document, route_document, route_kicad_board,
+};
+use std::path::{Path, PathBuf};
 use std::process::ExitCode;
 
 #[derive(Parser)]
@@ -93,6 +95,23 @@ enum Cmd {
     Pin {
         #[arg(long, default_value = "ci/artifacts/manifest.toml")]
         manifest: PathBuf,
+    },
+    /// Attach STEP 3D models from tscircuit modelcdn (EasyEDA/jscad) onto footprints.
+    #[command(name = "attach-3d")]
+    Attach3d {
+        #[arg(long)]
+        pcb: PathBuf,
+        #[arg(long, short = 'o')]
+        out: Option<PathBuf>,
+        /// Project STEP overrides (`{LCSC}.step`). Default: `circuit/3dmodels` if present.
+        #[arg(long, default_value = "circuit/3dmodels")]
+        models_dir: PathBuf,
+        /// Optional TOML map: C12345 = "${KIPRJMOD}/3dmodels/custom.step"
+        #[arg(long)]
+        map: Option<PathBuf>,
+        /// Exit non-zero if any LCSC on the board has no STEP
+        #[arg(long, default_value_t = false)]
+        strict: bool,
     },
 }
 
@@ -285,6 +304,44 @@ fn run() -> Result<ExitCode, Box<dyn std::error::Error>> {
             } else {
                 eprintln!("pcbkit pin FAILED");
                 Ok(ExitCode::FAILURE)
+            }
+        }
+        Cmd::Attach3d {
+            pcb,
+            out,
+            models_dir,
+            map,
+            strict,
+        } => {
+            let out_path = out.unwrap_or_else(|| pcb.clone());
+            let models = if models_dir.is_dir() {
+                Some(models_dir.as_path())
+            } else {
+                None
+            };
+            let report = attach_3d_to_pcb_files(&pcb, &out_path, map.as_deref(), models)?;
+            println!(
+                "pcbkit attach-3d: footprints={} attached={} replaced={} downloaded={} project={} no_lcsc={} missing={}",
+                report.footprints,
+                report.attached,
+                report.already_had,
+                report.downloaded,
+                report.from_project,
+                report.skipped_no_lcsc,
+                report.missing.len()
+            );
+            for m in &report.missing {
+                println!("  missing STEP: {m}");
+            }
+            println!(
+                "models: {}/3dmodels/",
+                out_path.parent().unwrap_or_else(|| Path::new(".")).display()
+            );
+            println!("→ {}", out_path.display());
+            if strict && !report.missing.is_empty() {
+                Ok(ExitCode::FAILURE)
+            } else {
+                Ok(ExitCode::SUCCESS)
             }
         }
     }

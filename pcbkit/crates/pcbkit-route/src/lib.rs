@@ -3,6 +3,7 @@
 mod dsn;
 mod engine;
 mod finish;
+mod kicad_3d;
 mod kicad_pcb;
 mod kicad_repairs;
 mod repairs;
@@ -16,6 +17,10 @@ use std::path::{Path, PathBuf};
 pub use dsn::board_to_dsn;
 pub use engine::{run_engine, run_engine_on_dsn, run_engine_on_dsn_text, EngineResult};
 pub use finish::grid_finish;
+pub use kicad_3d::{
+    attach_3d_to_pcb_files, attach_3d_to_pcb_text, footprinter_from_lib_id, load_model_map,
+    resolve_model, Attach3dReport, ModelSpec,
+};
 pub use kicad_pcb::{
     apply_ses_to_pcb_files, apply_ses_to_pcb_text, extract_zones, ses_to_kicad_copper,
     strip_copper_routes, strip_zones,
