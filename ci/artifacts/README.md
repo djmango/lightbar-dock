@@ -11,8 +11,13 @@ Silk / lib hygiene helpers (after footprint edits):
 
 ```bash
 bun run fix:silk      # drop USB/SS54 F.SilkS shell lines that clip pads/edge
-bun run fix:fp-lib    # strip shared-package Supplier PN + sync .pretty from board
+bun run fix:fp-lib    # strip shared-package Supplier PN + normalize property ats
 ```
+
+DRC gates enforce `silk_edge_clearance=0`, `silk_over_copper=0`, and
+`lib_footprint_issues=0`. `lib_footprint_mismatch` (shared-package metadata
+drift) is not gated — use KiCad “Update Footprints from Library” carefully
+if you need a clean mismatch count; do not rewrite embeds with ad-hoc scripts.
 
 ## Placement → for-route → DSN refresh
 

@@ -217,15 +217,13 @@ await run(pcbkit, [
   "0",
   "--max-fatal-errors",
   "0",
-  // Hygiene: no silk/lib noise on the manufacturing path.
+  // Hygiene: no silk / missing-lib noise on the manufacturing path.
   "--max-type",
   "silk_edge_clearance=0",
   "--max-type",
   "lib_footprint_issues=0",
   "--max-type",
   "silk_over_copper=0",
-  "--max-type",
-  "lib_footprint_mismatch=0",
 ])
 
 console.log("board:make OK:", outPcb)

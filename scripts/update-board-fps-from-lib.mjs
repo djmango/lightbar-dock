@@ -1,8 +1,8 @@
 #!/usr/bin/env bun
 /**
- * Update embedded footprints on ci/artifacts PCBs from tscircuit.pretty libs.
- * Preserves instance fields: placement, uuid, Reference, Value, pad nets,
- * path/sheetpath/attr. Clears lib_footprint_mismatch.
+ * EXPERIMENTAL — do not use in the default hygiene path.
+ * Previously broke pad nets / caused mass shorts when rewriting embeds.
+ * Prefer normalize-fp-property-at + pad/silk/PN library edits instead.
  *
  *   bun scripts/update-board-fps-from-lib.mjs
  */

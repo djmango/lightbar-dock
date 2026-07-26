@@ -204,7 +204,7 @@ jobs:
           fi
           ls -la generated/kicad generated/reports
 
-      - name: DRC gate (0 unconnected, 0 copper/silk/lib errors)
+      - name: DRC gate (0 unconnected, 0 copper/silk errors)
         run: |
           ./pcbkit/target/release/pcbkit drc-gate \
             -j generated/reports/v3-board-make-drc.json \
@@ -212,8 +212,7 @@ jobs:
             --max-fatal-errors 0 \
             --max-type silk_edge_clearance=0 \
             --max-type lib_footprint_issues=0 \
-            --max-type silk_over_copper=0 \
-            --max-type lib_footprint_mismatch=0
+            --max-type silk_over_copper=0
 
       - run: bun install --frozen-lockfile
 
