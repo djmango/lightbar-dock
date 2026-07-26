@@ -1,11 +1,10 @@
 # Pinned manufacturing artifacts. CI verifies sha256 before layout DRC.
-
 [[artifacts]]
 path = "ci/artifacts/v3-manufacturing.kicad_pcb"
-sha256 = "b58c473274a1d04df387b29b728e941791c6fbaea9015727a1094f5618044386"
+sha256 = "8330d1e160fd3b9168b8deb2bfbe82cc9f72b1d0fbd336d540c7e398b7dd82e5"
 role = "manufacturing_pcb"
 
 [[artifacts]]
 path = "ci/artifacts/v3-manufacturing.kicad_pro"
-sha256 = "6acb1c1e9db79cf93d3268ac24526c6ed63afd607908e5ca832daa4644f21819"
+sha256 = "8c7ed946b97b2ed1e85fdcdb8f90483d9f1b4a7b76b9b8ef663e7b21aaf6f131"
 role = "manufacturing_project"

@@ -30,36 +30,39 @@ if (!existsSync(pcbPath)) die(`missing PCB: ${pcbPath}`)
 if (!existsSync(dsnPath)) die(`missing DSN: ${dsnPath}`)
 
 function parsePcbPlaces(text) {
-  const lines = text.split(/\n/)
   const places = []
-  let pendingFp = null
-  for (let i = 0; i < lines.length; i++) {
-    const fm = lines[i].match(/^\t\(footprint "([^"]+)"/)
-    if (fm) {
-      pendingFp = fm[1]
-      continue
-    }
-    if (!pendingFp) continue
-    const am = lines[i].match(
-      /^\t\t\(at ([-\d.]+) ([-\d.]+)(?: ([-\d.]+))?\)/,
-    )
-    if (!am) continue
-    let ref = "?"
-    for (let j = i; j < Math.min(i + 48, lines.length); j++) {
-      const rm = lines[j].match(/\(property "Reference" "([^"]+)"/)
-      if (rm) {
-        ref = rm[1]
-        break
+  for (let i = 0; i < text.length; i++) {
+    const idx = text.indexOf("(footprint", i)
+    if (idx < 0) break
+
+    let depth = 0
+    let end = -1
+    for (let j = idx; j < text.length; j++) {
+      if (text[j] === "(") depth++
+      else if (text[j] === ")") {
+        depth--
+        if (depth === 0) {
+          end = j + 1
+          break
+        }
       }
     }
-    places.push({
-      ref,
-      x: +am[1],
-      y: +am[2],
-      rot: +(am[3] || 0),
-      fp: pendingFp,
-    })
-    pendingFp = null
+    if (end < 0) break
+
+    const block = text.slice(idx, end)
+    const fp = block.match(/^\(footprint\s+(?:\n\s*)?"([^"]+)"/)?.[1]
+    const at = block.match(/\n\s*\(at\s+([-\d.]+)\s+([-\d.]+)(?:\s+([-\d.]+))?\)/)
+    const ref = block.match(/\(property\s+"Reference"\s+"([^"]+)"/)?.[1]
+    if (fp && at && ref) {
+      places.push({
+        ref,
+        x: +at[1],
+        y: +at[2],
+        rot: +(at[3] || 0),
+        fp,
+      })
+    }
+    i = end
   }
   return places
 }
@@ -94,7 +97,9 @@ function angDiff(a, b) {
 
 const pcb = parsePcbPlaces(readFileSync(pcbPath, "utf8"))
 const dsn = parseDsnPlaces(readFileSync(dsnPath, "utf8"))
-const dsnMap = new Map(dsn.map((p) => [p.ref, p]))
+const pcbMap = new Map(pcb.map((p) => [p.ref, p]))
+const physicalDsn = dsn.filter((p) => !/^REF\d+$/.test(p.ref))
+const dsnMap = new Map(physicalDsn.map((p) => [p.ref, p]))
 
 const missing = []
 const mismatches = []

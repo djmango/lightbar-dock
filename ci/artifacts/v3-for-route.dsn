@@ -240,7 +240,7 @@
       (place U7 110000 -110500 front 180 (PN CH32V203F6P6))
     )
     (component "tscircuit:TS-1187A-B-A-B"
-      (place SW1 110000 -102500 front 0 (PN "TS-1187A-B-A-B"))
+      (place SW1 10000 -121800 front 0 (PN "TS-1187A-B-A-B"))
     )
     (component tscircuit:SS54::1
       (place D5 -6000 -119000 front 0 (PN SS54))

@@ -20,6 +20,15 @@ const CC1_ADC = "status_cc1_adc"
 const CC2_ADC = "status_cc2_adc"
 const BOOT0 = "status_boot0"
 
+const STATUS_CONTROLLER_PLACEMENT = {
+  resetSwitch: {
+    // Native tscircuit board coordinates, origin at board center.
+    // Left power/input service zone, top side, clear of USB-C/DC jacks.
+    pcbX: -90,
+    pcbY: -21.8,
+  },
+} as const
+
 const inaChannels = [
   {
     reference: "U1",
@@ -297,7 +306,7 @@ export function StatusController() {
         manufacturerPartNumber="TS-1187A-B-A-B"
         supplierPartNumbers={{ jlcpcb: ["C318884"] }}
         pinLabels={{ 1: "pin1", 2: "pin2" }}
-        {...fromKiCad(180, 76)}
+        {...STATUS_CONTROLLER_PLACEMENT.resetSwitch}
         footprint={
           <footprint>
             <smtpad

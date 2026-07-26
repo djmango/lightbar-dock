@@ -5,6 +5,31 @@ import { StatusController } from "./components/StatusController"
 import { Tps54560Buck } from "./components/Tps54560Buck"
 import { MOUNTING_HOLES } from "./placement"
 
+const BOARD_SILK = {
+  // Native tscircuit board coordinates, origin at board center.
+  // These live on the top-side bottom edge in the visual service strip above
+  // the status LEDs. Text is split into short blocks to avoid mounting holes
+  // and component bodies.
+  brand: {
+    text: "SKG // LIGHTBAR DOCK // V3",
+    pcbX: 55,
+    pcbY: -20.4,
+    fontSize: "1.35mm",
+  },
+  input: {
+    text: "IN: USB C PD 12V OR DC 12V",
+    pcbX: -43,
+    pcbY: -21.2,
+    fontSize: "0.8mm",
+  },
+  output: {
+    text: "OUT: 5V 1A/PORT",
+    pcbX: -43,
+    pcbY: -18.8,
+    fontSize: "0.8mm",
+  },
+} as const
+
 /**
  * Manufacturing routing: Rust pcbkit (`bun run pcbkit:route` / `route:board`).
  * Pinned board: ci/artifacts/v3-manufacturing.kicad_pcb.
@@ -60,6 +85,18 @@ export default function LightbarDock() {
           <ChargePortPower key={index} index={index} />
         ))}
         <StatusController />
+        {Object.values(BOARD_SILK).map(({ text, pcbX, pcbY, fontSize }) => (
+          <Fragment key={text}>
+            <silkscreentext
+              text={text}
+              layer="top"
+              pcbX={pcbX}
+              pcbY={pcbY}
+              fontSize={fontSize}
+              anchorAlignment="center"
+            />
+          </Fragment>
+        ))}
 
         {MOUNTING_HOLES.map((placement, index) => (
           <Fragment key={index}>
