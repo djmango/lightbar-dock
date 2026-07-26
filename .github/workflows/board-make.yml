@@ -57,8 +57,8 @@ jobs:
       - name: Symlink Java for pcbkit profile
         run: |
           mkdir -p third_party/java/bin
-          ln -sfn "$(command -v java)" third_party/java/bin/java
-          java -version
+          ln -sfn "$JAVA_HOME/bin/java" third_party/java/bin/java
+          third_party/java/bin/java -version
 
       - run: bun install --frozen-lockfile
 
@@ -140,7 +140,20 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: board-make-filled
-          path: .
+          path: board-make-out
+
+      - name: Normalize artifact layout
+        run: |
+          # upload-artifact may strip the common `generated/` prefix.
+          mkdir -p generated/kicad generated/reports
+          if [[ -f board-make-out/generated/kicad/v3-board-make.kicad_pcb ]]; then
+            cp board-make-out/generated/kicad/* generated/kicad/
+            cp board-make-out/generated/reports/* generated/reports/
+          else
+            cp board-make-out/kicad/* generated/kicad/
+            cp board-make-out/reports/* generated/reports/
+          fi
+          ls -la generated/kicad generated/reports
 
       - name: DRC gate (0 unconnected, 0 copper errors)
         run: |

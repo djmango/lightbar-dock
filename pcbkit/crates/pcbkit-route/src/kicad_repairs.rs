@@ -66,7 +66,9 @@ pub fn footprint_pads(pcb_text: &str, component: &str, net: &str) -> Vec<PadAt> 
         .get(3)
         .map(|g| g.as_str().parse().unwrap_or(0.0))
         .unwrap_or(0.0);
-    let rot = rot_deg.to_radians();
+    // KiCad PCB Y+ is down. Negate the stored angle so local pad offsets match
+    // `kicad-cli`/pcbnew absolute positions (e.g. USB1 at … -90 → use +90 here).
+    let rot = (-rot_deg).to_radians();
     let (c, s) = (rot.cos(), rot.sin());
 
     let pad_re = Regex::new(
@@ -208,7 +210,12 @@ mod tests {
 "#;
         let pads = footprint_pads(pcb, "USB1", "usb_dp");
         assert_eq!(pads.len(), 2);
-        assert!((pads[0].x - (-17.705)).abs() < 1e-3);
+        // KiCad abs for pad7 / pad9 with footprint at (-15.1625, 88.5, -90).
+        let xs: Vec<f64> = pads.iter().map(|p| p.x).collect();
+        let ys: Vec<f64> = pads.iter().map(|p| p.y).collect();
+        assert!(xs.iter().all(|x| (x - (-12.62)).abs() < 1e-2));
+        assert!(ys.iter().any(|y| (y - 88.25).abs() < 1e-2));
+        assert!(ys.iter().any(|y| (y - 89.25).abs() < 1e-2));
         let mut copper = KicadCopper {
             segments: vec![],
             vias: vec![],
@@ -216,6 +223,7 @@ mod tests {
         apply_kicad_repairs(pcb, &mut copper, &profile());
         assert_eq!(copper.vias.len(), 2);
         assert_eq!(copper.segments.len(), 3); // 2 stubs + 1 bridge
-        assert!(copper.vias.iter().all(|v| (v.x - (-15.705)).abs() < 1e-3));
+        // mean_x=-12.62, offset +2 toward board interior → via_x=-10.62
+        assert!(copper.vias.iter().all(|v| (v.x - (-10.62)).abs() < 1e-2));
     }
 }
