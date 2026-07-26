@@ -229,18 +229,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C11702"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "65154780-4fad-897f-3a45-cb7e24de0d7d")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -341,18 +330,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25334"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "248ce160-39f4-9f61-4f5c-5d6264c41b63")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.727064 -0.91)
@@ -1186,18 +1164,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25900"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "1e0b2040-08a3-623f-0cc4-5bc2222c19c3")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 -0.38)
@@ -1913,18 +1880,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C399938"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "0d18e24a-7588-e04a-2207-21b64668dc4a")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(pad "1" smd rect
 			(at 2.8 -1.27)
@@ -2108,18 +2064,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C11702"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "35c197a0-2059-d99f-0af2-1b9e0a75a263")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -2220,18 +2165,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25768"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "1bf7ebc0-0690-2dbf-0ed7-9042243f4e43")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -2332,18 +2266,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C11702"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "22640700-0cfc-48ff-086b-75021dd33303")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -2778,18 +2701,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25744"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "24a62040-3a0d-de41-4f75-9c4264dd5a43")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 -0.38)
@@ -3153,18 +3065,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C399938"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "47968eb0-20d9-6f50-76b6-92b00e4694b0")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(pad "1" smd rect
 			(at 2.8 -1.27)
@@ -3348,18 +3249,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25744"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "0aad8fa0-0aba-2e61-2021-ec623589aa63")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 -0.38)
@@ -3460,18 +3350,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25768"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "33ae6320-1e46-a51f-08de-e71e0c88d6e3")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -3572,18 +3451,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25744"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "53f9d020-6961-8e21-7ec9-4c226bcef5dd")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 -0.38)
@@ -3684,18 +3552,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C11702"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "3e6fcc20-53d7-8a21-693f-48227ea70623")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -3918,18 +3775,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C11702"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "652e8660-4fc6-c85f-3a5f-0a5e24f74c5d")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 -0.38)
@@ -4030,18 +3876,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25768"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "135bc420-28c3-8221-3e2b-40225392fe23")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -4142,18 +3977,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25741"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "6954ef60-53ed-315f-3e85-735e291db55d")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 -0.38)
@@ -4983,18 +4807,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25744"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "066de7c0-0ef9-d641-2461-944239c95243")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 -0.38)
@@ -5095,18 +4908,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25768"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "0f02dd60-246a-9b61-39d2-59624f3a1763")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -5617,18 +5419,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25769"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "788c1700-6324-58ff-4dbc-9afe3854dcfd")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -5729,18 +5520,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C129766"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "44c2a880-5a2a-6681-6f92-24827b061d7d")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -5963,18 +5743,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25900"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "0cda0300-088d-bb01-1df5-7902335d3703")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 -0.38)
@@ -6257,18 +6026,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25769"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "068726a0-0ee0-9761-2448-556239b01363")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 -0.38)
@@ -6369,18 +6127,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C11702"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "6dc37c00-7cd4-c5ff-676d-07fe520549fd")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -6481,18 +6228,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25334"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "37ee0b00-2286-4cff-0d1e-8efe08492f03")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.727064 0.91)
@@ -6959,18 +6695,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C129766"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "57559bae-4642-6232-1c25-9fee7e8da20e")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -7193,18 +6918,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25769"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "49386720-33d0-a91f-1e68-eb1e09012d1d")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -7427,18 +7141,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C11702"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "2279ace0-37e1-6ae1-4d49-28e262b0e6e3")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -7539,18 +7242,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C11702"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "7edef360-6977-355f-540f-775e3ea7b95d")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -7651,129 +7343,19 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C5204950"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "4b9e0604-51f9-f7dc-106e-0a4472d60c64")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
-		(fp_line
-			(start -3.98 3.03)
-			(end 3.98 3.03)
-			(stroke
-				(width 0.15)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "85c90550-38da-4f18-9d05-fcdcf1897ef6")
-		)
-		(fp_line
-			(start 3.98 3.03)
-			(end 3.98 1.82)
-			(stroke
-				(width 0.15)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "a1ca6cdc-84cb-4166-9d81-e1bca0ad0fec")
-		)
-		(fp_line
-			(start -0.51 0.51)
-			(end -0.51 -0.51)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "32116057-b502-4750-9be5-4537587dab5b")
-		)
-		(fp_line
-			(start 0.51 0.51)
-			(end 0.51 -0.51)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "452d7abb-7a96-4269-bfc6-d0ad9623eb84")
-		)
-		(fp_line
-			(start -0.51 0)
-			(end -0.51 0.51)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "8a945d30-d963-4ade-ac4d-618415111706")
-		)
-		(fp_line
-			(start -0.51 0)
-			(end 0.51 0.51)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "0a98b7f4-c9df-4300-96e2-e02d75b29bbe")
-		)
-		(fp_line
-			(start 1.02 0)
-			(end -1.02 0)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "7b78aa68-3a19-4d97-9e09-d506a715cbed")
-		)
-		(fp_line
-			(start 0.51 -0.51)
-			(end -0.51 0)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "f4b2cda6-a70c-4194-8751-8c2ee95737b1")
-		)
-		(fp_line
-			(start -3.98 -3.03)
-			(end 3.98 -3.03)
-			(stroke
-				(width 0.15)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "ea13d6ee-35b1-4b01-bb05-c9b9c720b38d")
-		)
-		(fp_line
-			(start -2.07 -3.03)
-			(end -2.07 3.03)
-			(stroke
-				(width 0.15)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "508e6608-b244-44de-a321-7012dc8a64c2")
-		)
-		(fp_line
-			(start 3.98 -3.03)
-			(end 3.98 -1.82)
-			(stroke
-				(width 0.15)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "a5ef1345-1edd-4afa-94ba-e1c796a70840")
-		)
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		(pad "1" smd rect
 			(at -3.69 0)
 			(size 3.3 2.7)
@@ -8300,18 +7882,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C399938"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "7e02ce42-198d-33be-4ee2-ca4248ad37be")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(pad "1" smd rect
 			(at 2.8 -1.27)
@@ -9089,18 +8660,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C11702"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "0cefa8e0-2257-66e1-37bf-24e24d26e2e3")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -9529,18 +9089,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25334"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "1e245f20-08bc-a11f-0cab-1ce22212dae3")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.727064 -0.91)
@@ -9641,69 +9190,13 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C2765186"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "65c2b6c0-02ad-4740-6b1d-45402c72bcc0")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
-		(fp_line
-			(start -4.5 4.2)
-			(end -4.5 3.1875)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "d1a46507-825c-4fdf-88d9-28aefd354c74")
-		)
-		(fp_line
-			(start 4.5 4.2)
-			(end -4.5 4.2)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "1fff2bc6-5bc2-46f7-9901-da562c855ec9")
-		)
-		(fp_line
-			(start 4.57 4.2)
-			(end 4.57 3.1875)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "7657997e-a683-4b4c-935c-6b4ba2050e46")
-		)
-		(fp_line
-			(start -4.5 1.2275)
-			(end -4.5 -0.7625)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "f9e30a90-4292-4e75-834b-837d3bf38a07")
-		)
-		(fp_line
-			(start 4.57 1.2275)
-			(end 4.57 -0.7625)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "b234ce26-ae01-4efc-9dec-2de4cc821aaf")
-		)
+		
+		
+		
+		
+		
 		(pad "" np_thru_hole circle
 			(at -2.89 -1.4625)
 			(size 0.7 0.7)
@@ -10876,18 +10369,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C4940"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "6ea4b310-0c3c-b0f0-562b-5130476cacb0")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -11046,129 +10528,19 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C5204950"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "7a5c48ba-17f4-469a-4a73-bb865324425a")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
-		(fp_line
-			(start -3.98 3.03)
-			(end 3.98 3.03)
-			(stroke
-				(width 0.15)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "f48e841a-25dc-475a-915d-3f092aa10523")
-		)
-		(fp_line
-			(start 3.98 3.03)
-			(end 3.98 1.82)
-			(stroke
-				(width 0.15)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "7f4582d1-1c66-49a0-b5bc-48f97dfb55d7")
-		)
-		(fp_line
-			(start -0.51 0.51)
-			(end -0.51 -0.51)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "5a4ae245-9a2c-41d7-abfe-d802dd15a8cc")
-		)
-		(fp_line
-			(start 0.51 0.51)
-			(end 0.51 -0.51)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "13068f43-7972-48ac-bdb3-23fbc6717f76")
-		)
-		(fp_line
-			(start -0.51 0)
-			(end -0.51 0.51)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "12d0eedd-05c9-4c45-80df-b2420762d07e")
-		)
-		(fp_line
-			(start -0.51 0)
-			(end 0.51 0.51)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "1205f976-0c63-4f4b-872a-a4917d509592")
-		)
-		(fp_line
-			(start 1.02 0)
-			(end -1.02 0)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "6840aba8-cb81-402f-81e0-ff700ddba1a8")
-		)
-		(fp_line
-			(start 0.51 -0.51)
-			(end -0.51 0)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "f2dc4f28-388a-43d6-92dc-43b901833f50")
-		)
-		(fp_line
-			(start -3.98 -3.03)
-			(end 3.98 -3.03)
-			(stroke
-				(width 0.15)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "a091abab-50dc-466d-ad2e-9221f1ee1d30")
-		)
-		(fp_line
-			(start -2.07 -3.03)
-			(end -2.07 3.03)
-			(stroke
-				(width 0.15)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "e46c6d40-c955-4cef-b640-41a863c62d04")
-		)
-		(fp_line
-			(start 3.98 -3.03)
-			(end 3.98 -1.82)
-			(stroke
-				(width 0.15)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "80d0aca1-4670-4481-afbc-0df81fa58bc8")
-		)
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		(pad "1" smd rect
 			(at -3.69 0)
 			(size 3.3 2.7)
@@ -11551,18 +10923,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25768"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "6741bae0-51d9-fcdf-3c72-3ede270a80dd")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -11785,18 +11146,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C399938"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "0f2198b4-594e-654c-3e41-9cb42a2e614c")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(pad "1" smd rect
 			(at 2.8 -1.27)
@@ -12102,18 +11452,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25768"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "26b954c0-3c21-12c1-5188-d0c266f08ec3")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -12308,18 +11647,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C11702"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "6b9708a0-7f01-395f-6999-7b5e5431bd5d")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -12420,18 +11748,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25768"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "63021300-4d9a-54ff-3832-96fe22cad8fd")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -12933,18 +12250,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C11702"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "51b7b6e0-3c4f-f8df-26e8-3ade11807cdd")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -13167,18 +12473,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C399938"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "458dd846-5202-29ba-166d-d4467eddd246")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(pad "1" smd rect
 			(at 2.8 -1.27)
@@ -13362,18 +12657,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C54068"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "349f01ce-2dc9-0052-6fce-fd8e0d66fb6e")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -13596,18 +12880,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25744"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "4d5ed020-37f7-121f-228f-541e0d27961d")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 -0.38)
@@ -13913,18 +13186,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C399938"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "2b5c13b2-3d13-ea4e-5a7c-17b20df3e64e")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(pad "1" smd rect
 			(at 2.8 -1.27)
@@ -14189,18 +13451,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25741"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "28cc8940-3e34-4741-539c-05426903c343")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -14301,18 +13552,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25334"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "045ab340-110d-0ac1-2674-c8c23bdc86c3")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.727064 -0.91)
@@ -14413,18 +13653,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C11702"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "4f8b4380-3a23-857f-24bb-c77e0f54097d")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -14525,18 +13754,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C11702"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "7cb28000-674a-c1ff-51e3-03fe3c7b45fd")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 -0.38)
@@ -14637,18 +13855,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25768"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "560d04a0-6b74-c2a1-7f23-7f5e69bbc15d")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -14749,18 +13956,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C11702"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "0f1c1c40-2483-da41-39eb-98424f535643")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -14955,18 +14151,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25768"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "4d780f00-3810-50ff-22a8-92fe0d40d4fd")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -15067,18 +14252,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C327362"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "1d4fea6c-7fb7-ec8c-1de0-11544487f0cc")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -15179,18 +14353,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25768"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "2050d280-0ae9-147f-0a7e-a9821fe66783")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -15291,18 +14454,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C4940"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "156ef8a0-2ad6-b6a1-403e-74a255a632a3")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -15906,18 +15058,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25334"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "3e568d40-53be-4b41-6926-09427e8dc743")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.727064 -0.91)
@@ -16018,18 +15159,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25768"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "7ccbbee0-6764-00df-51fc-42de3c9484dd")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -16252,18 +15382,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C399938"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "61c85344-35c7-aebc-32a8-4f4464e7b2bc")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(pad "1" smd rect
 			(at 2.8 -1.27)
@@ -16447,129 +15566,19 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C5204950"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "40569778-2211-6aa8-7b86-9338191e9118")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
-		(fp_line
-			(start -3.98 -3.03)
-			(end 3.98 -3.03)
-			(stroke
-				(width 0.15)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "d29b33de-cc04-4dff-815a-d735a58c9f4b")
-		)
-		(fp_line
-			(start -3.98 3.03)
-			(end 3.98 3.03)
-			(stroke
-				(width 0.15)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "3a7f7ad5-8c60-440f-892e-29713a2189c4")
-		)
-		(fp_line
-			(start -2.07 -3.03)
-			(end -2.07 3.03)
-			(stroke
-				(width 0.15)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "40bc143f-d73b-45f7-9464-6df338e87280")
-		)
-		(fp_line
-			(start -0.51 0)
-			(end -0.51 0.51)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "3cd305e2-2c05-44c0-a2fa-9405533daddb")
-		)
-		(fp_line
-			(start -0.51 0)
-			(end 0.51 0.51)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "a9128c31-66ac-40d6-b7a1-5800c9ee92ca")
-		)
-		(fp_line
-			(start -0.51 0.51)
-			(end -0.51 -0.51)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "adb88e94-ef0a-4069-ba77-c5d159d17965")
-		)
-		(fp_line
-			(start 0.51 -0.51)
-			(end -0.51 0)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "dc13cbe8-47a2-4ffb-ad6f-a2a5768b5907")
-		)
-		(fp_line
-			(start 0.51 0.51)
-			(end 0.51 -0.51)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "83021d76-605b-4818-b272-af9ce7c87de5")
-		)
-		(fp_line
-			(start 1.02 0)
-			(end -1.02 0)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "46d41d9b-7d5a-426e-ad63-97c0a9b5afa2")
-		)
-		(fp_line
-			(start 3.98 -3.03)
-			(end 3.98 -1.82)
-			(stroke
-				(width 0.15)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "021c76d8-fa72-4dd1-ab2c-706fd9e1da5d")
-		)
-		(fp_line
-			(start 3.98 3.03)
-			(end 3.98 1.82)
-			(stroke
-				(width 0.15)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "c3f593db-25e2-4c50-b870-5f928a9cb4ea")
-		)
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		(pad "1" smd rect
 			(at -3.69 0)
 			(size 2.7 3.3)
@@ -16760,129 +15769,19 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C5204950"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "0650e636-5c17-1bea-4180-e1f620e7202a")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
-		(fp_line
-			(start -3.98 -3.03)
-			(end 3.98 -3.03)
-			(stroke
-				(width 0.15)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "5e8b241c-5ab4-4f7f-a322-b4dd9e2f5b5e")
-		)
-		(fp_line
-			(start -3.98 3.03)
-			(end 3.98 3.03)
-			(stroke
-				(width 0.15)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "6a2ba6d1-0398-4cc0-bad3-caa716c43872")
-		)
-		(fp_line
-			(start -2.07 -3.03)
-			(end -2.07 3.03)
-			(stroke
-				(width 0.15)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "77090ca0-2937-4952-be7d-629d632a76ef")
-		)
-		(fp_line
-			(start -0.51 0)
-			(end -0.51 0.51)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "57d25f21-2e53-4151-8161-8752345ace6e")
-		)
-		(fp_line
-			(start -0.51 0)
-			(end 0.51 0.51)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "62fd5ba6-d542-4583-8cc2-ae08cc5f649a")
-		)
-		(fp_line
-			(start -0.51 0.51)
-			(end -0.51 -0.51)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "12e05693-3159-497b-ba4d-68830b0a1c5a")
-		)
-		(fp_line
-			(start 0.51 -0.51)
-			(end -0.51 0)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "699f0493-6772-4dfd-972e-a9f0c4e8e5f9")
-		)
-		(fp_line
-			(start 0.51 0.51)
-			(end 0.51 -0.51)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "744ef040-bc52-4972-bb64-c92759056abb")
-		)
-		(fp_line
-			(start 1.02 0)
-			(end -1.02 0)
-			(stroke
-				(width 0.25)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "746ac6dc-f7e7-4244-a2fe-bf0e5b28944a")
-		)
-		(fp_line
-			(start 3.98 -3.03)
-			(end 3.98 -1.82)
-			(stroke
-				(width 0.15)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "4ffc2820-ad63-4c49-b262-7a8a023f2b5e")
-		)
-		(fp_line
-			(start 3.98 3.03)
-			(end 3.98 1.82)
-			(stroke
-				(width 0.15)
-				(type default)
-			)
-			(layer "F.SilkS")
-			(uuid "e1400d24-9d80-476e-94e4-1248bb879a6a")
-		)
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		(pad "1" smd rect
 			(at -3.69 0)
 			(size 2.7 3.3)
@@ -16951,18 +15850,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25744"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "3a013f80-2499-817f-0f31-c37e0635fa83")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 -0.38)
@@ -17224,18 +16112,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25768"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "5a4cac80-6fb4-6a81-7ae3-d77e657c197d")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -17336,18 +16213,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C54068"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "19e4b740-047c-f93f-10ea-c4c2265282c3")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -17448,18 +16314,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C11702"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "203793a0-0acf-d59f-0a97-e8621fffa663")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -17926,18 +16781,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25768"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "696a9540-7ed2-5341-6bc5-eebe565e30bd")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -18698,18 +17542,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C11702"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "51cd5cc0-6735-1ac1-7c9c-d8c26dfb693d")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -18932,18 +17765,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25900"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "35dad680-2073-187f-0b0b-5a7e0a5c6383")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 -0.38)
@@ -19044,18 +17866,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25334"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "7a9f4b80-6537-8d7f-4fcf-cf7e3a68117d")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.727064 -0.91)
@@ -19156,18 +17967,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25768"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "765fa3a0-60f7-e59f-4b90-279e3628699d")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -19268,18 +18068,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25768"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "408300a0-55ea-bea1-6b52-7ca27f45c55d")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -19624,18 +18413,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C11702"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "3c4358c0-51ab-16c1-6712-d4c27c7a92c3")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -19736,18 +18514,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25768"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "6fd6b080-7ac1-917f-6559-d37e4ff2157d")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -19848,18 +18615,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C399938"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "29535d48-6e3c-a4b8-05cc-a6b862a35748")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(pad "1" smd rect
 			(at 2.8 -1.27)
@@ -20043,18 +18799,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C327362"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "0566af74-67ce-b194-35c9-4c4c2c9eb5d4")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -20249,18 +18994,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25741"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "58203920-6d87-f721-7d10-4ade67a88cdd")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -20656,18 +19390,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C11702"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "62e8d420-4d81-161f-3819-581e22b19a1d")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 0.38)
@@ -20890,18 +19613,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25334"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "28e5c820-3e4d-8621-53b5-4422691d0223")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.727064 -0.91)
@@ -21002,18 +19714,7 @@
 				)
 			)
 		)
-		(property "Supplier Part Number" "C25334"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "60d59fa0-4b6d-e19f-3606-239e209e659d")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
+		
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.727064 -0.91)

@@ -128,13 +128,15 @@ jobs:
       - name: Artifact pin
         run: ./bin/pcbkit pin --manifest ci/artifacts/manifest.toml
 
-      - name: V3 DRC gate (0 unconnected, 0 copper errors, tight silk/lib)
+      - name: V3 DRC gate (0 unconnected, 0 copper/silk/lib errors)
         run: |
           ./bin/pcbkit drc-gate -j drc/v3-drc.json \
             --max-unconnected 0 \
             --max-fatal-errors 0 \
             --max-type silk_edge_clearance=0 \
-            --max-type lib_footprint_issues=0
+            --max-type lib_footprint_issues=0 \
+            --max-type silk_over_copper=0 \
+            --max-type lib_footprint_mismatch=0
 
       - name: Rev1 historical DRC gate (baseline ≤4 footprint errors)
         run: ./bin/pcbkit drc-gate -j drc/rev1-drc.json --max-unconnected 0 --max-fatal-errors 4

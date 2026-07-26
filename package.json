@@ -18,6 +18,7 @@
     "dsn:export": "bun scripts/export-dsn.mjs",
     "for-route:promote": "bun scripts/promote-for-route.mjs",
     "fix:silk": "bun scripts/fix-silk-hygiene.mjs",
+    "fix:fp-lib": "bun scripts/sync-fp-lib-from-board.mjs && bun scripts/strip-fp-supplier-pn.mjs",
     "pcbkit:build": "cargo build --release --manifest-path pcbkit/Cargo.toml",
     "pcbkit:check": "pcbkit/target/release/pcbkit check -i build/lightbar-dock.circuit.json",
     "pcbkit:route": "bun scripts/route-pcbkit.mjs",

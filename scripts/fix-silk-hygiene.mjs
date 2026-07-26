@@ -1,10 +1,12 @@
 #!/usr/bin/env bun
 /**
- * Tighten silk hygiene on USB footprints used at the board edge / dense pads:
- *   - TYPE-C_16PIN: pull overhang silk inboard (~0.6mm) to clear Edge.Cuts
- *   - 918 charge ports: drop shell F.SilkS that clips solder mask / pads
+ * Remove F.SilkS fp_line shell outlines that clip board edge / pads / mask:
+ *   - TYPE-C_16PIN (USB1 overhang + mounting pads)
+ *   - 918 charge ports (pad/mask clip)
+ *   - SS54 (D5/D6 silk over nearby resistors)
  *
  * Updates library .kicad_mod and embedded copies in ci/artifacts PCBs.
+ * Courtyard / Fab graphics + hidden Reference properties are kept.
  */
 import { readFileSync, writeFileSync, existsSync } from "node:fs"
 import { resolve } from "node:path"
@@ -14,108 +16,127 @@ const root = resolve(import.meta.dirname, "..")
 const targets = [
   "circuit/kicad/tscircuit.pretty/TYPE-C_16PIN_2MD(073).kicad_mod",
   "circuit/kicad/tscircuit.pretty/918-118A2021Y40006.kicad_mod",
+  "circuit/kicad/tscircuit.pretty/SS54.kicad_mod",
   "ci/artifacts/v3-for-route.kicad_pcb",
   "ci/artifacts/v3-manufacturing.kicad_pcb",
 ]
 
-/** Pull USB1 tip silk from y=4.8075 / 4.6575 → 4.20 (board-edge clearance). */
-function fixTypeCSilk(text) {
-  let out = text
-  const repls = [
-    // vertical stub at local x=-4.5 toward tip
-    {
-      from: `(start -4.5 4.8075)\n\t\t(end -4.5 3.1875)`,
-      to: `(start -4.5 4.2)\n\t\t(end -4.5 3.1875)`,
-    },
-    {
-      from: `(start -4.5 4.8075)\n\t\t\t(end -4.5 3.1875)`,
-      to: `(start -4.5 4.2)\n\t\t\t(end -4.5 3.1875)`,
-    },
-    // tip bar
-    {
-      from: `(start 4.5 4.8075)\n\t\t(end -4.5 4.8075)`,
-      to: `(start 4.5 4.2)\n\t\t(end -4.5 4.2)`,
-    },
-    {
-      from: `(start 4.5 4.8075)\n\t\t\t(end -4.5 4.8075)`,
-      to: `(start 4.5 4.2)\n\t\t\t(end -4.5 4.2)`,
-    },
-    // right stub near tip
-    {
-      from: `(start 4.57 4.6575)\n\t\t(end 4.57 3.1875)`,
-      to: `(start 4.57 4.2)\n\t\t(end 4.57 3.1875)`,
-    },
-    {
-      from: `(start 4.57 4.6575)\n\t\t\t(end 4.57 3.1875)`,
-      to: `(start 4.57 4.2)\n\t\t\t(end 4.57 3.1875)`,
-    },
-  ]
+const FP_NAMES = new Set([
+  "TYPE-C_16PIN_2MD(073)",
+  "tscircuit:TYPE-C_16PIN_2MD(073)",
+  "918-118A2021Y40006",
+  "tscircuit:918-118A2021Y40006",
+  "SS54",
+  "tscircuit:SS54",
+])
+
+/** Remove any (fp_line …) sexpr whose layer is F.SilkS. */
+function stripSilkFpLines(text) {
   let n = 0
-  for (const { from, to } of repls) {
-    if (out.includes(from)) {
-      out = out.split(from).join(to)
-      n++
+  let out = ""
+  let i = 0
+  while (i < text.length) {
+    const idx = text.indexOf("(fp_line", i)
+    if (idx < 0) {
+      out += text.slice(i)
+      break
     }
+    // include preceding newline if present
+    let start = idx
+    if (start > 0 && text[start - 1] === "\n") start--
+    // walk sexpr
+    let depth = 0
+    let j = idx
+    for (; j < text.length; j++) {
+      const c = text[j]
+      if (c === "(") depth++
+      else if (c === ")") {
+        depth--
+        if (depth === 0) {
+          j++
+          break
+        }
+      }
+    }
+    const block = text.slice(start, j)
+    out += text.slice(i, start)
+    if (/\(layer "F\.SilkS"\)/.test(block)) {
+      n++
+      // drop block (and a trailing newline already handled via start)
+    } else {
+      out += text.slice(start, j)
+    }
+    i = j
   }
   return { text: out, n }
 }
 
-/** Remove F.SilkS fp_line blocks (shell outline) from 918 charge-port footprint. */
-function strip918SilkLines(text) {
-  // Operate per-footprint occurrence for PCB files; whole file for .kicad_mod.
-  const fpRe =
-    /\(footprint (?:"918-118A2021Y40006"|"tscircuit:918-118A2021Y40006")[\s\S]*?\n\t\)/g
-  let n = 0
-  const out = text.replace(fpRe, (block) => {
-    const cleaned = block.replace(
-      /\n\t\t\(fp_line\n\t\t\t\(start[^\)]+\)\n\t\t\t\(end[^\)]+\)\n\t\t\t\(stroke\n\t\t\t\t\(width [^\)]+\)\n\t\t\t\t\(type [^\)]+\)\n\t\t\t\)\n\t\t\t\(layer "F\.SilkS"\)\n\t\t\t\(uuid "[^"]+"\)\n\t\t\)/g,
-      () => {
-        n++
-        return ""
-      },
-    )
-    return cleaned
-  })
-  // Library file uses single-tab indent under footprint root
-  if (n === 0 && text.includes('footprint "918-118A2021Y40006"')) {
-    const cleaned = text.replace(
-      /\n\t\(fp_line\n\t\t\(start[^\)]+\)\n\t\t\(end[^\)]+\)\n\t\t\(stroke\n\t\t\t\(width [^\)]+\)\n\t\t\t\(type [^\)]+\)\n\t\t\)\n\t\t\(layer "F\.SilkS"\)\n\t\t\(uuid "[^"]+"\)\n\t\)/g,
-      () => {
-        n++
-        return ""
-      },
-    )
-    return { text: cleaned, n }
+function rewritePcb(text) {
+  const re = /\n\t\(footprint "/g
+  let m
+  const chunks = []
+  let last = 0
+  let total = 0
+  let hits = 0
+  while ((m = re.exec(text))) {
+    const from = m.index + 1
+    let depth = 0
+    let i = from
+    for (; i < text.length; i++) {
+      const c = text[i]
+      if (c === "(") depth++
+      else if (c === ")") {
+        depth--
+        if (depth === 0) {
+          i++
+          break
+        }
+      }
+    }
+    chunks.push(text.slice(last, from))
+    let block = text.slice(from, i)
+    const name = /^\t?\(footprint "([^"]+)"/.exec(block)?.[1]
+    if (name && FP_NAMES.has(name)) {
+      hits++
+      const r = stripSilkFpLines(block)
+      block = r.text
+      total += r.n
+    }
+    chunks.push(block)
+    last = i
   }
-  return { text: out, n }
+  chunks.push(text.slice(last))
+  return { text: chunks.join(""), n: total, hits }
 }
 
-let total = 0
+let sum = 0
 for (const rel of targets) {
   const path = resolve(root, rel)
   if (!existsSync(path)) {
     console.warn("skip missing", rel)
     continue
   }
-  let text = readFileSync(path, "utf8")
-  const before = text
-  if (rel.includes("TYPE-C") || text.includes("TYPE-C_16PIN_2MD(073)")) {
-    const r = fixTypeCSilk(text)
-    text = r.text
-    if (r.n) console.log(`${rel}: TYPE-C silk tip pulled in (${r.n} patterns)`)
-    total += r.n
+  const before = readFileSync(path, "utf8")
+  let after = before
+  let n = 0
+  let extra = ""
+  if (rel.endsWith(".kicad_pcb")) {
+    const r = rewritePcb(before)
+    after = r.text
+    n = r.n
+    extra = ` (matched ${r.hits} footprints)`
+  } else {
+    const r = stripSilkFpLines(before)
+    after = r.text
+    n = r.n
   }
-  if (rel.includes("918-118A") || text.includes("918-118A2021Y40006")) {
-    const r = strip918SilkLines(text)
-    text = r.text
-    if (r.n) console.log(`${rel}: removed ${r.n} charge-port F.SilkS lines`)
-    total += r.n
-  }
-  if (text !== before) writeFileSync(path, text)
+  if (after !== before) writeFileSync(path, after)
+  console.log(
+    n
+      ? `${rel}: removed ${n} F.SilkS fp_lines${extra}`
+      : `${rel}: no silk fp_lines to remove${extra}`,
+  )
+  sum += n
 }
 
-if (total === 0) {
-  console.error("fix-silk-hygiene: no edits applied")
-  process.exit(1)
-}
-console.log(`fix-silk-hygiene OK (${total} edits)`)
+console.log(`fix-silk-hygiene OK (${sum} edits)`)
