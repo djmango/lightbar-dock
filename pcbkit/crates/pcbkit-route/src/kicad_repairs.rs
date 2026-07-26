@@ -101,9 +101,11 @@ pub fn footprint_pads(pcb_text: &str, component: &str, net: &str) -> Vec<PadAt> 
 }
 
 fn via_xy(pads: &[PadAt], via_offset_mm: f64) -> f64 {
+    // Signed board-X offset from the pad column (KiCad Y-down space).
+    // USB1 on the left edge uses a negative offset so vias sit outboard
+    // toward the connector opening (matches the green manufacturing board).
     let mean_x: f64 = pads.iter().map(|p| p.x).sum::<f64>() / pads.len() as f64;
-    let sign = if mean_x >= 0.0 { -1.0 } else { 1.0 };
-    mean_x + sign * via_offset_mm.abs()
+    mean_x + via_offset_mm
 }
 
 fn extend_usb_flip(
@@ -172,7 +174,7 @@ mod tests {
             repairs: vec![RepairSpec::UsbCFlipPads {
                 component: "USB1".into(),
                 net: "usb_dp".into(),
-                via_offset_mm: 2.0,
+                via_offset_mm: -2.0,
             }],
             gate: GateSpec::default(),
             finish: false,
@@ -223,7 +225,7 @@ mod tests {
         apply_kicad_repairs(pcb, &mut copper, &profile());
         assert_eq!(copper.vias.len(), 2);
         assert_eq!(copper.segments.len(), 3); // 2 stubs + 1 bridge
-        // mean_x=-12.62, offset +2 toward board interior → via_x=-10.62
-        assert!(copper.vias.iter().all(|v| (v.x - (-10.62)).abs() < 1e-2));
+        // mean_x=-12.62, offset -2 outboard → via_x=-14.62
+        assert!(copper.vias.iter().all(|v| (v.x - (-14.62)).abs() < 1e-2));
     }
 }

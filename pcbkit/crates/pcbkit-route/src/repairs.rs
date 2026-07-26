@@ -40,11 +40,10 @@ fn usb_c_flip_pads(
         return vec![];
     }
 
-    // Pad column is along Y (vertical USB-C); offset vias toward smaller |x|
-    // (board edge / connector opening) — same heuristic as the Python fixer.
+    // Pad column is along Y (vertical USB-C). `via_offset_mm` is a signed
+    // board-X delta (negative = toward USB1's left-edge opening).
     let mean_x: f64 = pads.iter().map(|p| p.x).sum::<f64>() / pads.len() as f64;
-    let sign = if mean_x >= 0.0 { -1.0 } else { 1.0 };
-    let via_x = mean_x + sign * via_offset_mm.abs();
+    let via_x = mean_x + via_offset_mm;
 
     let width = board.min_trace_width.max(0.15);
     let mut segs = Vec::new();

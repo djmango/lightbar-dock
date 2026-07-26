@@ -28,13 +28,7 @@ finish_grid_mm = 0.1
 type = "usb_c_flip_pads"
 component = "USB1"
 net = "usb_dp"
-via_offset_mm = 2.0
-
-[[repairs]]
-type = "usb_c_flip_pads"
-component = "USB1"
-net = "usb_dm"
-via_offset_mm = 2.0
+via_offset_mm = -2.0
 
 [gate]
 unconnected = 0

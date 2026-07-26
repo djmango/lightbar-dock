@@ -2,8 +2,8 @@
 # No environment variables.
 #
 # Full manufacturing stack uses Freerouting on a KiCad Specctra DSN:
-#   pcbkit route-board --pcb … --dsn … -p pcbkit/profiles/lightbar-dock.toml -o …
-# Circuit-json IR path can still use Topola via engine = "topola".
+#   bun run board:make
+# Circuit-json IR path uses lightbar-dock-circuit.toml (Topola).
 
 engine = "freerouting"
 topola_bin = "third_party/topola/target/release/topola"
@@ -29,17 +29,14 @@ skip_nets = ["GND", "gnd"]
 finish = true
 finish_grid_mm = 0.1
 
+# USB1 opens left: negative offset places flip vias outboard (toward the edge).
+# Only repair usb_dp — Freerouting usually finishes usb_dm, and a second via
+# column at the same X shorts D+/D− (0.5 mm pad pitch vs 0.6 mm vias).
 [[repairs]]
 type = "usb_c_flip_pads"
 component = "USB1"
 net = "usb_dp"
-via_offset_mm = 2.0
-
-[[repairs]]
-type = "usb_c_flip_pads"
-component = "USB1"
-net = "usb_dm"
-via_offset_mm = 2.0
+via_offset_mm = -2.0
 
 [gate]
 unconnected = 0
