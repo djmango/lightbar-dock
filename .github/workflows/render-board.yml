@@ -1,0 +1,73 @@
+name: Render board
+
+# Export fresh SVG/PNG from the pinned V3 manufacturing PCB (KiCad 10).
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: render-board-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    container:
+      image: kicad/kicad:10.0
+      options: --user root
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Export SVG layers from manufacturing PCB
+        working-directory: ci/artifacts
+        run: |
+          set -euo pipefail
+          mkdir -p ../../generated/renders
+          # Front copper + silk + edge (product-ish top view)
+          kicad-cli pcb export svg \
+            --layers "F.Cu,F.SilkS,F.Mask,Edge.Cuts,F.Paste" \
+            --page-size-mode 2 \
+            --exclude-drawing-sheet \
+            -o ../../generated/renders/v3-mfg-top.svg \
+            v3-manufacturing.kicad_pcb
+          # Copper only (both sides)
+          kicad-cli pcb export svg \
+            --layers "F.Cu,B.Cu,Edge.Cuts" \
+            --page-size-mode 2 \
+            --exclude-drawing-sheet \
+            -o ../../generated/renders/v3-mfg-cu.svg \
+            v3-manufacturing.kicad_pcb
+          # F.Cu only
+          kicad-cli pcb export svg \
+            --layers "F.Cu,Edge.Cuts" \
+            --page-size-mode 2 \
+            --exclude-drawing-sheet \
+            -o ../../generated/renders/v3-mfg-fcu.svg \
+            v3-manufacturing.kicad_pcb
+          # B.Cu only
+          kicad-cli pcb export svg \
+            --layers "B.Cu,Edge.Cuts" \
+            --page-size-mode 2 \
+            --exclude-drawing-sheet \
+            -o ../../generated/renders/v3-mfg-bcu.svg \
+            v3-manufacturing.kicad_pcb
+          ls -la ../../generated/renders/
+
+      - name: Rasterize SVG → PNG
+        run: |
+          set -euo pipefail
+          apt-get update -qq
+          apt-get install -y -qq librsvg2-bin
+          cd generated/renders
+          for f in v3-mfg-top v3-mfg-cu v3-mfg-fcu v3-mfg-bcu; do
+            rsvg-convert -w 2400 "$f.svg" -o "$f.png"
+          done
+          ls -la
+
+      - name: Upload renders
+        uses: actions/upload-artifact@v4
+        with:
+          name: v3-manufacturing-renders
+          path: |
+            generated/renders/v3-mfg-*.svg
+            generated/renders/v3-mfg-*.png
