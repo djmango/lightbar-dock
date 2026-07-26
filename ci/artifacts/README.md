@@ -7,6 +7,13 @@
 | `v3-for-route.kicad_pcb` / `.dsn` / `.kicad_pro` | Unrouted board + Specctra DSN for `board:make` |
 | `fp-lib-table` | Resolves `tscircuit:*` footprints for KiCad lib checks |
 
+Silk / lib hygiene helpers (after footprint edits):
+
+```bash
+bun run fix:silk      # drop USB/SS54 F.SilkS shell lines that clip pads/edge
+bun run fix:fp-lib    # strip shared-package Supplier PN + sync .pretty from board
+```
+
 ## Placement → for-route → DSN refresh
 
 When **placement / netlist / pads** change:

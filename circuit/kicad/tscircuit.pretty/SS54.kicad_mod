@@ -7,7 +7,7 @@
 		(at 0 -4 0)
 		(layer "F.SilkS")
 		(hide yes)
-		(uuid "fc4ce705-0758-492a-a3b7-0f9b455860f4")
+		(uuid "acd79b1a-7733-4220-a275-e102c4ec8a7f")
 		(effects
 			(font
 				(size 1 1)
@@ -16,10 +16,10 @@
 		)
 	)
 	(property "Value" "SS54"
-		(at 0 3 0)
+		(at 0 3 90)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "1b8daf60-36d4-ce41-521b-ed226d630c03")
+		(uuid "e3d46b2a-fec4-4a82-b4fc-2f091aaa4747")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -28,10 +28,10 @@
 		)
 	)
 	(property "Datasheet" ""
-		(at 0 0 0)
+		(at 0 0 90)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "3a4f2260-0d2b-5901-1ff8-705e4d1c39bd")
+		(uuid "582f4f4f-af8f-415a-835d-a95029cb8294")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -40,10 +40,10 @@
 		)
 	)
 	(property "Description" ""
-		(at 0 0 0)
+		(at 0 0 90)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "7a983800-0741-4681-6c15-aafe20936383")
+		(uuid "d9a64672-b817-46a9-abd8-948085368a28")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -68,13 +68,13 @@
 		(at -3.69 0)
 		(size 2.7 3.3)
 		(layers "F.Cu" "F.Mask" "F.Paste")
-		(uuid "06ca6074-1a35-5334-2da0-45f4410b38b4")
+		(uuid "073f7080-463f-c95f-6c40-fcc21ec1c2e3")
 	)
 	(pad "2" smd rect
 		(at 3.69 0)
 		(size 2.7 3.3)
 		(layers "F.Cu" "F.Mask" "F.Paste")
-		(uuid "18a47500-394f-d5bf-74bb-df8222c794c3")
+		(uuid "5de1fd88-554b-7438-0878-e5f84459a848")
 	)
 	(embedded_fonts no)
 )

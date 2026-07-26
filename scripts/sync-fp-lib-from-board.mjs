@@ -1,8 +1,9 @@
 #!/usr/bin/env bun
 /**
- * Rewrite circuit/kicad/tscircuit.pretty/*.kicad_mod from a representative
- * embedded footprint on the manufacturing PCB so KiCad lib_footprint_mismatch
- * goes to zero (pad angle/size form, silk, etc.).
+ * Export a representative board footprint into tscircuit.pretty.
+ *
+ * Prefer editing the .kicad_mod, then `bun scripts/update-board-fps-from-lib.mjs`
+ * so every instance matches the library (avoids property-at drift).
  *
  *   bun scripts/sync-fp-lib-from-board.mjs
  */
