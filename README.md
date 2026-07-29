@@ -4,7 +4,7 @@ A 1×8 USB-C charging dock for stick-anywhere rechargeable light bars. Bars
 plug vertically onto upward-facing USB-C plugs; each port has a red/green
 status LED driven from measured charge current and CC attach.
 
-![Assembled board render](docs/images/render-hero.png)
+![Full board — top view](docs/images/render-top.png)
 
 ## Specs (single source of truth)
 
@@ -37,10 +37,10 @@ Details: [`docs/SPECS.md`](docs/SPECS.md).
 
 ## Board
 
-Top-down: power input and bucks on the left, eight ports on 22.5 mm pitch,
-status LEDs on the front edge aligned with each receptacle:
+Power input and bucks on the left, eight ports on 22.5 mm pitch, status LEDs
+on the front edge aligned with each receptacle:
 
-![Top-down board render](docs/images/render-top.png)
+![Assembled board 3D render](docs/images/render-hero.png)
 
 ![Back silkscreen legend](docs/images/render-back.png)
 
